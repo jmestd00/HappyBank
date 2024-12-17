@@ -6,9 +6,11 @@ el cual permite realizar operaciones como:
 1. Para los administradores:
     * Crear cuentas
     * Eliminar cuentas
+    * Modificar los datos de un cliente
     * Consultar el saldo de una cuenta
     * Consultar el listado de usuarios del banco
     * Consultar el historial de transacciones de una cuenta
+    * Activar o desactivar la copia de seguridad
 
 2. Para los clientes:
    * Realizar transferencias entre cuentas
@@ -18,7 +20,7 @@ el cual permite realizar operaciones como:
 
 3. Para el sistema:
    * Realizar copias de seguridad de los datos
-   * guardar el historial de acciones a través de un log
+   * Guardar el historial de acciones a través de un log
 
 ## Tecnologías
 * Java 21
