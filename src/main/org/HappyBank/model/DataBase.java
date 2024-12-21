@@ -30,7 +30,8 @@ public class DataBase {
             
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    client = new Client(resultSet.getString("NIF"), resultSet.getString("BankName"), resultSet.getString("FullName"), resultSet.getString("Mail"), resultSet.getString("PhoneNumber"), resultSet.getString("Address"));
+                    client = new Client(
+                            resultSet.getString("FullName"), resultSet.getString("BankName"), resultSet.getString("NIF"), resultSet.getString("Mail"), resultSet.getInt("PhoneNumber"), resultSet.getString("Address"));
                 }
             }
         } catch (SQLException e) {
@@ -45,7 +46,7 @@ public class DataBase {
         
         try (Connection c = getConection(); PreparedStatement statement = c.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                list.add(new Client(resultSet.getString("NIF"), resultSet.getString("BankName"), resultSet.getString("FullName"), resultSet.getString("Mail"), resultSet.getString("PhoneNumber"), resultSet.getString("Address")));
+                list.add(new Client(resultSet.getString("FullName"), resultSet.getString("BankName"), resultSet.getString("NIF"), resultSet.getString("Mail"), resultSet.getInt("PhoneNumber"), resultSet.getString("Address")));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener los clientes.");

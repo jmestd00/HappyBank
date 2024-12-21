@@ -7,14 +7,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-public record Transaction(int transactionID, LocalDate transactionDate, BigDecimal transactionAmount, String transactionDescription,
+public record Transaction(int transactionID, LocalDate transactionDate, BigDecimal transactionAmount, String transactionConcept,
                           Client transactionSenderClient, Client transactionReceiverClient) {
     private static DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Transaction {\nID: " + transactionID + ", \nDate: " + transactionDate.format(formater) + ", \nAmount: " + transactionAmount.setScale(2, RoundingMode.HALF_UP) + ", \nDescription: "
-        + transactionDescription + ", \nSender Client: " + transactionSenderClient.toString() + ", \nReceiver Client: " + transactionReceiverClient.toString() + "\n}");
+        sb.append("Transaction {\nID: " + transactionID + ", \nDate: " + transactionDate.format(formater) + ", \nAmount: " + transactionAmount.setScale(2, RoundingMode.HALF_UP) + ", \nConcept: "
+        + transactionConcept + ", \nSender Client: " + transactionSenderClient.toString() + ", \nReceiver Client: " + transactionReceiverClient.toString() + "\n}");
         return sb.toString();
     }
 
