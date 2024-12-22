@@ -4,84 +4,77 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Administrator {
-
     //Attributes
-    private String adminFullName;
-    private String adminNIF;
-    private String adminSSN;
-    private int adminEmployeeID;
-    private String adminBankName;
-    private BigDecimal adminSalary;
+    private String name;
+    private String surname;
+    private String NIF;
+    private String SSN;
+    private BigDecimal salary;
+    private String bank;
 
-    //Empty constructor
-    public Administrator() {
+    
+    //Constructors
+    public Administrator() {}
+
+    public Administrator(String name, String surname, String NIF, String SSN, BigDecimal salary, String bank) {
+        this.name = name;
+        this.surname = surname;
+        this.bank = bank;
+        this.NIF = NIF;
+        this.SSN = SSN;
+        this.salary = salary;
     }
 
-    //Administrator Constructor
-    public Administrator(int adminEmployeeID, String adminFullName, String adminBankName, String adminNIF, String adminSSN, BigDecimal adminSalary) {
-        this.adminEmployeeID = adminEmployeeID;
-        this.adminFullName = adminFullName;
-        this.adminBankName = adminBankName;
-        this.adminNIF = adminNIF;
-        this.adminSSN = adminSSN;
-        this.adminSalary = adminSalary;
-    }
-
+    
     //Setters
-    public void setAdminFullName(String adminFullName) {
-        this.adminFullName = adminFullName;
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setSurname(String surname) {this.surname = surname;}
+
+    public void setNIF(String NIF) {
+        this.NIF = NIF;
     }
 
-    public void setAdminNIF(String adminNIF) {
-        this.adminNIF = adminNIF;
+    public void setSSN(String SSN) {
+        this.SSN = SSN;
     }
 
-    public void setAdminSSN(String adminSSN) {
-        this.adminSSN = adminSSN;
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
+    
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 
-    public void setAdminEmployeeID(int adminEmployeeID) {
-        this.adminEmployeeID = adminEmployeeID;
-    }
-
-    public void setAdminBankName(String adminBankName) {
-        this.adminBankName = adminBankName;
-    }
-
-    public void setAdminSalary(BigDecimal adminSalary) {
-        this.adminSalary = adminSalary;
-    }
-
+    
     //Getters
-    public String getAdminFullName() {
-        return adminFullName;
+    public String getName() {
+        return name;
     }
 
-    public String getAdminNIF() {
-        return adminNIF;
+    public String getNIF() {
+        return NIF;
     }
 
-    public String getAdminSSN() {
-        return adminSSN;
+    public String getSSN() {
+        return SSN;
+    }
+    
+    public BigDecimal getSalary() {
+        return salary;
+    }
+    
+    public String getBank() {
+        return bank;
     }
 
-    public int getAdminEmployeeID() {
-        return adminEmployeeID;
-    }
-
-    public String getAdminBankName() {
-        return adminBankName;
-    }
-
-    public BigDecimal getAdminSalary() {
-        return adminSalary;
-    }
-
-    //ToString
+    
+    //Overrides
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Administrator {ID: " + adminEmployeeID + " , FullName: " + adminFullName + " , BankName: " + adminBankName +
-                " , NIF: " + adminNIF + " , SSN: " + adminSSN + " , Salary: " + adminSalary.setScale(2, RoundingMode.HALF_UP) + "}");
-        return sb.toString();
+        return "Administrator " + name + " " + surname + ": " + ", BankName: " + bank +
+                " , NIF: " + NIF + " , SSN: " + SSN + " , Salary: " + salary.setScale(2, RoundingMode.HALF_UP);
     }
 }

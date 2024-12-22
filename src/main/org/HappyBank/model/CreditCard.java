@@ -4,66 +4,63 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class CreditCard {
-
     //Attributes
-    private String cardNumber;
-    private String cardIBAN;
-    private LocalDate cardExpirationDate;
-    private int cardCVV;
+    private String number;
+    private String IBAN;
+    private LocalDate expirationDate;
+    private int CVV;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
-    //Empty constructor
-    public CreditCard() {
+    //Constructors
+    public CreditCard() {}
+
+    public CreditCard(String number, String IBAN, LocalDate expirationDate, int CVV) {
+        this.number = number;
+        this.IBAN = IBAN;
+        this.expirationDate = expirationDate;
+        this.CVV = CVV;
     }
 
-    //CreditCard Constructor
-    public CreditCard(String cardNumber, String cardIBAN, LocalDate cardExpirationDate, int cardCVV) {
-        this.cardNumber = cardNumber;
-        this.cardIBAN = cardIBAN;
-        this.cardExpirationDate = cardExpirationDate;
-        this.cardCVV = cardCVV;
-    }
-
+    
     //Setters
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public void setCardIBAN(String cardIBAN) {
-        this.cardIBAN = cardIBAN;
+    public void setIBAN(String IBAN) {
+        this.IBAN = IBAN;
     }
 
-    public void setCardExpirationDate(LocalDate cardExpirationDate) {
-        this.cardExpirationDate = cardExpirationDate;
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
-    public void setCardCVV(int cardCVV) {
-        this.cardCVV = cardCVV;
+    public void setCVV(int CVV) {
+        this.CVV = CVV;
     }
 
+    
     //Getters
-    public String getCardNumber() {
-        return cardNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public String getCardIBAN() {
-        return cardIBAN;
+    public String getIBAN() {
+        return IBAN;
     }
 
-    public LocalDate getCardExpirationDate() {
-        return cardExpirationDate;
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
 
-    public int getCardCVV() {
-        return cardCVV;
+    public int getCVV() {
+        return CVV;
     }
 
     //ToString
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Credit Card {Card Number: " + cardNumber + " , IBAN: " + cardIBAN + " , Expiration Date: " +
-                cardExpirationDate.format(formatter) + " , CVV: " + cardCVV + "}");
-        return sb.toString();
+        return "Credit Card " + number + ": IBAN: " + IBAN + " , Expiration Date: " +
+                expirationDate.format(formatter) + " , CVV: " + CVV;
     }
 }

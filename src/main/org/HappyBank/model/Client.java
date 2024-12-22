@@ -1,78 +1,82 @@
 package org.HappyBank.model;
 
 public class Client {
-
     //Attributes
-    private String clientFullName;
-    private String clientNIF;
-    private String clientEmail;
-    private int clientPhoneNumber;
-    private String clientAddress;
-    private String clientBankName;
+    private String name;
+    private String surname;
+    private String NIF;
+    private String email;
+    private String phone;
+    private String address;
+    private String bank;
 
-    //Empty Client Constructor
-    public Client() {
+    
+    //Constructors
+    public Client() {}
+
+    public Client(String name, String surname, String NIF, String email, String phone, String address, String bank) {
+        this.NIF = NIF;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.bank = bank;
     }
 
-    //Client Constructor
-    public Client(String clientFullName, String clientBankName, String clientNIF, String clientEmail, int clientPhoneNumber, String clientAddress) {
-        this.clientFullName = clientFullName;
-        this.clientNIF = clientNIF;
-        this.clientEmail = clientEmail;
-        this.clientPhoneNumber = clientPhoneNumber;
-        this.clientAddress = clientAddress;
-        this.clientBankName = clientBankName;
-    }
-
+    
     //Setters
-    public void setClientFullName(String clientFullName) {
-        this.clientFullName = clientFullName;
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setSurname(String name) {
+        this.surname = surname;
     }
 
-    public void setclientNIF(String clientNIF) {
-        this.clientNIF = clientNIF;
+    public void setNIF(String NIF) {
+        this.NIF = NIF;
     }
 
-    public void setClientEmail(String clientEmail) {
-        this.clientEmail = clientEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setClientPhoneNumber(int clientPhoneNumber) {
-        this.clientPhoneNumber = clientPhoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public void setClientAddress(String clientAddress) {
-        this.clientAddress = clientAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
+    
     //Getters
+    public String getName() {
+        return name;
+    }
+    
+    public String getSurname() {return surname;}
 
-    public String getFullName() {
-        return clientFullName;
+    public String getNIF() {
+        return NIF;
     }
 
-    public String getclientNIF() {
-        return clientNIF;
+    public String getEmail() {
+        return email;
     }
 
-    public String getClientEmail() {
-        return clientEmail;
+    public String getPhone() {
+        return phone;
     }
 
-    public int getClientPhoneNumber() {
-        return clientPhoneNumber;
-    }
-
-    public String getClientAddress() {
-        return clientAddress;
+    public String getAddress() {
+        return address;
     }
 
     //To string method
-
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Client {Name: " + clientFullName + " , BankName: " + clientBankName + " , DNI: " + clientNIF + " , Email: " + clientEmail + " , Phone Number: " +
-                clientPhoneNumber + " , Address: " + clientAddress + "}");
-        return sb.toString();
+        return name + " " + surname + " , BankName: " + bank + " , DNI: " + NIF + " , Email: " + email + " , Phone Number: " +
+                phone + " , Address: " + address;
     }
 }
