@@ -4,55 +4,61 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Account {
-
     //Attributes
-    private String accountIBAN;
+    private String IBAN;
     private String ownerNIF;
-    private BigDecimal accountBalance;
+    private BigDecimal balance;
 
-    //Empty constructor
-    public Account() {
-    }
+    //Constructors
+    public Account() {}
 
-    //Account Constructor
-    public Account(String accountIBAN, String ownerNIF, BigDecimal accountBalance) {
-        this.accountIBAN = accountIBAN;
+    public Account(String IBAN, String ownerNIF, BigDecimal balance) {
+        this.IBAN = IBAN;
         this.ownerNIF = ownerNIF;
-        this.accountBalance = accountBalance;
+        this.balance = balance;
     }
 
+    
     //Setters
-    public void setAccountIBAN(String accountIBAN) {
-        this.accountIBAN = accountIBAN;
+    public void setIBAN(String IBAN) {
+        this.IBAN = IBAN;
     }
 
     public void setOwnerNIF(String ownerNIF) {
         this.ownerNIF = ownerNIF;
     }
 
-    public void setAccountBalance(BigDecimal accountBalance) {
-        this.accountBalance = accountBalance;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
+    
     //Getters
-    public String getAccountIBAN() {
-        return accountIBAN;
+    public String getIBAN() {
+        return IBAN;
     }
 
     public String getOwnerNIF() {
         return ownerNIF;
     }
 
-    public BigDecimal getAccountBalance() {
-        return accountBalance;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
-    //ToString
+    
+    //Overrides
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Account {IBAN: " + accountIBAN + " , Owner NIF: " + ownerNIF + " , Balance: " +
-                accountBalance.setScale(2, RoundingMode.HALF_UP) + "}");
-        return sb.toString();
+        return "Account " + IBAN + " , Owner NIF: " + ownerNIF + " , Balance: " +
+                balance.setScale(2, RoundingMode.HALF_UP);
     }
-
+    
+    @Override
+    public final boolean equals(Object o) {
+        if (!(o instanceof Account account)) {
+            return false;
+        }
+        
+        return IBAN.equals(account.IBAN);
+    }
 }
