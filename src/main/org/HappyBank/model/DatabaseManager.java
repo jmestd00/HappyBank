@@ -10,7 +10,7 @@ import static java.sql.DriverManager.getConnection;
 /**
  * Clase que gestiona la base de datos.
  */
-public class DataBase {
+public class DatabaseManager {
     //Attributes
     /**
      * URL de la base de datos.
@@ -28,7 +28,7 @@ public class DataBase {
     /**
      * Instancia de la base de datos.
      */
-    private static DataBase database;
+    private static DatabaseManager database;
     /**
      * Conexión con la base de datos.
      */
@@ -40,7 +40,7 @@ public class DataBase {
      * Constructor por defecto.
      * @throws HappyBankException Si ocurre un error al conectar con la base de datos.
      */
-    private DataBase() throws HappyBankException {
+    private DatabaseManager() throws HappyBankException {
         try {
             connection = getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
@@ -54,7 +54,7 @@ public class DataBase {
      */
     public static void getInstance() throws HappyBankException {
         if (database == null) {
-            database = new DataBase();
+            database = new DatabaseManager();
         }
     }
     

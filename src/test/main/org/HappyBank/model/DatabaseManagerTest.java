@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static org.HappyBank.model.DataBase.*;
+import static org.HappyBank.model.DatabaseManager.*;
 import static org.junit.Assert.*;
 
-public class DataBaseTest {
+public class DatabaseManagerTest {
     Client c;
     Administrator a;
     ArrayList<Transaction> transactions;
