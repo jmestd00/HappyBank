@@ -1,11 +1,19 @@
 package org.HappyBank;
 
+import org.HappyBank.model.HappyBankException;
 import org.HappyBank.view.LoginView;
 
-import java.sql.SQLException;
-
+/**
+ * The entry point of the HappyBank application.
+ */
 public class Launch {
-    public static void main(String[] args) {
+    /**
+     * The main method that starts the application.
+     *
+     * @param args Command line arguments.
+     * @throws HappyBankException If there is an error during the application startup.
+     */
+    public static void main(String[] args) throws HappyBankException {
         LoginView.main(args);
     }
 }
