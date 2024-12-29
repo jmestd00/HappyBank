@@ -75,15 +75,10 @@ public class DatabaseManager {
             statement = connection.prepareStatement(query);
             statement.setString(1, NIF);
             statement.setString(2, password);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
-            throw new HappyBankException("Error executing the query: " + e.getMessage());
+            throw new HappyBankException("Error executing the statement: " + e.getMessage());
         }
     }
     
@@ -102,11 +97,6 @@ public class DatabaseManager {
             statement = connection.prepareStatement(query);
             statement.setString(1, NIF);
             statement.setString(2, password);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
             ResultSet resultSet = statement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
@@ -136,11 +126,7 @@ public class DatabaseManager {
             statement.setString(6, c.getAddress());
             statement.setString(7, password);
             statement.setString(8, c.getBank());
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
@@ -159,11 +145,7 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, NIF);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
@@ -184,11 +166,7 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, NIF);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -231,11 +209,7 @@ public class DatabaseManager {
             statement.setBigDecimal(5, a.getSalary());
             statement.setString(6, a.getBank());
             statement.setString(7, password);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
@@ -254,12 +228,9 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, NIF);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
+            
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
@@ -279,11 +250,7 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, NIF);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -320,12 +287,9 @@ public class DatabaseManager {
             statement.setString(1, a.getIBAN());
             statement.setString(2, a.getOwnerNIF());
             statement.setBigDecimal(3, a.getBalance());
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
+            
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
@@ -345,11 +309,7 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, IBAN);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -379,12 +339,9 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, IBAN);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
+            
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
@@ -409,11 +366,7 @@ public class DatabaseManager {
             statement.setString(4, t.getConcept());
             statement.setBigDecimal(5, t.getAmount());
             statement.setTimestamp(6, Timestamp.valueOf(t.getDate()));
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
@@ -432,11 +385,7 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
@@ -457,11 +406,7 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -530,11 +475,7 @@ public class DatabaseManager {
         
         try {
             statement = connection.prepareStatement(query);
-        } catch (SQLException e) {
-            throw new HappyBankException("Error preparing the statement: " + e.getMessage());
-        }
-        
-        try {
+            
             ResultSet resultSet = statement.executeQuery();
             
             while (resultSet.next()) {
