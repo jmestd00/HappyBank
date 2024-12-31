@@ -11,12 +11,20 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>21.0.5</javafx.version>
+        <javafx.version.aarch64>23.0.1</javafx.version.aarch64>
         <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>gluon-repo</id>
+            <url>https://download2.gluonhq.com/maven</url>
+        </repository>
+    </repositories>
+
     <profiles>
         <profile>
-            <id>linux-arm64</id>
+            <id>linux-aarch64</id>
             <activation>
                 <os>
                     <name>Linux</name>
@@ -24,7 +32,8 @@
                 </os>
             </activation>
             <properties>
-                <javafx.platform>linux-aarch64</javafx.platform>
+                <javafx.platform>linux</javafx.platform>
+                <javafx.version>${javafx.version.aarch64}</javafx.version>
             </properties>
         </profile>
 
@@ -38,6 +47,7 @@
             </activation>
             <properties>
                 <javafx.platform>linux</javafx.platform>
+                <javafx.version>x64</javafx.version>
             </properties>
         </profile>
 
@@ -83,8 +93,8 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
             <classifier>${javafx.platform}</classifier>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
