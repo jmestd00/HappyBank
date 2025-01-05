@@ -1,9 +1,13 @@
 package org.HappyBank.model;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import static org.HappyBank.model.DatabaseManager.getClient;
 
 public class Transaction {
     //Attributes
@@ -47,11 +51,17 @@ public class Transaction {
      * @param ID Identificador de la transacción.
      * @param sender Cuenta emisora.
      * @param receiver Cuenta receptora.
-     * @param concept
+     * @param concept Concepto de la transacción
      * @param amount Cantidad de dinero.
      * @param date Fecha de la transacción.
      */
     public Transaction(int ID, Account sender, Account receiver, String concept, BigDecimal amount, LocalDateTime date) {
+        try{
+            DatabaseManager.getInstance();
+        } catch (HappyBankException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        
         this.ID = ID;
         this.sender = sender;
         this.receiver = receiver;
@@ -73,6 +83,12 @@ public class Transaction {
             throw new HappyBankException("The sender and the receiver can't be the same account");
         }
         
+        try{
+            DatabaseManager.getInstance();
+        } catch (HappyBankException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        
         this.ID = IDCounter;
         IDCounter++;
         this.sender = sender;
@@ -92,6 +108,12 @@ public class Transaction {
     public Transaction(Account sender, Account receiver, String concept, BigDecimal amount) throws HappyBankException {
         if (receiver.equals(sender)) {
             throw new HappyBankException("The sender and the receiver can't be the same account");
+        }
+        
+        try{
+            DatabaseManager.getInstance();
+        } catch (HappyBankException e) {
+            throw new RuntimeException(e.getMessage());
         }
         
         this.ID = IDCounter;
@@ -151,6 +173,16 @@ public class Transaction {
      */
     public LocalDateTime getDate() {
         return date;
+    }
+    
+    public SimpleStringProperty[] getProperties() throws HappyBankException {
+       return new SimpleStringProperty[]{
+                new SimpleStringProperty(getClient(sender.getOwnerNIF()).getName() + " " + getClient(sender.getOwnerNIF()).getSurname()),
+                new SimpleStringProperty(getClient(receiver.getOwnerNIF()).getName() + " " + getClient(receiver.getOwnerNIF()).getSurname()),
+                new SimpleStringProperty(concept),
+                new SimpleStringProperty(amount.setScale(2, RoundingMode.HALF_UP).toString()),
+                new SimpleStringProperty(date.format(formater))
+       };
     }
     
     

@@ -1,7 +1,8 @@
 package org.HappyBank.model;
 
-import java.math.BigDecimal;
 import java.sql.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -134,25 +135,6 @@ public class DatabaseManager {
     }
     
     /**
-     * Elimina un cliente de la base de datos.
-     * @param NIF NIF del cliente a eliminar.
-     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
-     */
-    public static void deleteClient(String NIF) throws HappyBankException {
-        String query = "DELETE FROM Clients WHERE NIF = ?";
-        PreparedStatement statement;
-        
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setString(1, NIF);
-            
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new HappyBankException("Error executing the query: " + e.getMessage());
-        }
-    }
-    
-    /**
      * Devuelve un cliente concreto de la base de datos.
      * @param NIF NIF del cliente
      * @return Cliente con el NIF especificado.
@@ -166,7 +148,6 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, NIF);
-            
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -184,8 +165,94 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
-        
         return client;
+    }
+    
+    /**
+     * Devuelve todos los clientes de la base de datos.
+     * @return Lista con todos los clientes.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static ArrayList<Client> getAllClients() throws HappyBankException {
+        ArrayList<Client> clients = new ArrayList<>();
+        String query = "SELECT * FROM Clients";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                String NIF = resultSet.getString("NIF");
+                String name = resultSet.getString("Name");
+                String surname = resultSet.getString("Surname");
+                String email = resultSet.getString("Email");
+                String phone = resultSet.getString("Phone");
+                String address = resultSet.getString("Address");
+                String bank = resultSet.getString("BankName");
+                
+                clients.add(new Client(name, surname, NIF, email, phone, address, bank));
+            }
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+        return clients;
+    }
+    
+    /**
+     * Busca clientes en la base de datos.
+     * @param name Nombre del cliente.
+     * @param surname Apellido del cliente.
+     * @param NIF NIF del cliente.
+     * @return Lista con los clientes encontrados.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public ArrayList<Client> searchClient(String name, String surname, String NIF) throws HappyBankException {
+        ArrayList<Client> clients = new ArrayList<>();
+        String query = "SELECT * FROM Clients WHERE Name LIKE ? AND Surname LIKE ? AND NIF LIKE ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, "%" + name + "%");
+            statement.setString(2, "%" + surname + "%");
+            statement.setString(3, "%" + NIF + "%");
+            ResultSet resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+                String clientNIF = resultSet.getString("NIF");
+                String clientName = resultSet.getString("Name");
+                String clientSurname = resultSet.getString("Surname");
+                String email = resultSet.getString("Email");
+                String phone = resultSet.getString("Phone");
+                String address = resultSet.getString("Address");
+                String bank = resultSet.getString("BankName");
+                
+                clients.add(new Client(clientName, clientSurname, clientNIF, email, phone, address, bank));
+            }
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+        return clients;
+    }
+    
+    /**
+     * Elimina un cliente de la base de datos.
+     * @param NIF NIF del cliente a eliminar.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static void deleteClient(String NIF) throws HappyBankException {
+        String query = "DELETE FROM Clients WHERE NIF = ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, NIF);
+            
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
     }
     
     
@@ -217,6 +284,39 @@ public class DatabaseManager {
     }
     
     /**
+     * Devuelve un administrador concreto de la base de datos.
+     * @param NIF NIF del administrador
+     * @return Administrador con el NIF especificado.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static Administrator getAdministrator(String NIF) throws HappyBankException {
+        Administrator administrator;
+        String query = "SELECT * FROM Administrators WHERE NIF = ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, NIF);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                String name = resultSet.getString("Name");
+                String surname = resultSet.getString("Surname");
+                String SSN = resultSet.getString("SSN");
+                BigDecimal salary = resultSet.getBigDecimal("Salary");
+                String bank = resultSet.getString("BankName");
+                
+                administrator = new Administrator(name, surname, NIF, SSN, salary, bank);
+            } else {
+                throw new HappyBankException("Administrator not found");
+            }
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+        return administrator;
+    }
+    
+    /**
      * Elimina un administrador de la base de datos.
      * @param NIF NIF del administrador a eliminar.
      * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
@@ -234,41 +334,6 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
-    }
-    
-    /**
-     * Devuelve un administrador concreto de la base de datos.
-     * @param NIF NIF del administrador
-     * @return Administrador con el NIF especificado.
-     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
-     */
-    public static Administrator getAdministrator(String NIF) throws HappyBankException {
-        Administrator administrator;
-        String query = "SELECT * FROM Administrators WHERE NIF = ?";
-        PreparedStatement statement;
-        
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setString(1, NIF);
-            
-            ResultSet resultSet = statement.executeQuery();
-            
-            if (resultSet.next()) {
-                String name = resultSet.getString("Name");
-                String surname = resultSet.getString("Surname");
-                String SSN = resultSet.getString("SSN");
-                BigDecimal salary = resultSet.getBigDecimal("Salary");
-                String bank = resultSet.getString("BankName");
-                
-                administrator = new Administrator(name, surname, NIF, SSN, salary, bank);
-            } else {
-                throw new HappyBankException("Administrator not found");
-            }
-        } catch (SQLException e) {
-            throw new HappyBankException("Error executing the query: " + e.getMessage());
-        }
-        
-        return administrator;
     }
     
     
@@ -323,7 +388,6 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
-        
         return account;
     }
     
@@ -341,7 +405,111 @@ public class DatabaseManager {
             statement.setString(1, IBAN);
             
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+    }
+    
+    
+    //CreditCards
+    /**
+     * Inserta una tarjeta de crédito en la base de datos.
+     * @param c Tarjeta de crédito a insertar.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static void insertCreditCard(CreditCard c) throws HappyBankException {
+        String query = "INSERT INTO CreditCards (Number, AccountIBAN, ExpirationDate, CVV) VALUES (?, ?, ?, ?)";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, c.getNumber());
+            statement.setString(2, c.getIBAN());
+            statement.setDate(3, Date.valueOf(c.getExpirationDate()));
+            statement.setString(4, c.getCVV());
             
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Devuelve una tarjeta de crédito
+     * @param number Número de la tarjeta
+     * @return Tarjeta de crédito con el número especificado.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static CreditCard getCreditCard(String number) throws HappyBankException {
+        CreditCard card;
+        String query = "SELECT * FROM CreditCards WHERE Number = ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, number);
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                String IBAN = resultSet.getString("AccountIBAN");
+                LocalDate expirationDate = resultSet.getDate("ExpirationDate").toLocalDate();
+                String CVV = resultSet.getString("CVV");
+                
+                card = new CreditCard(number, IBAN, expirationDate, CVV);
+            } else {
+                throw new HappyBankException("Credit card not found");
+            }
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+        return card;
+    }
+    
+    /**
+     * Devuelve una tarjeta de crédito
+     * @param account Cuenta asociada a la tarjeta
+     * @return Tarjeta de crédito asociada a la cuenta especificada.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static CreditCard getCreditCard(Account account) throws HappyBankException {
+        CreditCard card;
+        String query = "SELECT * FROM CreditCards WHERE AccountIBAN = ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, account.getIBAN());
+            ResultSet resultSet = statement.executeQuery();
+            
+            if (resultSet.next()) {
+                String number = resultSet.getString("Number");
+                LocalDate expirationDate = resultSet.getDate("ExpirationDate").toLocalDate();
+                String CVV = resultSet.getString("CVV");
+                
+                card = new CreditCard(number, account.getIBAN(), expirationDate, CVV);
+            } else {
+                throw new HappyBankException("Credit card not found");
+            }
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+        return card;
+    }
+    
+    /**
+     * Elimina una tarjeta de crédito de la base de datos.
+     * @param number Número de la tarjeta a eliminar.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static void deleteCreditCard(String number) throws HappyBankException {
+        String query = "DELETE FROM CreditCards WHERE Number = ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, number);
+            
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
@@ -423,7 +591,6 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
-        
         return transaction;
     }
     
@@ -459,7 +626,6 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
-        
         return transactions;
     }
     
@@ -475,7 +641,6 @@ public class DatabaseManager {
         
         try {
             statement = connection.prepareStatement(query);
-            
             ResultSet resultSet = statement.executeQuery();
             
             while (resultSet.next()) {
@@ -491,7 +656,6 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
-        
         return transactions;
     }
 }

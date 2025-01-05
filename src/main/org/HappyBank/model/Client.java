@@ -1,5 +1,10 @@
 package org.HappyBank.model;
 
+import javafx.beans.property.SimpleStringProperty;
+
+import static org.HappyBank.model.DatabaseManager.getAccount;
+import static org.HappyBank.model.DatabaseManager.getCreditCard;
+
 /**
  * Clase que representa un cliente.
  */
@@ -47,6 +52,12 @@ public class Client {
      * @param bank Nombre del banco.
      */
     public Client(String name, String surname, String NIF, String email, String phone, String address, String bank) {
+        try{
+            DatabaseManager.getInstance();
+        } catch (HappyBankException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        
         this.NIF = NIF;
         this.name = name;
         this.surname = surname;
@@ -112,6 +123,17 @@ public class Client {
      */
     public String getBank() {
         return bank;
+    }
+    
+    public SimpleStringProperty[] getProperties() throws HappyBankException {
+        Account account = getAccount(getNIF());
+        
+        return new SimpleStringProperty[]{
+                new SimpleStringProperty(getNIF()),
+                new SimpleStringProperty(getName() + " " + getSurname()),
+                new SimpleStringProperty(getAccount(getNIF()).getIBAN()),
+                new SimpleStringProperty(getCreditCard(account.getIBAN()).getNumber())
+        };
     }
     
     

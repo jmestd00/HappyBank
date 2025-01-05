@@ -1,12 +1,12 @@
 package org.HappyBank.model;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class TransactionTest {
     Account account1;
@@ -15,12 +15,18 @@ public class TransactionTest {
     LocalDateTime date = LocalDateTime.of(2024, 12, 25, 12, 30, 10);
     
     @Before
-    public void setUp() throws HappyBankException {
+    public void setUp() {
         account1 = new Account("ES6621000418401234567891", "12345678A", new BigDecimal(1000));
         account2 = new Account("ES6621000418401234567892", "12345678B", new BigDecimal(1000));
         transaction = new Transaction(0, account1, account2, "Concepto de la transacción", new BigDecimal(100), date);
+    }
+    
+    @Test
+    public void createTransactionsTest() throws HappyBankException {
         Transaction transactionTest1 = new Transaction(account1, account2, "Concepto de la transacción", new BigDecimal(100));
         Transaction transactionTest2 = new Transaction(account1, account2, "Concepto de la transacción", new BigDecimal(100), date);
+        assertNotNull(transactionTest1);
+        assertNotNull(transactionTest2);
     }
     
     @Test
@@ -56,11 +62,14 @@ public class TransactionTest {
     @Test (expected = HappyBankException.class)
     public void createInvalidTransactionWithoutDate() throws HappyBankException {
         Transaction t = new Transaction(account1, account1, "Concepto de la transacción", new BigDecimal(100));
+        assertNull(t);
     }
+    
     
     @Test (expected = HappyBankException.class)
     public void createInvalidTransactionWithDate() throws HappyBankException {
         Transaction t = new Transaction(account1, account1, "Concepto de la transacción", new BigDecimal(100), date);
+        assertNull(t);
     }
     
     @Test

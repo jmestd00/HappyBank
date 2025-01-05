@@ -27,7 +27,7 @@ public class CreditCard {
     /**
      * CVV de la tarjeta.
      */
-    private final int CVV;
+    private final String CVV;
     
     
     //Constructors
@@ -38,7 +38,7 @@ public class CreditCard {
      * @param expirationDate Fecha de caducidad de la tarjeta.
      * @param CVV CVV de la tarjeta.
      */
-    public CreditCard(String number, String IBAN, LocalDate expirationDate, int CVV) {
+    public CreditCard(String number, String IBAN, LocalDate expirationDate, String CVV) {
         this.number = number;
         this.IBAN = IBAN;
         this.expirationDate = expirationDate;
@@ -75,7 +75,7 @@ public class CreditCard {
      * Devuelve el CVV de la tarjeta.
      * @return CVV de la tarjeta.
      */
-    public int getCVV() {
+    public String getCVV() {
         return CVV;
     }
     
