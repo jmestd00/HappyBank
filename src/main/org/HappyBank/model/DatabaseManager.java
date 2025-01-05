@@ -574,7 +574,6 @@ public class DatabaseManager {
         try {
             statement = connection.prepareStatement(query);
             statement.setInt(1, ID);
-            
             ResultSet resultSet = statement.executeQuery();
             
             if (resultSet.next()) {
@@ -630,17 +629,19 @@ public class DatabaseManager {
     }
     
     /**
-     * Obtiene todas las transacciones realizadas
-     * @return Lista con todas las transacciones realizadas.
+     * Obtiene las transacciones de un cliente
+     * @param IBAN IBAN de la cuenta.
+     * @return Lista con las transacciones del cliente.
      * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
      */
-    public static ArrayList<Transaction> getAllTransactions() throws HappyBankException {
+    public static ArrayList<Transaction> getAccountTransactions(String IBAN) throws HappyBankException {
         ArrayList<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM Transactions";
+        String query = "SELECT * FROM Transactions WHERE Sender = ?";
         PreparedStatement statement;
         
         try {
             statement = connection.prepareStatement(query);
+            statement.setString(1, getAccount(IBAN).getIBAN());
             ResultSet resultSet = statement.executeQuery();
             
             while (resultSet.next()) {
@@ -653,9 +654,53 @@ public class DatabaseManager {
                 
                 transactions.add(new Transaction(id, sender, receiver, concept, amount, date));
             }
-        } catch (SQLException e) {
+        } catch (SQLException | HappyBankException e) {
             throw new HappyBankException("Error executing the query: " + e.getMessage());
         }
         return transactions;
+    }
+    
+    
+    //Passwords
+    /**
+     * Cambia la contraseña de un cliente.
+     * @param NIF NIF del cliente.
+     * @param newPassword Nueva contraseña.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static void changeClientPassword(String NIF, String newPassword) throws HappyBankException {
+        String query = "UPDATE Clients SET Password = ? WHERE NIF = ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, newPassword);
+            statement.setString(2, NIF);
+            
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Cambia la contraseña de un administrador.
+     * @param NIF NIF del administrador.
+     * @param newPassword Nueva contraseña.
+     * @throws HappyBankException Si ocurre un error al preparar o ejecutar la consulta.
+     */
+    public static void changeAdministratorPassword(String NIF, String newPassword) throws HappyBankException {
+        String query = "UPDATE Administrators SET Password = ? WHERE NIF = ?";
+        PreparedStatement statement;
+        
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, newPassword);
+            statement.setString(2, NIF);
+            
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new HappyBankException("Error executing the query: " + e.getMessage());
+        }
     }
 }

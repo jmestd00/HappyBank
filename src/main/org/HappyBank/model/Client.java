@@ -125,15 +125,22 @@ public class Client {
         return bank;
     }
     
-    public SimpleStringProperty[] getProperties() throws HappyBankException {
-        Account account = getAccount(getNIF());
-        
-        return new SimpleStringProperty[]{
-                new SimpleStringProperty(getNIF()),
-                new SimpleStringProperty(getName() + " " + getSurname()),
-                new SimpleStringProperty(getAccount(getNIF()).getIBAN()),
-                new SimpleStringProperty(getCreditCard(account.getIBAN()).getNumber())
-        };
+    /**
+     * Devuelve las propiedades del cliente.
+     * @return Propiedades del cliente.
+     */
+    public SimpleStringProperty[] getProperties() {
+        try {
+            Account account = getAccount(getNIF());
+            return new SimpleStringProperty[]{
+                    new SimpleStringProperty(getNIF()),
+                    new SimpleStringProperty(getName() + " " + getSurname()),
+                    new SimpleStringProperty(getAccount(getNIF()).getIBAN()),
+                    new SimpleStringProperty(getCreditCard(account.getIBAN()).getNumber())
+            };
+        } catch (HappyBankException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
     
     
