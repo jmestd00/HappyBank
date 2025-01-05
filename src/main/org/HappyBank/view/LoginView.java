@@ -8,14 +8,14 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.HappyBank.controller.LoginController;
 
+import javax.swing.text.View;
 import java.util.Objects;
 
 public class LoginView extends Application{
-    Image happyBankLogo = new Image(String.valueOf(getClass().getResource("/images/HappyBank512_512.png")));
-    LoginController loginController = new LoginController();
+    ViewFactory viewFactory;
 
 /**
- * Main class to launch the JavaFX application for managing and displaying a list of batches.
+ * Main class to launch the JavaFX application for managing and displaying a bank.
  * It initializes the primary window and loads the FXML layout for the weekly batches list.
  */
 
@@ -30,7 +30,7 @@ public class LoginView extends Application{
     }
 
     /**
-     * Initializes the JavaFX window and loads the FXML layout for the weekly batches list.
+     * Initializes the JavaFX window and loads the FXML layout for the login section of the Bank.
      * This method is called when the JavaFX application is launched
      *
      * @param primaryStage the primary stage for the application, representing the main window
@@ -38,19 +38,8 @@ public class LoginView extends Application{
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        try {
-
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/loginView.fxml")));
-            Scene scene = new Scene(root);
-            primaryStage.setTitle("HappyBank");
-            primaryStage.setScene(scene);
-            primaryStage.getIcons().add(happyBankLogo);
-            primaryStage.resizableProperty().setValue(Boolean.FALSE);
-            primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        viewFactory = viewFactory.getInstance(primaryStage);
+        viewFactory.showLoginView();
     }
 
 }
