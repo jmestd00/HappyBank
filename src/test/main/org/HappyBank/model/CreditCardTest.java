@@ -12,7 +12,7 @@ public class CreditCardTest {
     
     @Before
     public void setUp() {
-        creditCard = new CreditCard("1234567890123456", "ES6621000418401234567891", LocalDate.of(2023, 12, 31), 123);
+        creditCard = new CreditCard("1234567890123456", "ES6621000418401234567891", LocalDate.of(2023, 12, 31), "123");
     }
     
     @Test
@@ -32,7 +32,7 @@ public class CreditCardTest {
     
     @Test
     public void getCVVTest() {
-        assertEquals(123, creditCard.getCVV());
+        assertEquals("123", creditCard.getCVV());
     }
     
     @Test

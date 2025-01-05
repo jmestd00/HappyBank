@@ -47,7 +47,7 @@ public class Transaction {
      * @param ID Identificador de la transacción.
      * @param sender Cuenta emisora.
      * @param receiver Cuenta receptora.
-     * @param concept
+     * @param concept Concepto de la transacción
      * @param amount Cantidad de dinero.
      * @param date Fecha de la transacción.
      */

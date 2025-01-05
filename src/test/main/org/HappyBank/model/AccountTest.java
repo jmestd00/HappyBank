@@ -1,9 +1,9 @@
 package org.HappyBank.model;
 
+import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
 
@@ -37,6 +37,7 @@ public class AccountTest {
     }
     
     @Test
+    @SuppressWarnings("AssertBetweenInconvertibleTypes")
     public void equalsTest() {
         Account sameAccount = new Account("ES6621000418401234567891", "12345678A", new BigDecimal(1000));
         Account distinctAccount = new Account("ES6621000418401234567892", "12345678B", new BigDecimal(1000));

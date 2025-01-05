@@ -1,16 +1,16 @@
 package org.HappyBank.model;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static org.HappyBank.model.DatabaseManager.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.*;
+import static org.HappyBank.model.DatabaseManager.*;
 
 public class DatabaseManagerTest {
     Client c;
