@@ -177,8 +177,8 @@ public class DatabaseManagerTest {
     }
     
     @Test
-    public void getAllTransactionTest() throws HappyBankException {
-        ArrayList<Transaction> database = getAllTransactions();
+    public void getAccountTransactionTest() throws HappyBankException {
+        ArrayList<Transaction> database = getAccountTransactions("ES1234567890123456789012");
         for (int i = 0; i < 10; i++) {
             assertEquals(transactions.get(i).toString(), database.get(i).toString());
         }

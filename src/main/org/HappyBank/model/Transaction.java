@@ -175,14 +175,22 @@ public class Transaction {
         return date;
     }
     
-    public SimpleStringProperty[] getProperties() throws HappyBankException {
-       return new SimpleStringProperty[]{
-                new SimpleStringProperty(getClient(sender.getOwnerNIF()).getName() + " " + getClient(sender.getOwnerNIF()).getSurname()),
-                new SimpleStringProperty(getClient(receiver.getOwnerNIF()).getName() + " " + getClient(receiver.getOwnerNIF()).getSurname()),
-                new SimpleStringProperty(concept),
-                new SimpleStringProperty(amount.setScale(2, RoundingMode.HALF_UP).toString()),
-                new SimpleStringProperty(date.format(formater))
-       };
+    /**
+     * Devuelve las propiedades de la transacción.
+     * @return Propiedades de la transacción.
+     */
+    public SimpleStringProperty[] getProperties() {
+        try {
+            return new SimpleStringProperty[]{
+                    new SimpleStringProperty(getClient(sender.getOwnerNIF()).getName() + " " + getClient(sender.getOwnerNIF()).getSurname()),
+                    new SimpleStringProperty(getClient(receiver.getOwnerNIF()).getName() + " " + getClient(receiver.getOwnerNIF()).getSurname()),
+                    new SimpleStringProperty(concept),
+                    new SimpleStringProperty(amount.setScale(2, RoundingMode.HALF_UP).toString()),
+                    new SimpleStringProperty(date.format(formater))
+           };
+        } catch (HappyBankException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
     
     
