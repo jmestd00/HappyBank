@@ -1,0 +1,146 @@
+/* AnchorPane */
+.root {
+    -fx-background-color: white;
+}
+
+/* Labels */
+.customLabel {
+    -fx-background-color: transparent;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold
+}
+
+/* Close session button */
+.closeSessionButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-border-width: 2px;
+    -fx-background-image: url("/images/closeSession.png");
+    -fx-background-size: 96px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 48px;
+}
+
+.closeSessionButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Go back window button */
+.goBackButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-background-color:transparent;
+    -fx-background-image: url('/images/goBack.png');
+    -fx-background-size: 96px;
+    -fx-background-radius: 48px;
+    -fx-border-width: 2px;
+}
+
+.goBackButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
+}
+
+/* Main window button */
+.mainButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-background-color:transparent;
+    -fx-background-image: url('/images/bankLogo.png');
+    -fx-background-size: 96px;
+    -fx-background-radius: 48px;
+    -fx-border-width: 2px;
+}
+
+.mainButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
+}
+
+/* Table view */
+.tableView .column-header {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.tableView .table-cell {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 16px;
+}
+
+.tableView {
+    -fx-border-color: transparent;
+    -fx-font-size: 24px;
+    -fx-font-weight: normal;
+    -fx-alignment: CENTER;
+    -fx-background-color: white;
+}
+
+/* Pagination */
+.pagination {
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+.pagination .toggle-button {
+    -fx-background-color:#505050;
+    -fx-border-color: black;
+    -fx-font-weight: bold;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+}
+
+.pagination .toggle-button:hover {
+    -fx-background-color: #2F2F2F;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.pagination .toggle-button:selected {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.pagination .left-arrow, .pagination .right-arrow {
+    -fx-background-color: white;
+    -fx-text-fill: white;
+    -fx-border-color: #A9A9A9;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-font-size: 16px;
+}
+
+.pagination .left-arrow:hover, .pagination .right-arrow:hover {
+    -fx-background-color: white;
+    -fx-text-fill: white;
+}
+
+.pagination .left-arrow:pressed, .pagination .right-arrow:pressed {
+    -fx-background-color: white;
+    -fx-text-fill: white;
+}
+
+.pagination .button {
+    -fx-background-color:#505050;
+}
+
+.pagination .button:hover {
+    -fx-background-color: #2F2F2F;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.pagination:focused {
+    -fx-border-color: transparent;
+}

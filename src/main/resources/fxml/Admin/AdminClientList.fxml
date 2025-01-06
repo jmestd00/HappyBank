@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.HappyBank.controller.Admin.AdminClientListController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="rootPane" maxHeight="690.0" maxWidth="1610.0" prefHeight="690.0" prefWidth="1610.0" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.Admin.AdminClientListController">
+    <children>
+        <Label fx:id="welcomeLabel" layoutX="15.0" layoutY="15.0" prefHeight="120.0" prefWidth="382.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminClientList.css" text="" />
+        <Line endY="85.0" layoutX="409.0" layoutY="50.0" startY="-50.0" />
+        <Line endX="409.0" endY="85.0" layoutY="50.0" startX="399.0" startY="95.0" />
+        <Line endX="399.0" layoutY="145.0" />
+        <ImageView fitHeight="334.0" fitWidth="334.0" layoutX="45.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/bankLogo.png" />
+            </image>
+        </ImageView>
+        <HBox alignment="CENTER" layoutY="546.0" prefHeight="120.0" prefWidth="424.0">
+            <children>
+                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <Button fx:id="closeSessionButton" mnemonicParsing="false" onAction="#closeSession" prefHeight="96.0" prefWidth="96.0" styleClass="closeSessionButton" stylesheets="@../../css/Admin/AdminClientList.css" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">
+                    <children>
+                        <Button fx:id="displayLegend" mnemonicParsing="false" onAction="#showLegend" prefHeight="96.0" prefWidth="96.0" styleClass="displayLegend" stylesheets="@../../css/Admin/AdminClientList.css" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">
+                    <children>
+                        <Button fx:id="goBackButton" mnemonicParsing="false" onAction="#goBackToMain" prefHeight="96.0" prefWidth="96.0" styleClass="goBackButton" stylesheets="@../../css/Admin/AdminClientList.css" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+      <Line endY="660.0" layoutX="439.0" layoutY="15.0" />
+      <TextField fx:id="searchBar" layoutX="469.0" layoutY="15.0" minHeight="-Infinity" prefWidth="844.0" promptText="Inserte un nombre para su búsqueda" styleClass="textField" stylesheets="@../../css/login.css" />
+      <TableView fx:id="clientTable" layoutX="469.0" layoutY="97.0" prefHeight="529.0" prefWidth="1111.0" styleClass="tableView" stylesheets="@../../css/Admin/AdminClientList.css">
+         <columns>
+            <TableColumn fx:id="NIFCol" editable="false" prefWidth="94" resizable="false" sortable="false" text="NIF" />
+            <TableColumn fx:id="NameCol" editable="false" minWidth="0.0" prefWidth="280.0" resizable="false" sortable="false" text="Nombre Completo" />
+            <TableColumn fx:id="accountCol" editable="false" prefWidth="241" resizable="false" sortable="false" text="CUENTA" />
+            <TableColumn fx:id="creditCardCol" editable="false" minWidth="0.0" prefWidth="304.0" resizable="false" sortable="false" text="TARJETA DE CRÉDITO" />
+            <TableColumn fx:id="editCol" editable="false" minWidth="0.0" prefWidth="91" resizable="false" sortable="false" />
+            <TableColumn fx:id="transactionHistoryCol" editable="false" prefWidth="95" resizable="false" sortable="false" />
+         </columns>
+      </TableView>
+      <Pagination fx:id="pagination" layoutX="681.0" layoutY="624.0" prefHeight="83.0" prefWidth="488.0" stylesheets="@../../css/Admin/AdminClientList.css" styleClass="pagination"/>
+      <Button fx:id="add" onAction="#showAdd" layoutX="1396.0" layoutY="15.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="53.0" styleClass="addButton" stylesheets="@../../css/Admin/AdminClientList.css" text="Añadir" />
+      <Pane fx:id="toggleBackUp" layoutX="1464.0" layoutY="14.0" onMouseClicked="#bbddBackUp" prefHeight="53.0" prefWidth="116.0">
+         <children>
+            <Rectangle fx:id="background" arcHeight="3.0" arcWidth="5.0" fill="WHITE" height="53.0" stroke="BLACK" strokeType="INSIDE" width="116.0" />
+            <Rectangle fx:id="slider" arcWidth="5.0" fill="WHITE" height="47.0" layoutX="3.0" layoutY="3.0" stroke="BLACK" strokeType="INSIDE" width="47.0" />
+            <Text fx:id="off" layoutX="61.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="customLabel" text="OFF" />
+            <Text fx:id="on" layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="customLabel" text="ON" />
+         </children>
+      </Pane>
+      <Button fx:id="search" layoutX="1328.0" layoutY="14.0" mnemonicParsing="false" onAction="#search" prefHeight="53.0" prefWidth="53.0" styleClass="searchButton" stylesheets="@../../css/Admin/AdminClientList.css" text="Buscar" />
+    </children>
+   <stylesheets>
+      <URL value="@../../css/Admin/AdminClientList.css" />
+   </stylesheets>
+   <styleClass>
+      <String fx:value="root" />
+   </styleClass>
 </AnchorPane>
