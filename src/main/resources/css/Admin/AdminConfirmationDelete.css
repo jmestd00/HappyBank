@@ -1,0 +1,43 @@
+/* AnchorPane */
+.root {
+    -fx-background-color: white;
+}
+
+/* Labels */
+.customLabel {
+    -fx-font-family: "Futura medium";
+    -fx-font-size: 20px;
+    -fx-text-alignment: left;
+    -fx-text-fill: black;
+    -fx-background-color: #FFFFFF;
+}
+
+/* Confirm delete button */
+.confirmDelete {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+    -fx-font-family: "Futura medium";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}
+
+.confirmDelete:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Decline delete button */
+.declineDelete {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-font-family: "Futura medium";
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}
+
+.declineDelete:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}

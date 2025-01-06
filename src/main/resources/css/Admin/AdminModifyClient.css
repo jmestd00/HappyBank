@@ -1,0 +1,103 @@
+/* AnchorPane */
+.root {
+    -fx-background-color: white;
+}
+
+/* Labels */
+.customLabel {
+    -fx-background-color: white;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold
+}
+
+/* Text fields */
+.textField {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-font-size: 24px;
+    -fx-font-family: "Future Medium";
+    -fx-alignment: center_left;
+}
+
+/* Close session button */
+.closeSessionButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-border-width: 2px;
+    -fx-background-image: url("/images/closeSession.png");
+    -fx-background-size: 96px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 48px;
+}
+
+.closeSessionButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Go back button */
+.goBackButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-background-color:transparent;
+    -fx-background-image: url('/images/goBack.png');
+    -fx-background-size: 96px;
+    -fx-background-radius: 48px;
+    -fx-border-width: 2px;
+}
+
+.goBackButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
+}
+
+/* Main menu button */
+.mainButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-background-color:transparent;
+    -fx-background-image: url('/images/bankLogo.png');
+    -fx-background-size: 96px;
+    -fx-background-radius: 48px;
+    -fx-border-width: 2px;
+}
+
+.mainButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
+}
+
+/* Modify button */
+.modifyButton {
+    -fx-background-color: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Futura Medium";
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+}
+
+.modifyButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Delete button */
+.elimButton {
+    -fx-background-size: 65px;
+    -fx-background-position: center;
+    -fx-background-image: url('/images/deleteClient.png');
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: transparent;
+}
+
+.elimButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+

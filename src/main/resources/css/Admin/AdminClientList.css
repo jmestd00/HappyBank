@@ -1,0 +1,212 @@
+/* AnchorPane */
+.root {
+    -fx-background-color: white;
+}
+
+/* Labels */
+.customLabel{
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Text fields */
+.textField {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-font-size: 24px;
+    -fx-font-family: "Future Medium";
+    -fx-alignment: center_left;
+}
+
+/* Pagination */
+.pagination {
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+.pagination .toggle-button {
+    -fx-background-color:#505050;
+    -fx-border-color: black;
+    -fx-font-weight: bold;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+}
+
+.pagination .toggle-button:hover {
+    -fx-background-color: #2F2F2F;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.pagination .toggle-button:selected {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.pagination .left-arrow, .pagination .right-arrow {
+    -fx-background-color: white;
+    -fx-text-fill: white;
+    -fx-border-color: #A9A9A9;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+    -fx-font-size: 16px;
+}
+
+.pagination .left-arrow:hover, .pagination .right-arrow:hover {
+    -fx-background-color: white;
+    -fx-text-fill: white;
+}
+
+.pagination .left-arrow:pressed, .pagination .right-arrow:pressed {
+    -fx-background-color: white;
+    -fx-text-fill: white;
+}
+
+.pagination .button {
+    -fx-background-color:#505050;
+}
+
+.pagination .button:hover {
+    -fx-background-color: #2F2F2F;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.pagination:focused {
+    -fx-border-color: transparent;
+}
+
+/* TableView */
+.tableView .column-header {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.tableView .table-cell {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 16px;
+}
+
+.tableView {
+    -fx-border-color: transparent;
+    -fx-font-size: 24px;
+    -fx-font-weight: normal;
+    -fx-alignment: CENTER;
+    -fx-background-color: white;
+}
+
+/* Search button */
+.searchButton {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: white;
+    -fx-text-fill: transparent;
+    -fx-background-size: 53px;
+    -fx-background-image: url('/images/searchIcon.png');
+}
+
+.searchButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Add user button */
+.addButton {
+    -fx-border-width: 1px;
+    -fx-border-color: black;
+    -fx-background-color: white;
+    -fx-text-fill: transparent;
+    -fx-background-image: url('/images/addUser.png');
+    -fx-background-size: 53px;
+}
+
+.addButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Go previous window button */
+.goBackButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-background-color:transparent;
+    -fx-background-image: url('/images/goBack.png');
+    -fx-background-size: 96px;
+    -fx-background-radius: 48px;
+    -fx-border-width: 2px;
+}
+
+.goBackButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
+}
+
+/* Close session button */
+.closeSessionButton {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-border-width: 2px;
+    -fx-background-image: url("/images/closeSession.png");
+    -fx-background-size: 96px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 48px;
+}
+
+/* Display legend button */
+.displayLegend {
+    -fx-border-color: black;
+    -fx-border-radius: 48px;
+    -fx-background-color:transparent;
+    -fx-background-image: url('/images/legendIcon.png');
+    -fx-background-size: 96px;
+    -fx-background-radius: 48px;
+    -fx-border-width: 2px;
+}
+
+.displayLegend:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
+}
+
+.closeSessionButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Edit button */
+.editButton {
+    -fx-background-image: url('/images/modifyClient.png');
+    -fx-background-size: 53px;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.editButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Transaction history button */
+.transactionHistoryButton {
+    -fx-background-image: url('/images/transactionHistory.png');
+    -fx-background-size: 53px;
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.transactionHistoryButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}

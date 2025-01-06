@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane fx:id="rootPane" maxHeight="690.0" maxWidth="1610.0" prefHeight="690.0" prefWidth="1206.0" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.Admin.AdminAddPersonController">
+    <children>
+        <Label fx:id="welcomeLabel" layoutX="15.0" layoutY="15.0" prefHeight="120.0" prefWidth="382.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="" />
+        <Line endY="85.0" layoutX="409.0" layoutY="50.0" startY="-50.0" />
+        <Line endX="409.0" endY="85.0" layoutY="50.0" startX="399.0" startY="95.0" />
+        <Line endX="399.0" layoutY="145.0" />
+        <ImageView fitHeight="334.0" fitWidth="334.0" layoutX="45.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/bankLogo.png" />
+            </image>
+        </ImageView>
+        <HBox alignment="CENTER" layoutY="546.0" prefHeight="120.0" prefWidth="424.0">
+            <children>
+                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <Button fx:id="closeSessionButton" mnemonicParsing="false" onAction="#closeSession" prefHeight="96.0" prefWidth="96.0" styleClass="closeSessionButton" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">
+                    <children>
+                        <Button fx:id="mainButton" mnemonicParsing="false" onAction="#goMain" prefHeight="96.0" prefWidth="96.0" styleClass="mainButton" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">
+                    <children>
+                        <Button fx:id="goBackButton" mnemonicParsing="false" onAction="#goBack" prefHeight="96.0" prefWidth="96.0" styleClass="goBackButton" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <Line endY="660.0" layoutX="439.0" layoutY="15.0" />
+      <VBox fx:id="Client" layoutX="469.0" layoutY="45.0" prefHeight="600.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="30.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Nombre" />
+            <TextField fx:id="clientName" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Apellidos" />
+            <TextField fx:id="clientSurname" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="NIF" />
+            <TextField fx:id="clientNIF" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Telefono" />
+            <TextField fx:id="clientPhone" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Dirección" />
+            <TextField fx:id="clientAddress" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Email" />
+            <TextField fx:id="clientEmail" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Contraseña" />
+            <TextField fx:id="clientPassword" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+         </children>
+      </VBox>
+      <ComboBox fx:id="type" layoutX="687.0" layoutY="15.0" onAction="#swapVbox" prefHeight="54.0" prefWidth="505.0" styleClass="comboBox" stylesheets="@../../css/Admin/AdminAddPerson.css">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="ADMINISTRADOR" />
+                <String fx:value="CLIENTE" />
+            </FXCollections>
+        </items>
+      </ComboBox>
+      <VBox fx:id="Admin" layoutX="469.0" layoutY="45.0" prefHeight="600.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="30.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Nombre" />
+            <TextField fx:id="adminName" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Apellidos" />
+            <TextField fx:id="adminSurname" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="NIF" />
+            <TextField fx:id="adminNIF" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="SSN" />
+            <TextField fx:id="adminSSN" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Salario" />
+            <TextField fx:id="adminSalary" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+            <Label prefHeight="30.0" prefWidth="160.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminAddPerson.css" text="Contraseña" />
+            <TextField fx:id="adminPassword" prefHeight="52.0" prefWidth="500.0" styleClass="textField" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+         </children>
+      </VBox>
+      <Button fx:id="addButton" onAction="#addPerson" alignment="CENTER" contentDisplay="CENTER" layoutX="1084.0" layoutY="80.0" mnemonicParsing="false" prefHeight="581.0" prefWidth="107.0" styleClass="addButton" stylesheets="@../../css/Admin/AdminAddPerson.css" text="A&#10;Ñ&#10;A&#10;D&#10;I&#10;R" textAlignment="CENTER" />
+    </children>
+    <stylesheets>
+        <URL value="@../../css/Admin/AdminAddPerson.css" />
+    </stylesheets>
+    <styleClass>
+        <String fx:value="root" />
+    </styleClass>
+</AnchorPane>
