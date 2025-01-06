@@ -28,9 +28,10 @@ public class ViewFactory {
 
     Image happyBankLogo = new Image(String.valueOf(getClass().getResource("/images/bankLogo.png")));
 
-    // The two stages of the application (primary for all the windows of the app and popup for the errors like wrong login)
+    // The two stages of the application (primary for all the windows of the app, the legend popup and popup for the errors like wrong login)
     private Stage primaryStage;
     private Stage popupStage = new Stage();
+    private Stage legendStage = new Stage();
 
 
     // All the windows' controllers for all the main windows, to be able to pass the arguments needeed between controllers
@@ -172,13 +173,13 @@ public class ViewFactory {
             // Cargar el archivo FXML del popup
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminLegend.fxml")));
             Parent popupRoot = loader.load();
-            popupStage = new Stage();
-            popupStage.resizableProperty().setValue(Boolean.FALSE);
-            popupStage.setTitle("Leyenda");
-            popupStage.initModality(Modality.APPLICATION_MODAL); // Bloquear la ventana principal
-            popupStage.setScene(new Scene(popupRoot));
-            popupStage.centerOnScreen();
-            popupStage.showAndWait();
+            legendStage = new Stage();
+            legendStage.resizableProperty().setValue(Boolean.FALSE);
+            legendStage.setTitle("Leyenda");
+            legendStage.getIcons().add(happyBankLogo);
+            legendStage.setScene(new Scene(popupRoot));
+            legendStage.centerOnScreen();
+            legendStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -258,7 +259,10 @@ public class ViewFactory {
      */
     public void showClientMainWindow(String username) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientMainWindow.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientMainWindow.fxml")));
+            Parent root = loader.load();
+            clientMainWindow = loader.getController();
+            clientMainWindow.setNIF(username);
             primaryStage.setTitle("HappyBank");
             primaryStage.setScene(new Scene(root));
             primaryStage.getIcons().add(happyBankLogo);
@@ -277,6 +281,13 @@ public class ViewFactory {
      */
     public void closePopup() {
         popupStage.close();
+    }
+
+    /**
+     * Method to close the legend window
+     */
+    public void closeLegend() {
+        legendStage.close();
     }
 
     public void showCloseSessionConfirmation() {

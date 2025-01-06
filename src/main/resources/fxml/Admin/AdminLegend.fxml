@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="690.0" maxWidth="1484.0" prefHeight="690.0" prefWidth="690.0" styleClass="root" stylesheets="@../../css/legend.css" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.Admin.AdminLegendController">
+<AnchorPane fx:id="rootPane" maxHeight="690.0" maxWidth="1484.0" prefHeight="690.0" prefWidth="690.0" styleClass="root" stylesheets="@../../css/legend.css" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.LegendController">
    <children>
       <Label alignment="CENTER" layoutY="15.0" prefHeight="75.0" prefWidth="690.0" styleClass="title" stylesheets="@../../css/legend.css" text="Panel de ayuda para los botones" textAlignment="CENTER">
          <font>

@@ -93,6 +93,7 @@ public class AdminMainWindowController {
      * Method that shows the legend of the administrator part of the application.
      */
     public void showLegend() {
+        viewFactory.closeLegend();
         viewFactory.showAdminLegend();
     }
 }

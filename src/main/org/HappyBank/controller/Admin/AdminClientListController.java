@@ -246,6 +246,7 @@ public class AdminClientListController {
      * Method that shows the legend.
      */
     public void showLegend() {
+        viewFactory.closeLegend();
         viewFactory.showAdminLegend();
     }
 
