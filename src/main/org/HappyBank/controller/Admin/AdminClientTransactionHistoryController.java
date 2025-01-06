@@ -21,6 +21,9 @@ import static org.HappyBank.model.DatabaseManager.*;
 
 import java.util.ArrayList;
 
+/**
+ * Controller for the client transaction history view.
+ */
 public class AdminClientTransactionHistoryController {
     private Client client;
     private Administrator admin;
@@ -46,8 +49,9 @@ public class AdminClientTransactionHistoryController {
     private ArrayList<Transaction> transactions = new ArrayList<>();
 
 
-
-
+    /**
+     * Initializes the viewFactory instance, the bbdd instance, the transaction list and the pagination.
+     */
     public void initialize() {
         try {
             getInstance();
@@ -100,35 +104,32 @@ public class AdminClientTransactionHistoryController {
 
     }
 
+    /**
+     * Method that changes the table view.
+     * @param index
+     * @param limit
+     */
     private void changeTableView(int index, int limit) {
         int fromIndex = index * limit;
         int toIndex = Math.min(fromIndex + limit, transactions.size());
         int minIndex = Math.min(toIndex, transactions.size());
 
-        // Crea una lista de lotes para la página actual
         ObservableList<Transaction> pageData = FXCollections.observableArrayList(transactions.subList(fromIndex, minIndex));
 
-        // Si hay espacio restante en la página, agrega filas vacías
         int remainingRows = limit - pageData.size();
         for (int i = 0; i < remainingRows; i++) {
-            pageData.add(null);  // Añade una fila vacía representada por "null"
+            pageData.add(null);
         }
 
-        // Crear una SortedList para asegurar que se ordenen correctamente
         SortedList<Transaction> sortedData = new SortedList<>(pageData);
         sortedData.comparatorProperty().bind(transactionTable.comparatorProperty());
 
         transactionTable.setItems(sortedData);
     }
 
-    public void refreshTable() {
-        int totalPage = (int) Math.ceil(transactions.size() * 1.0 / ROWS_PER_PAGE);
-        pagination.setPageCount(totalPage);
-
-        // Recargar los datos de la tabla
-        changeTableView(pagination.getCurrentPageIndex(), ROWS_PER_PAGE);
-    }
-
+    /**
+     * Method that sets up the data of the transaction list.
+     */
     private void setupData() {
 /*        try {
         //transactions = getAllTransactions(client.getNIF());
@@ -137,6 +138,11 @@ public class AdminClientTransactionHistoryController {
         }*/
     }
 
+    /**
+     * Method that sets the data of the client and the administrator.
+     * @param client
+     * @param administrator
+     */
     public void setData(Client client, Administrator administrator) {
         this.client = client;
         this.admin = administrator;
@@ -145,13 +151,23 @@ public class AdminClientTransactionHistoryController {
         clientLabel.setText("Cliente: " + client.getName() + " " + client.getSurname());
     }
 
+    /**
+     * Method that goes back to the client list view.
+     */
     public void goBack() {
         viewFactory.showClientList(admin);
     }
+
+    /**
+     * Method that closes the session.
+     */
     public void closeSession () {
         viewFactory.showLoginView();
     }
 
+    /**
+     * Method that goes to the main window.
+     */
     public void goMain () {
         viewFactory.showAdminMainWindow(admin.getNIF());
     }

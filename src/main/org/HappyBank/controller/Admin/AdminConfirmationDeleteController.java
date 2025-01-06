@@ -12,6 +12,9 @@ import javafx.scene.control.Button;
 
 import static org.HappyBank.model.DatabaseManager.*;
 
+/**
+ * Controller for the confirmation window to delete a user.
+ */
 public class AdminConfirmationDeleteController {
     private ViewFactory viewFactory;
     private Client client;
@@ -21,6 +24,9 @@ public class AdminConfirmationDeleteController {
     @FXML
     private Button declineDelete;
 
+    /**
+     * Initializes the viewFactory instance, a countdown to enable the delete button and the confirmation window.
+     */
     public void initialize() {
         viewFactory = viewFactory.getInstance(null);
         confirmDelete.setDisable(true);
@@ -38,11 +44,19 @@ public class AdminConfirmationDeleteController {
         timeline.play();
     }
 
+    /**
+     * Sets the data of the client and the administrator.
+     * @param client
+     * @param admin
+     */
     public void setData(Client client, Administrator admin) {
         this.client = client;
         this.administrator = admin;
     }
 
+    /**
+     * Method that deletes the user from the database and closes the confirmation window.
+     */
     public void delete() {
         try {
         deleteClient(client.getNIF());
@@ -53,6 +67,9 @@ public class AdminConfirmationDeleteController {
         viewFactory.showClientList(administrator);
     }
 
+    /**
+     * Method that closes the confirmation window and opens the edit client view.
+     */
     public void decline() {
         viewFactory.closePopup();
         viewFactory.showAdminClientEditView(client, administrator);

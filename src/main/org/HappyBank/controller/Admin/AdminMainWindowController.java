@@ -11,7 +11,9 @@ import java.util.Properties;
 
 import static org.HappyBank.model.DatabaseManager.*;
 
-
+/**
+ * Controller for the main window of the administrator.
+ */
 public class AdminMainWindowController {
 
     private String username;
@@ -23,10 +25,11 @@ public class AdminMainWindowController {
     private boolean backUp = false;
 
 
-
+    /**
+     * Initializes the viewFactory instance and reads the configuration file to perform the backup or not.
+     */
     public void initialize() {
-        // TODO
-        try {
+         try {
         getInstance();
         } catch (HappyBankException e) {
             e.printStackTrace();
@@ -38,6 +41,9 @@ public class AdminMainWindowController {
 
     }
 
+    /**
+     * Reads the configuration file to check if the backup option is enabled.
+     */
     private void readConfig() {
         Properties prop = new Properties();
         try {
@@ -53,6 +59,10 @@ public class AdminMainWindowController {
         }
     }
 
+    /**
+     * Method tha set the NIF of the administrator and initializes the view.
+     * @param NIF
+     */
     public void setNIF(String NIF) {
         this.NIF = NIF;
         try {
@@ -65,14 +75,23 @@ public class AdminMainWindowController {
         initialize();
     }
 
+    /**
+     * Method that goes to the login view.
+     */
     public void closeSession() {
         viewFactory.showLoginView();
     }
 
+    /**
+     * Method that goes to the client list view.
+     */
     public void showClientList() {
         viewFactory.showClientList(admin);
     }
 
+    /**
+     * Method that shows the legend of the administrator part of the application.
+     */
     public void showLegend() {
         viewFactory.showAdminLegend();
     }
