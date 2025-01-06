@@ -79,7 +79,7 @@ public class AdminMainWindowController {
      * Method that goes to the login view.
      */
     public void closeSession() {
-        viewFactory.showLoginView();
+        viewFactory.showCloseSessionConfirmation();
     }
 
     /**

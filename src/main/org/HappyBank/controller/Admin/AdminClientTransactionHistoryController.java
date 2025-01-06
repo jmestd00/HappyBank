@@ -161,14 +161,14 @@ public class AdminClientTransactionHistoryController {
     /**
      * Method that closes the session.
      */
-    public void closeSession () {
-        viewFactory.showLoginView();
+    public void closeSession() {
+        viewFactory.showCloseSessionConfirmation();
     }
 
     /**
      * Method that goes to the main window.
      */
-    public void goMain () {
+    public void goMain() {
         viewFactory.showAdminMainWindow(admin.getNIF());
     }
 }

@@ -232,7 +232,7 @@ public class AdminClientListController {
      * Method that closes the current session.
      */
     public void closeSession() {
-        viewFactory.showLoginView();
+        viewFactory.showCloseSessionConfirmation();
     }
 
     /**

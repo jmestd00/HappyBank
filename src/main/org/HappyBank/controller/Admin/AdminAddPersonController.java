@@ -185,13 +185,13 @@ public class AdminAddPersonController {
     public void closeSession() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() && adminSurname.getText().isEmpty() && adminNIF.getText().isEmpty() && adminSSN.getText().isEmpty() && adminSalary.getText().isEmpty() && adminPassword.getText().isEmpty()) {
-                viewFactory.showLoginView();
+                viewFactory.showCloseSessionConfirmation();
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
             }
         } else {
             if (clientName.getText().isEmpty() && clientSurname.getText().isEmpty() && clientNIF.getText().isEmpty() && clientPhone.getText().isEmpty() && clientAddress.getText().isEmpty() && clientEmail.getText().isEmpty() && clientPassword.getText().isEmpty()) {
-                viewFactory.showLoginView();
+                viewFactory.showCloseSessionConfirmation();
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
             }

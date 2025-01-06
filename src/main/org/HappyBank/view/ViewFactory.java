@@ -32,6 +32,7 @@ public class ViewFactory {
     private Stage primaryStage;
     private Stage popupStage = new Stage();
 
+
     // All the windows' controllers for all the main windows, to be able to pass the arguments needeed between controllers
     /* Admin */
     private AdminMainWindowController adminMainWindow;
@@ -47,6 +48,8 @@ public class ViewFactory {
     private ClientPersonalDataController personalData;
     private ClientTransactionListController transactionList;
     private ClientViewAccountController viewAccount;
+    /* Common */
+    private ConfirmCloseSessionController confirmCloseSessionController;
     /* Error */
     private ErrorController errorController;
     /* Login */
@@ -58,6 +61,7 @@ public class ViewFactory {
      */
     private ViewFactory(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        popupStage.initModality(Modality.APPLICATION_MODAL);
     }
 
     /**
@@ -273,6 +277,21 @@ public class ViewFactory {
      */
     public void closePopup() {
         popupStage.close();
+    }
+
+    public void showCloseSessionConfirmation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/ConfirmCloseSession.fxml")));
+            Parent root = loader.load();
+            popupStage.setTitle("HappyBank");
+            popupStage.setScene(new Scene(root));
+            popupStage.getIcons().add(happyBankLogo);
+            popupStage.resizableProperty().setValue(Boolean.FALSE);
+            popupStage.centerOnScreen();
+            popupStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

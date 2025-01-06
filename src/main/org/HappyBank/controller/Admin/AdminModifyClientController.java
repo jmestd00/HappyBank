@@ -91,11 +91,11 @@ public class AdminModifyClientController {
      * Method that closes the session.
      * It shows a window with an error message if there are fields with data.
      */
-    public void closeSession () {
+    public void closeSession() {
         if (checkCritic()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyModifyPersonFields.fxml")));
         } else {
-            viewFactory.showLoginView();
+            viewFactory.showCloseSessionConfirmation();
         }
     }
 
@@ -103,7 +103,7 @@ public class AdminModifyClientController {
      * Method that goes to the main window.
      * It shows a window with an error message if there are fields with data.
      */
-    public void goMain () {
+    public void goMain() {
         if (checkCritic()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyModifyPersonFields.fxml")));
         } else {
@@ -116,7 +116,7 @@ public class AdminModifyClientController {
      * It is useful to check if the user can leave that window on the current state.
      * @return
      */
-    private boolean checkCritic () {
+    private boolean checkCritic() {
         if (!phone.getText().isEmpty() || !email.getText().isEmpty() || !address.getText().isEmpty() || !password.getText().isEmpty()) {
             return true;
         } else {

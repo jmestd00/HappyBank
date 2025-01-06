@@ -16,7 +16,7 @@
 
 <AnchorPane fx:id="rootPane" maxHeight="690.0" maxWidth="1610.0" prefHeight="690.0" prefWidth="1416.5" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.Admin.AdminClientTransactionHistoryController">
     <children>
-        <Label fx:id="welcomeLabel" layoutX="15.0" layoutY="15.0" prefHeight="120.0" prefWidth="382.0" styleClass="title" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" text="" />
+        <Label fx:id="welcomeLabel" layoutX="15.0" layoutY="15.0" prefHeight="120.0" prefWidth="382.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" text="" />
         <Line endY="85.0" layoutX="409.0" layoutY="50.0" startY="-50.0" />
         <Line endX="409.0" endY="85.0" layoutY="50.0" startX="399.0" startY="95.0" />
         <Line endX="399.0" layoutY="145.0" />

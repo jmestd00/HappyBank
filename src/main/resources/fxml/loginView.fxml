@@ -17,7 +17,7 @@
    <children>
       <ImageView fx:id="logoImage" fitHeight="128.0" fitWidth="128.0" layoutX="336.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/HappyBank512_512.png" />
+            <Image url="@../images/bankLogo.png" />
          </image></ImageView>
       <ComboBox fx:id="accountPicker" layoutX="25.0" layoutY="169.0" prefWidth="275.0" promptText="TIPO DE CUENTA" styleClass="accountPicker" stylesheets="@../css/login.css">
             <items>
