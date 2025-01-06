@@ -238,18 +238,15 @@ public class AdminClientListController {
         if (!searchBar.getText().equals("")) {
         fullListClients.clear();
         try {
-        //fullListClients = getClients(filter);
-            getInstance();
-
+            fullListClients = DatabaseManager.searchClient(filter, filter, filter);
+            refreshTable();
         } catch (HappyBankException e) {
             e.printStackTrace();
         }
         } else {
         fullListClients.clear();
             try {
-                getInstance();
-
-        //fullListClients = getClientList();
+            fullListClients = getAllClients();
             } catch (HappyBankException e) {
                 e.printStackTrace();
             }
