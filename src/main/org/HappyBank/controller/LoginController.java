@@ -1,20 +1,11 @@
 package org.HappyBank.controller;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.HappyBank.controller.Admin.AdminMainWindowController;
 import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 import static org.HappyBank.model.DatabaseManager.*;
@@ -32,18 +23,28 @@ public class LoginController {
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
     private boolean accSelected = false;
 
+    /**
+     * Initializes the login window.
+     */
     public void initialize() {
         userField.setContextMenu(new ContextMenu());
         passwordField.setContextMenu(new ContextMenu());
         accountPicker.setValue("CLIENTE");
     }
 
+    /**
+     * Method that gets the value of the account picker, the NIF and the password.
+     */
     private void getFields() {
         username = userField.getText();
         password = passwordField.getText();
         accountType = accountPicker.getValue().toString();
     }
 
+    /**
+     * Method that logis the user in using a query to the database to perform the login.
+     * It throws a window with an error message if the login fails.
+     */
     @FXML
     public void loginUser() {
         try {

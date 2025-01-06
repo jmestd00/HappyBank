@@ -21,7 +21,9 @@ import java.util.Properties;
 
 import static org.HappyBank.model.DatabaseManager.*;
 
-
+/**
+ * Controller for the client list view.
+ */
 public class AdminClientListController {
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
     private Administrator administrator;
@@ -61,7 +63,9 @@ public class AdminClientListController {
     private ArrayList<Client> fullListClients = new ArrayList<>();
     private ArrayList<Client> filteredList = new ArrayList<>();
 
-
+    /**
+     * Initializes the bbdd instance, read the options.config, setup the list data and initializes the pagination.
+     */
     public void initialize(){
         try {
             getInstance();
@@ -180,35 +184,42 @@ public class AdminClientListController {
         });
     }
 
-        private void changeTableView(int index, int limit) {
+    /**
+     * Changes the table view to show the clients of the current page.
+     * @param index
+     * @param limit
+     */
+    private void changeTableView(int index, int limit) {
         int fromIndex = index * limit;
         int toIndex = Math.min(fromIndex + limit, fullListClients.size());
         int minIndex = Math.min(toIndex, fullListClients.size());
 
-        // Crea una lista de lotes para la página actual
         ObservableList<Client> pageData = FXCollections.observableArrayList(fullListClients.subList(fromIndex, minIndex));
 
-        // Si hay espacio restante en la página, agrega filas vacías
         int remainingRows = limit - pageData.size();
         for (int i = 0; i < remainingRows; i++) {
-            pageData.add(null);  // Añade una fila vacía representada por "null"
+            pageData.add(null);
         }
 
-        // Crear una SortedList para asegurar que se ordenen correctamente
         SortedList<Client> sortedData = new SortedList<>(pageData);
         sortedData.comparatorProperty().bind(clientTable.comparatorProperty());
 
         clientTable.setItems(sortedData);
     }
 
+    /**
+     * Refreshes the table view.
+     */
     public void refreshTable() {
         int totalPage = (int) Math.ceil(fullListClients.size() * 1.0 / ROWS_PER_PAGE);
         pagination.setPageCount(totalPage);
 
-        // Recargar los datos de la tabla
         changeTableView(pagination.getCurrentPageIndex(), ROWS_PER_PAGE);
     }
 
+    /**
+     * Sets up the data of the clients.
+     */
     private void setupData() {
        try {
         fullListClients = getAllClients();
@@ -217,22 +228,37 @@ public class AdminClientListController {
        }
     }
 
+    /**
+     * Method that closes the current session.
+     */
     public void closeSession() {
-        viewFactory.showLoginView();
+        viewFactory.showCloseSessionConfirmation();
     }
 
+    /**
+     * Method that goes back to the main window.
+     */
     public void goBackToMain() {
         viewFactory.showAdminMainWindow(administrator.getNIF());
     }
 
+    /**
+     * Method that shows the legend.
+     */
     public void showLegend() {
         viewFactory.showAdminLegend();
     }
 
+    /**
+     * Method that shows the add client view.
+     */
     public void showAdd() {
         viewFactory.showAddClient(administrator);
     }
 
+    /**
+     * Method that searches a client.
+     */
     public void search() {
         String filter = searchBar.getText().toLowerCase();
         if (!searchBar.getText().equals("")) {
@@ -254,6 +280,9 @@ public class AdminClientListController {
         refreshTable();
     }
 
+    /**
+     * Method that reads the configuration file.
+     */
     public void readConfig() {
         Properties prop = new Properties();
         try {
@@ -280,6 +309,10 @@ public class AdminClientListController {
         }
     }
 
+    /**
+     * Method that writes the configuration file.
+     * @param backUp
+     */
     private void writeConfig(boolean backUp) {
         String resourceName = "options.config";
         File externalFile = new File("options.config");
@@ -305,6 +338,9 @@ public class AdminClientListController {
         }
     }
 
+    /**
+     * Method that activates the diary backUp.
+     */
     public void bbddBackUp() {
         backUp = !backUp;
         writeConfig(backUp);
@@ -323,6 +359,10 @@ public class AdminClientListController {
         transition.play();
     }
 
+    /**
+     * Method that sets the administrator data.
+     * @param admin
+     */
     public void setAdmin(Administrator admin) {
         this.administrator = admin;
         username = admin.getName() + " " + admin.getSurname();

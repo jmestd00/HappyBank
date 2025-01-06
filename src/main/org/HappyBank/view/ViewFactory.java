@@ -19,15 +19,19 @@ import org.HappyBank.model.Client;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * This class is responsible for managing the views of the application.
+ */
 public class ViewFactory {
 
     private static ViewFactory vFactoryInstance;
 
-    Image happyBankLogo = new Image(String.valueOf(getClass().getResource("/images/HappyBank512_512.png")));
+    Image happyBankLogo = new Image(String.valueOf(getClass().getResource("/images/bankLogo.png")));
 
     // The two stages of the application (primary for all the windows of the app and popup for the errors like wrong login)
     private Stage primaryStage;
     private Stage popupStage = new Stage();
+
 
     // All the windows' controllers for all the main windows, to be able to pass the arguments needeed between controllers
     /* Admin */
@@ -44,15 +48,27 @@ public class ViewFactory {
     private ClientPersonalDataController personalData;
     private ClientTransactionListController transactionList;
     private ClientViewAccountController viewAccount;
+    /* Common */
+    private ConfirmCloseSessionController confirmCloseSessionController;
     /* Error */
     private ErrorController errorController;
     /* Login */
     private LoginController loginController;
 
+    /**
+     * Constructor of the class ViewFactory to use the singleton pattern
+     * @param primaryStage
+     */
     private ViewFactory(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        popupStage.initModality(Modality.APPLICATION_MODAL);
     }
 
+    /**
+     * Method to get the instance of the class ViewFactory
+     * @param primaryStage
+     * @return vFactoryInstance (the instance of the class ViewFactory)
+     */
     public static ViewFactory getInstance(Stage primaryStage) {
         if (vFactoryInstance == null) {
             vFactoryInstance = new ViewFactory(primaryStage);
@@ -62,6 +78,9 @@ public class ViewFactory {
         return vFactoryInstance;
     }
 
+    /**
+     * Method to show the login window
+     */
     public void showLoginView() {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/loginView.fxml")));
@@ -78,29 +97,11 @@ public class ViewFactory {
         }
     }
 
-    public void showError(FXMLLoader fxmlLoader) {
-        // Show error
-        try {
-            // Cargar el archivo FXML del popup
-            Parent popupRoot = fxmlLoader.load();
-            popupStage = new Stage();
-            popupStage.resizableProperty().setValue(Boolean.FALSE);
-            popupStage.setTitle("ERROR");
-            //popupStage.initModality(Modality.APPLICATION_MODAL); // Bloquear la ventana principal
-            popupStage.setScene(new Scene(popupRoot));
-            popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/warn_icon.png")));
-            popupStage.centerOnScreen();
-            popupStage.show();
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), // Duración antes de ejecutar la acción
-                    event -> this.closePopup() // Acción para cerrar la ventana
-            ));
-            timeline.setCycleCount(1); // Ejecutar solo una vez
-            timeline.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+/* Admin */
+    /**
+     * Method to show the window to view the main window of the administrator
+     * @param username
+     */
     public void showAdminMainWindow(String username) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/AdminMainWindow.fxml"));
@@ -119,6 +120,11 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Method to show the window to confirm the delete operation of a client
+     * @param client
+     * @param admin
+     */
     public void showConfirmationWindow(Client client, Administrator admin) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminConfirmationDelete.fxml")));
@@ -136,6 +142,10 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Method to show the window to view the bank's client list
+     * @param admin
+     */
     public void showClientList(Administrator admin) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminClientList.fxml")));
@@ -154,6 +164,9 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Method to show the legend window to provide information about the buttons of the application
+     */
     public void showAdminLegend() {
         try {
             // Cargar el archivo FXML del popup
@@ -171,21 +184,11 @@ public class ViewFactory {
         }
     }
 
-    public void showClientMainWindow(String username) {
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientMainWindow.fxml")));
-            primaryStage.setTitle("HappyBank");
-            primaryStage.setScene(new Scene(root));
-            primaryStage.getIcons().add(happyBankLogo);
-            primaryStage.resizableProperty().setValue(Boolean.FALSE);
-            primaryStage.centerOnScreen();
-            primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Method to show the window to edit the personal data of a client
+     * @param selectedClient
+     * @param administrator
+     */
     public void showAdminClientEditView(Client selectedClient, Administrator administrator) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminModifyClient.fxml")));
@@ -204,7 +207,11 @@ public class ViewFactory {
         }
     }
 
-
+    /**
+     * Method to show the window to view the transaction history of a client
+     * @param selectedClient
+     * @param administrator
+     */
     public void showAdminTransactionHistoryView(Client selectedClient, Administrator administrator) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminClientTransactionHistory.fxml")));
@@ -223,6 +230,10 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Method to show the window to add a new client
+     * @param admin
+     */
     public void showAddClient(Administrator admin) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminAddPerson.fxml")));
@@ -240,8 +251,71 @@ public class ViewFactory {
             e.printStackTrace();
         }
     }
+/* Client */
+    /**
+     * Method to show the main window of the client
+     * @param username
+     */
+    public void showClientMainWindow(String username) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientMainWindow.fxml")));
+            primaryStage.setTitle("HappyBank");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.getIcons().add(happyBankLogo);
+            primaryStage.resizableProperty().setValue(Boolean.FALSE);
+            primaryStage.centerOnScreen();
+            primaryStage.show();
+            primaryStage.setOnCloseRequest(event -> System.exit(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+/* Auxiliar Methods */
+    /**
+     * Method to close the popups windows that haven't a established time to close
+     */
     public void closePopup() {
         popupStage.close();
     }
+
+    public void showCloseSessionConfirmation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/ConfirmCloseSession.fxml")));
+            Parent root = loader.load();
+            popupStage.setTitle("HappyBank");
+            popupStage.setScene(new Scene(root));
+            popupStage.getIcons().add(happyBankLogo);
+            popupStage.resizableProperty().setValue(Boolean.FALSE);
+            popupStage.centerOnScreen();
+            popupStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method to show the window error
+     * @param fxmlLoader
+     */
+    public void showError(FXMLLoader fxmlLoader) {
+        try {
+            Parent popupRoot = fxmlLoader.load();
+            popupStage = new Stage();
+            popupStage.resizableProperty().setValue(Boolean.FALSE);
+            popupStage.setTitle("ERROR");
+            popupStage.setScene(new Scene(popupRoot));
+            popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/warn_icon.png")));
+            popupStage.centerOnScreen();
+            popupStage.show();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),
+                    event -> this.closePopup()
+            ));
+            timeline.setCycleCount(1);
+            timeline.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

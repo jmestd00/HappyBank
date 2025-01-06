@@ -14,7 +14,9 @@ import java.math.BigDecimal;
 
 import static org.HappyBank.model.DatabaseManager.*;
 
-
+/**
+ * Controller for the add person view.
+ */
 public class AdminAddPersonController {
     private Administrator administrator;
     private ViewFactory viewFactory;
@@ -56,6 +58,9 @@ public class AdminAddPersonController {
     @FXML
     private TextField clientPassword;
 
+    /**
+     * Initializes the viewFactory instance, the bbdd instance, removes the context menus and hides the admin vbox.
+     */
     public void initialize() {
         viewFactory = viewFactory.getInstance(null);
         adminName.setContextMenu(new ContextMenu());
@@ -86,6 +91,9 @@ public class AdminAddPersonController {
         }
     }
 
+    /**
+     * Method that swaps the vbox depending on the selected type.
+     */
     public void swapVbox() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             Admin.setVisible(true);
@@ -109,6 +117,9 @@ public class AdminAddPersonController {
         }
     }
 
+    /**
+     * Method that adds a person to the database.
+     */
     public void addPerson() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() || adminSurname.getText().isEmpty() || adminNIF.getText().isEmpty() || adminSSN.getText().isEmpty() || adminSalary.getText().isEmpty() || adminPassword.getText().isEmpty()) {
@@ -126,7 +137,6 @@ public class AdminAddPersonController {
 
                 } catch (HappyBankException e) {
                         viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
-                    //e.printStackTrace();
                 }
             }
         } else {
@@ -150,6 +160,9 @@ public class AdminAddPersonController {
         }
     }
 
+    /**
+     * Method that goes back to the client list view.
+     */
     public void goBack() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() && adminSurname.getText().isEmpty() && adminNIF.getText().isEmpty() && adminSSN.getText().isEmpty() && adminSalary.getText().isEmpty() && adminPassword.getText().isEmpty()) {
@@ -166,22 +179,28 @@ public class AdminAddPersonController {
         }
     }
 
+    /**
+     * Method that closes the session.
+     */
     public void closeSession() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() && adminSurname.getText().isEmpty() && adminNIF.getText().isEmpty() && adminSSN.getText().isEmpty() && adminSalary.getText().isEmpty() && adminPassword.getText().isEmpty()) {
-                viewFactory.showLoginView();
+                viewFactory.showCloseSessionConfirmation();
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
             }
         } else {
             if (clientName.getText().isEmpty() && clientSurname.getText().isEmpty() && clientNIF.getText().isEmpty() && clientPhone.getText().isEmpty() && clientAddress.getText().isEmpty() && clientEmail.getText().isEmpty() && clientPassword.getText().isEmpty()) {
-                viewFactory.showLoginView();
+                viewFactory.showCloseSessionConfirmation();
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
             }
         }
     }
 
+    /**
+     * Method that goes to the main window.
+     */
     public void goMain() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() && adminSurname.getText().isEmpty() && adminNIF.getText().isEmpty() && adminSSN.getText().isEmpty() && adminSalary.getText().isEmpty() && adminPassword.getText().isEmpty()) {
@@ -198,6 +217,10 @@ public class AdminAddPersonController {
         }
     }
 
+    /**
+     * Method that sets the administrator.
+     * @param administrator
+     */
     public void setAdmin(Administrator administrator) {
         this.administrator = administrator;
         username = administrator.getName() + " " + administrator.getSurname();
