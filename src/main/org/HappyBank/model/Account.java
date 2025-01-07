@@ -1,5 +1,7 @@
 package org.HappyBank.model;
 
+import org.HappyBank.model.repository.AccountRepositoryImpl;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -20,25 +22,34 @@ public class Account {
      * Saldo de la cuenta.
      */
     private BigDecimal balance;
-    
+    /**
+     * Conexión a la base de datos
+     */
+    private final AccountRepositoryImpl accountRepository;
     
     //Constructors
+    
     /**
      * Constructor con parámetros.
-     * @param IBAN Número de cuenta.
+     *
+     * @param IBAN     Número de cuenta.
      * @param ownerNIF NIF del propietario.
-     * @param balance Saldo de la cuenta.
+     * @param balance  Saldo de la cuenta.
      */
     public Account(String IBAN, String ownerNIF, BigDecimal balance) {
+        accountRepository = new AccountRepositoryImpl();
         this.IBAN = IBAN;
         this.ownerNIF = ownerNIF;
         this.balance = balance;
+        
+        accountRepository.add(this);
     }
     
     
     //Getters
     /**
      * Devuelve el número de cuenta.
+     *
      * @return Número de cuenta.
      */
     public String getIBAN() {
@@ -47,6 +58,7 @@ public class Account {
     
     /**
      * Devuelve el NIF del propietario.
+     *
      * @return NIF del propietario.
      */
     public String getOwnerNIF() {
@@ -55,6 +67,7 @@ public class Account {
     
     /**
      * Devuelve el saldo de la cuenta.
+     *
      * @return Saldo de la cuenta.
      */
     public BigDecimal getBalance() {
@@ -65,16 +78,19 @@ public class Account {
     //Setters
     /**
      * Establece el saldo de cuenta.
+     *
      * @param balance Número de cuenta.
      */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+        accountRepository.update(this);
     }
     
     
     //Overrides
     /**
      * Devuelve una cadena con la información de la cuenta.
+     *
      * @return Cadena con la información de la cuenta.
      */
     @Override
@@ -84,6 +100,7 @@ public class Account {
     
     /**
      * Comprueba si dos cuentas son la misma.
+     *
      * @param o Objeto a comparar.
      * @return true si es la misma cuenta, false en caso contrario.
      */
