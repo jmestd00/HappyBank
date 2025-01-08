@@ -15,9 +15,9 @@ public class Account {
      */
     private final String IBAN;
     /**
-     * NIF del propietario.
+     * Propietario de la cuenta.
      */
-    private final String ownerNIF;
+    private final Client owner;
     /**
      * Saldo de la cuenta.
      */
@@ -27,22 +27,34 @@ public class Account {
      */
     private final AccountRepositoryImpl accountRepository;
     
-    //Constructors
     
+    //Constructors
     /**
-     * Constructor con parámetros.
+     * Constructor para crear una cuenta.
      *
-     * @param IBAN     Número de cuenta.
-     * @param ownerNIF NIF del propietario.
-     * @param balance  Saldo de la cuenta.
+     * @param owner Propietario.
      */
-    public Account(String IBAN, String ownerNIF, BigDecimal balance) {
-        accountRepository = new AccountRepositoryImpl();
-        this.IBAN = IBAN;
-        this.ownerNIF = ownerNIF;
-        this.balance = balance;
+    public Account(Client owner) {
+        this.accountRepository = new AccountRepositoryImpl();
+        this.IBAN = Generator.generateUniqueIBAN();
+        this.owner = owner;
+        this.balance = new BigDecimal(0);
         
         accountRepository.add(this);
+    }
+    
+    /**
+     * Constructor para descargar una cuenta.
+     *
+     * @param IBAN     Número de cuenta.
+     * @param owner NIF del propietario.
+     * @param balance  Saldo de la cuenta.
+     */
+    public Account(String IBAN, Client owner, BigDecimal balance) {
+        this.accountRepository = new AccountRepositoryImpl();
+        this.IBAN = IBAN;
+        this.owner = owner;
+        this.balance = balance;
     }
     
     
@@ -57,12 +69,12 @@ public class Account {
     }
     
     /**
-     * Devuelve el NIF del propietario.
+     * Devuelve al propietario.
      *
-     * @return NIF del propietario.
+     * @return Propietario.
      */
-    public String getOwnerNIF() {
-        return ownerNIF;
+    public Client getOwner() {
+        return owner;
     }
     
     /**
@@ -95,7 +107,7 @@ public class Account {
      */
     @Override
     public String toString() {
-        return "Account " + IBAN + " , Owner NIF: " + ownerNIF + " , Balance: " + balance.setScale(2, RoundingMode.HALF_UP);
+        return "Account " + IBAN + " , Owner NIF: " + owner.getNIF() + " , Balance: " + balance.setScale(2, RoundingMode.HALF_UP);
     }
     
     /**

@@ -15,9 +15,9 @@ public class CreditCard {
      */
     private final String number;
     /**
-     * IBAN de la cuenta asociada a la tarjeta.
+     * Cuenta asociada a la tarjeta.
      */
-    private final String IBAN;
+    private final Account account;
     /**
      * Fecha de caducidad de la tarjeta.
      */
@@ -33,26 +33,39 @@ public class CreditCard {
     /**
      * Formateador de fechas en día/mes/año.
      */
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
     
     
     //Constructors
     /**
-     * Constructor con parámetros.
+     * Constructor para crear una tarjeta.
+     *
+     * @param account Cuenta asociada a la tarjeta.
+     */
+    public CreditCard(Account account) {
+        cardRepository = new CreditCardRepositoryImpl();
+        this.number = Generator.generateUniqueCreditCard();
+        this.account = account;
+        this.expirationDate = LocalDate.now().plusMonths(41);
+        this.CVV = Generator.generateCVV();
+        
+        cardRepository.add(this);
+    }
+    
+    /**
+     * Constructor para descargar una tarjeta.
      *
      * @param number         Número de la tarjeta.
-     * @param IBAN           IBAN de la tarjeta.
+     * @param account        Cuenta asociada a la tarjeta.
      * @param expirationDate Fecha de caducidad de la tarjeta.
      * @param CVV            CVV de la tarjeta.
      */
-    public CreditCard(String number, String IBAN, LocalDate expirationDate, String CVV) {
+    public CreditCard(String number, Account account, LocalDate expirationDate, String CVV) {
         cardRepository = new CreditCardRepositoryImpl();
         this.number = number;
-        this.IBAN = IBAN;
+        this.account = account;
         this.expirationDate = expirationDate;
         this.CVV = CVV;
-        
-        cardRepository.add(this);
     }
     
     
@@ -67,12 +80,12 @@ public class CreditCard {
     }
     
     /**
-     * Devuelve el IBAN de la tarjeta.
+     * Devuelve la cuenta asociada a la tarjeta.
      *
-     * @return IBAN de la tarjeta.
+     * @return Cuenta asociada a la tarjeta.
      */
-    public String getIBAN() {
-        return IBAN;
+    public Account getAccount() {
+        return account;
     }
     
     /**
@@ -102,6 +115,6 @@ public class CreditCard {
      */
     @Override
     public String toString() {
-        return "Credit Card " + number + ": IBAN: " + IBAN + " , Expiration Date: " + expirationDate.format(formatter) + " , CVV: " + CVV;
+        return "Credit Card " + number + ": IBAN: " + account.getIBAN() + " , Expiration Date: " + expirationDate.format(formatter) + " , CVV: " + CVV;
     }
 }

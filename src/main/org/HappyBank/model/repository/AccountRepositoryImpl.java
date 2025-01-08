@@ -26,7 +26,7 @@ public class AccountRepositoryImpl implements IRepository<Account> {
     public void add(Account account) {
         try (PreparedStatement stmt = getConnection().prepareStatement("INSERT INTO Accounts(IBAN, OwnerNIF, Balance) VALUES (?, ?, ?)")) {
             stmt.setString(1, account.getIBAN());
-            stmt.setString(2, account.getOwnerNIF());
+            stmt.setString(2, account.getOwner().getNIF());
             stmt.setBigDecimal(3, account.getBalance());
             
             stmt.executeQuery();
@@ -132,6 +132,22 @@ public class AccountRepositoryImpl implements IRepository<Account> {
     }
     
     /**
+     * Comprueba si el IBAN ya existe en el repositorio
+     *
+     * @param IBAN IBAN de la cuenta a comprobar
+     * @return True si existe y false en caso contrario
+     */
+    public boolean isIBAN(String IBAN) {
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM Accounts WHERE IBAN=?")) {
+            stmt.setString(1, IBAN);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        }
+    }
+    
+    /**
      * Crea una cuenta a partir del ResultSet
      *
      * @param rs ResultSet de la query con los datos de la cuenta
@@ -139,9 +155,11 @@ public class AccountRepositoryImpl implements IRepository<Account> {
      * @throws SQLException Si el ResultSet está vacío
      */
     private Account createAccount(ResultSet rs) throws SQLException {
+        ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
+        
         return new Account(
                 rs.getString("IBAN"),
-                rs.getString("OwnerNIF"),
+                clientRepository.get(rs.getString("OwnerNIF")),
                 rs.getBigDecimal("Balance")
         );
     }

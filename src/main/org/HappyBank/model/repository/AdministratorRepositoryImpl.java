@@ -35,6 +35,12 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
         }
     }
     
+    /**
+     * Cambia la contraseña a un administrador
+     *
+     * @param NIF      NIF del administrador
+     * @param password Nueva contraseña del administrador
+     */
     public void changePassword(String NIF, String password) {
         try (PreparedStatement stmt = getConnection().prepareStatement("UPDATE Administrators SET Password=? WHERE NIF=?")) {
             stmt.setString(1, password);

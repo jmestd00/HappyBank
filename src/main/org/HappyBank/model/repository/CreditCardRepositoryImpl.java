@@ -25,7 +25,7 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
     public void add(CreditCard card) {
         try (PreparedStatement stmt = getConnection().prepareStatement("INSERT INTO CreditCards(Number, AccountIBAN, ExpirationDate, CVV) VALUES(?, ?, ?, ?) ")) {
             stmt.setString(1, card.getNumber());
-            stmt.setString(2, card.getIBAN());
+            stmt.setString(2, card.getAccount().getIBAN());
             stmt.setDate(3, Date.valueOf(card.getExpirationDate()));
             stmt.setString(4, card.getCVV());
             
@@ -105,6 +105,22 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
     }
     
     /**
+     * Comprueba si el número de tarjeta ya existe en el repositorio
+     *
+     * @param number Número de tarjeta a comprobar
+     * @return True si existe y false en caso contrario
+     */
+    public boolean isNumber(String number) {
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT  * FROM CreditCards WHERE Number=?")) {
+            stmt.setString(1, number);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creating or executing the statement: " + e.getMessage());
+        }
+    }
+    
+    /**
      * Crea una tarjeta de crédito a partir del ResultSet
      *
      * @param rs ResultSet de la query con los datos de la tarjeta de crédito
@@ -112,9 +128,11 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
      * @throws SQLException Si el ResultSet está vacío
      */
     private CreditCard createCard(ResultSet rs) throws SQLException {
+        AccountRepositoryImpl accountRepository = new AccountRepositoryImpl();
+        
         return new CreditCard(
                 rs.getString("Number"),
-                rs.getString("AccountIBAN"),
+                accountRepository.get(rs.getString("AccountIBAN")),
                 rs.getDate("ExpirationDate").toLocalDate(),
                 rs.getString("CVV")
         );

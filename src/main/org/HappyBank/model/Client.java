@@ -43,29 +43,7 @@ public class Client {
     
     //Constructors
     /**
-     * Constructor con parámetros.
-     *
-     * @param name    Nombre del cliente.
-     * @param surname Apellidos del cliente.
-     * @param NIF     NIF del cliente.
-     * @param email   Email del cliente.
-     * @param phone   Teléfono del cliente.
-     * @param address Dirección del cliente.
-     * @param bank    Nombre del banco.
-     */
-    public Client(String name, String surname, String NIF, String email, String phone, String address, String bank) {
-        clientRepository = new ClientRepositoryImpl();
-        this.NIF = NIF;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.bank = bank;
-    }
-    
-    /**
-     * Constructor con parámetros.
+     * Constructor para crear un cliente.
      *
      * @param name     Nombre del cliente.
      * @param surname  Apellidos del cliente.
@@ -88,6 +66,28 @@ public class Client {
         
         clientRepository.add(this);
         clientRepository.changePassword(NIF, password);
+    }
+    
+    /**
+     * Constructor para descargar un cliente.
+     *
+     * @param name    Nombre del cliente.
+     * @param surname Apellidos del cliente.
+     * @param NIF     NIF del cliente.
+     * @param email   Email del cliente.
+     * @param phone   Teléfono del cliente.
+     * @param address Dirección del cliente.
+     * @param bank    Nombre del banco.
+     */
+    public Client(String name, String surname, String NIF, String email, String phone, String address, String bank) {
+        clientRepository = new ClientRepositoryImpl();
+        this.NIF = NIF;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.bank = bank;
     }
     
     

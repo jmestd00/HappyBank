@@ -41,8 +41,32 @@ public class Administrator {
     
     
     //Constructors
+     /**
+      * Constructor para crear un administrador.
+      *
+      * @param name     Nombre del administrador.
+      * @param surname  Apellidos del administrador.
+      * @param NIF      NIF del administrador.
+      * @param SSN      SSN del administrador.
+      * @param salary   Salario del administrador.
+      * @param bank     Nombre del banco.
+      * @param password Contraseña del administrador.
+      */
+     public Administrator(String name, String surname, String NIF, String SSN, BigDecimal salary, String bank, String password) {
+         administratorRepository = new AdministratorRepositoryImpl();
+         this.name = name;
+         this.surname = surname;
+         this.NIF = NIF;
+         this.SSN = SSN;
+         this.salary = salary;
+         this.bank = bank;
+         
+         administratorRepository.add(this);
+         administratorRepository.changePassword(NIF, password);
+     }
+     
     /**
-     * Constructor para la DB.
+     * Constructor para descargar un administrador.
      *
      * @param name    Nombre del administrador.
      * @param surname Apellidos del administrador.
@@ -59,30 +83,6 @@ public class Administrator {
         this.SSN = SSN;
         this.salary = salary;
         this.bank = bank;
-    }
-     
-     /**
-      * Constructor con parámetros.
-      *
-      * @param name     Nombre del administrador.
-      * @param surname  Apellidos del administrador.
-      * @param NIF      NIF del administrador.
-      * @param SSN      SSN del administrador.
-      * @param salary   Salario del administrador.
-      * @param bank     Nombre del banco.
-      * @param password Contraseña del administrador.
-      */
-    public Administrator(String name, String surname, String NIF, String SSN, BigDecimal salary, String bank, String password) {
-        administratorRepository = new AdministratorRepositoryImpl();
-        this.name = name;
-        this.surname = surname;
-        this.NIF = NIF;
-        this.SSN = SSN;
-        this.salary = salary;
-        this.bank = bank;
-        
-        administratorRepository.add(this);
-        administratorRepository.changePassword(NIF, password);
     }
     
     

@@ -40,7 +40,30 @@ public class Transaction {
     
     //Constructors
     /**
-     * Constructor para la DB.
+     * Constructor para crear una transferencia.
+     *
+     * @param sender   Cuenta emisora.
+     * @param receiver Cuenta receptora.
+     * @param concept  Concepto de la transacción
+     * @param amount   Cantidad de dinero.
+     */
+    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount) {
+        if (receiver.equals(sender)) {
+            throw new RuntimeException("The sender and the receiver can't be the same account");
+        }
+        
+        transactionRepository = new TransactionRepositoryImpl();
+        this.sender = sender;
+        this.receiver = receiver;
+        this.concept = concept;
+        this.amount = amount;
+        this.date = LocalDateTime.now();
+        
+        transactionRepository.add(this);
+    }
+    
+    /**
+     * Constructor para descargar una transferencia.
      *
      * @param sender   Cuenta emisora.
      * @param receiver Cuenta receptora.
@@ -55,29 +78,6 @@ public class Transaction {
         this.concept = concept;
         this.amount = amount;
         this.date = date;
-    }
-    
-    /**
-     * Constructor con parámetros.
-     *
-     * @param sender   Cuenta emisora.
-     * @param receiver Cuenta receptora.
-     * @param concept  Concepto de la transacción
-     * @param amount   Cantidad de dinero.
-     */
-    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount) throws HappyBankException {
-        if (receiver.equals(sender)) {
-            throw new HappyBankException("The sender and the receiver can't be the same account");
-        }
-        
-        transactionRepository = new TransactionRepositoryImpl();
-        this.sender = sender;
-        this.receiver = receiver;
-        this.concept = concept;
-        this.amount = amount;
-        this.date = LocalDateTime.now();
-        
-        transactionRepository.add(this);
     }
     
     

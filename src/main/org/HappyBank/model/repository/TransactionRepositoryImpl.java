@@ -94,11 +94,12 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      *
      * @return Lista con todas las transacciones del repositorio.
      */
-    public ArrayList<Transaction> getLastTransactions() {
+    public ArrayList<Transaction> getLastTransactions(int quantity) {
         ArrayList<Transaction> list = new ArrayList<>();
         
-        try (Statement stmt = getConnection().createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM Transactions ORDER BY Date DESC LIMIT 5")) {
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM Transactions ORDER BY Date DESC LIMIT ?")){
+            stmt.setInt(1, quantity);
+            ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
                 list.add(createTransaction(rs));
