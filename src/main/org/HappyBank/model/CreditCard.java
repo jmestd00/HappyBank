@@ -1,5 +1,7 @@
 package org.HappyBank.model;
 
+import org.HappyBank.model.repository.CreditCardRepositoryImpl;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -7,19 +9,15 @@ import java.time.format.DateTimeFormatter;
  * Clase que representa una tarjeta de crédito.
  */
 public class CreditCard {
-    /**
-     * Formateador de fechas en dia/mes/año.
-     */
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     //Attributes
     /**
      * Número de la tarjeta.
      */
     private final String number;
     /**
-     * IBAN de la cuenta asociada a la tarjeta.
+     * Cuenta asociada a la tarjeta.
      */
-    private final String IBAN;
+    private final Account account;
     /**
      * Fecha de caducidad de la tarjeta.
      */
@@ -28,19 +26,44 @@ public class CreditCard {
      * CVV de la tarjeta.
      */
     private final String CVV;
+    /**
+     * Conexión con la base de datos
+     */
+    private final CreditCardRepositoryImpl cardRepository;
+    /**
+     * Formateador de fechas en día/mes/año.
+     */
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
     
     
     //Constructors
     /**
-     * Constructor con parámetros.
-     * @param number Número de la tarjeta.
-     * @param IBAN IBAN de la tarjeta.
-     * @param expirationDate Fecha de caducidad de la tarjeta.
-     * @param CVV CVV de la tarjeta.
+     * Constructor para crear una tarjeta.
+     *
+     * @param account Cuenta asociada a la tarjeta.
      */
-    public CreditCard(String number, String IBAN, LocalDate expirationDate, String CVV) {
+    public CreditCard(Account account) {
+        cardRepository = new CreditCardRepositoryImpl();
+        this.number = Generator.generateUniqueCreditCard();
+        this.account = account;
+        this.expirationDate = LocalDate.now().plusMonths(41);
+        this.CVV = Generator.generateCVV();
+        
+        cardRepository.add(this);
+    }
+    
+    /**
+     * Constructor para descargar una tarjeta.
+     *
+     * @param number         Número de la tarjeta.
+     * @param account        Cuenta asociada a la tarjeta.
+     * @param expirationDate Fecha de caducidad de la tarjeta.
+     * @param CVV            CVV de la tarjeta.
+     */
+    public CreditCard(String number, Account account, LocalDate expirationDate, String CVV) {
+        cardRepository = new CreditCardRepositoryImpl();
         this.number = number;
-        this.IBAN = IBAN;
+        this.account = account;
         this.expirationDate = expirationDate;
         this.CVV = CVV;
     }
@@ -49,6 +72,7 @@ public class CreditCard {
     //Getters
     /**
      * Devuelve el número de la tarjeta.
+     *
      * @return Número de la tarjeta.
      */
     public String getNumber() {
@@ -56,15 +80,17 @@ public class CreditCard {
     }
     
     /**
-     * Devuelve el IBAN de la tarjeta.
-     * @return IBAN de la tarjeta.
+     * Devuelve la cuenta asociada a la tarjeta.
+     *
+     * @return Cuenta asociada a la tarjeta.
      */
-    public String getIBAN() {
-        return IBAN;
+    public Account getAccount() {
+        return account;
     }
     
     /**
      * Devuelve la fecha de caducidad de la tarjeta.
+     *
      * @return Fecha de caducidad de la tarjeta.
      */
     public LocalDate getExpirationDate() {
@@ -73,6 +99,7 @@ public class CreditCard {
     
     /**
      * Devuelve el CVV de la tarjeta.
+     *
      * @return CVV de la tarjeta.
      */
     public String getCVV() {
@@ -83,10 +110,11 @@ public class CreditCard {
     //Override
     /**
      * Devuelve una cadena con la información de la tarjeta.
+     *
      * @return Cadena con la información de la tarjeta.
      */
     @Override
     public String toString() {
-        return "Credit Card " + number + ": IBAN: " + IBAN + " , Expiration Date: " + expirationDate.format(formatter) + " , CVV: " + CVV;
+        return "Credit Card " + number + ": IBAN: " + account.getIBAN() + " , Expiration Date: " + expirationDate.format(formatter) + " , CVV: " + CVV;
     }
 }

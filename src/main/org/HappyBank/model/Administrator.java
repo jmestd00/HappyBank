@@ -1,9 +1,11 @@
 package org.HappyBank.model;
 
+import org.HappyBank.model.repository.AdministratorRepositoryImpl;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
+ /**
  * Clase que representa un administrador.
  */
 public class Administrator {
@@ -24,27 +26,57 @@ public class Administrator {
      * Número de la seguridad social del administrador.
      */
     private final String SSN;
-    /**
-     * Salario del administrador.
-     */
-    private BigDecimal salary;
+     /**
+      * Salario del administrador.
+      */
+     private BigDecimal salary;
     /**
      * Nombre del banco.
      */
     private final String bank;
+     /**
+      * Conexión con la base de datos
+      */
+     private final AdministratorRepositoryImpl administratorRepository;
     
     
     //Constructors
+     /**
+      * Constructor para crear un administrador.
+      *
+      * @param name     Nombre del administrador.
+      * @param surname  Apellidos del administrador.
+      * @param NIF      NIF del administrador.
+      * @param SSN      SSN del administrador.
+      * @param salary   Salario del administrador.
+      * @param bank     Nombre del banco.
+      * @param password Contraseña del administrador.
+      */
+     public Administrator(String name, String surname, String NIF, String SSN, BigDecimal salary, String bank, String password) {
+         administratorRepository = new AdministratorRepositoryImpl();
+         this.name = name;
+         this.surname = surname;
+         this.NIF = NIF;
+         this.SSN = SSN;
+         this.salary = salary;
+         this.bank = bank;
+         
+         administratorRepository.add(this);
+         administratorRepository.changePassword(NIF, password);
+     }
+     
     /**
-     * Constructor con parámetros.
-     * @param name Nombre del administrador.
+     * Constructor para descargar un administrador.
+     *
+     * @param name    Nombre del administrador.
      * @param surname Apellidos del administrador.
-     * @param NIF NIF del administrador.
-     * @param SSN SSN del administrador.
-     * @param salary Salario del administrador.
-     * @param bank Nombre del banco.
+     * @param NIF     NIF del administrador.
+     * @param SSN     SSN del administrador.
+     * @param salary  Salario del administrador.
+     * @param bank    Nombre del banco.
      */
     public Administrator(String name, String surname, String NIF, String SSN, BigDecimal salary, String bank) {
+        administratorRepository = new AdministratorRepositoryImpl();
         this.name = name;
         this.surname = surname;
         this.NIF = NIF;
@@ -57,6 +89,7 @@ public class Administrator {
     //Getters
     /**
      * Devuelve el nombre del administrador.
+     *
      * @return Nombre del administrador.
      */
     public String getName() {
@@ -65,6 +98,7 @@ public class Administrator {
     
     /**
      * Devuelve los apellidos del administrador.
+     *
      * @return Apellidos del administrador.
      */
     public String getSurname() {
@@ -73,6 +107,7 @@ public class Administrator {
     
     /**
      * Devuelve el DNI del administrador.
+     *
      * @return DNI del administrador.
      */
     public String getNIF() {
@@ -81,6 +116,7 @@ public class Administrator {
     
     /**
      * Devuelve el Número de la seguridad social del administrador.
+     *
      * @return SSN del administrador.
      */
     public String getSSN() {
@@ -89,6 +125,7 @@ public class Administrator {
     
     /**
      * Devuelve el salario del administrador.
+     *
      * @return Salario del administrador.
      */
     public BigDecimal getSalary() {
@@ -96,7 +133,20 @@ public class Administrator {
     }
     
     /**
+     * Establece el salario del administrador.
+     *
+     * @param salary Nombre del administrador.
+     */
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+        administratorRepository.update(this);
+    }
+    
+    
+    //Setters
+    /**
      * Devuelve el nombre del banco.
+     *
      * @return Nombre del banco.
      */
     public String getBank() {
@@ -104,19 +154,10 @@ public class Administrator {
     }
     
     
-    //Setters
-    /**
-     * Establece el salario del administrador.
-     * @param salary Nombre del administrador.
-     */
-    public void setSalary(BigDecimal salary) {
-        this.salary = salary;
-    }
-    
-    
     //Overrides
     /**
      * Devuelve una cadena con la información del administrador.
+     *
      * @return Cadena con la información del administrador.
      */
     @Override

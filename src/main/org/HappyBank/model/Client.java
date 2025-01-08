@@ -1,9 +1,6 @@
 package org.HappyBank.model;
 
-import javafx.beans.property.SimpleStringProperty;
-
-import static org.HappyBank.model.DatabaseManager.getAccount;
-import static org.HappyBank.model.DatabaseManager.getCreditCard;
+import org.HappyBank.model.repository.ClientRepositoryImpl;
 
 /**
  * Clase que representa un cliente.
@@ -38,26 +35,52 @@ public class Client {
      * Nombre del banco.
      */
     private final String bank;
+    /**
+     * Conexión con la base de datos
+     */
+    private final ClientRepositoryImpl clientRepository;
     
     
     //Constructors
     /**
-     * Constructor con parámetros.
-     * @param name Nombre del cliente.
+     * Constructor para crear un cliente.
+     *
+     * @param name     Nombre del cliente.
+     * @param surname  Apellidos del cliente.
+     * @param NIF      NIF del cliente.
+     * @param email    Email del cliente.
+     * @param phone    Teléfono del cliente.
+     * @param address  Dirección del cliente.
+     * @param bank     Nombre del banco.
+     * @param password Contraseña del cliente.
+     */
+    public Client(String name, String surname, String NIF, String email, String phone, String address, String bank, String password) {
+        clientRepository = new ClientRepositoryImpl();
+        this.NIF = NIF;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.bank = bank;
+        
+        clientRepository.add(this);
+        clientRepository.changePassword(NIF, password);
+    }
+    
+    /**
+     * Constructor para descargar un cliente.
+     *
+     * @param name    Nombre del cliente.
      * @param surname Apellidos del cliente.
-     * @param NIF NIF del cliente.
-     * @param email Email del cliente.
-     * @param phone Teléfono del cliente.
+     * @param NIF     NIF del cliente.
+     * @param email   Email del cliente.
+     * @param phone   Teléfono del cliente.
      * @param address Dirección del cliente.
-     * @param bank Nombre del banco.
+     * @param bank    Nombre del banco.
      */
     public Client(String name, String surname, String NIF, String email, String phone, String address, String bank) {
-        try{
-            DatabaseManager.getInstance();
-        } catch (HappyBankException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        
+        clientRepository = new ClientRepositoryImpl();
         this.NIF = NIF;
         this.name = name;
         this.surname = surname;
@@ -71,6 +94,7 @@ public class Client {
     //Getters
     /**
      * Devuelve el nombre del cliente.
+     *
      * @return Nombre del cliente.
      */
     public String getName() {
@@ -79,6 +103,7 @@ public class Client {
     
     /**
      * Devuelve los apellidos del cliente.
+     *
      * @return Apellidos del cliente.
      */
     public String getSurname() {
@@ -87,6 +112,7 @@ public class Client {
     
     /**
      * Devuelve el NIF del cliente.
+     *
      * @return NIF del cliente.
      */
     public String getNIF() {
@@ -95,6 +121,7 @@ public class Client {
     
     /**
      * Devuelve el email del cliente.
+     *
      * @return Email del cliente.
      */
     public String getEmail() {
@@ -103,6 +130,7 @@ public class Client {
     
     /**
      * Devuelve el teléfono del cliente.
+     *
      * @return Teléfono del cliente.
      */
     public String getPhone() {
@@ -111,6 +139,7 @@ public class Client {
     
     /**
      * Devuelve la dirección del cliente.
+     *
      * @return Dirección del cliente.
      */
     public String getAddress() {
@@ -119,60 +148,50 @@ public class Client {
     
     /**
      * Devuelve el nombre del banco.
+     *
      * @return Nombre del banco.
      */
     public String getBank() {
         return bank;
     }
     
-    /**
-     * Devuelve las propiedades del cliente.
-     * @return Propiedades del cliente.
-     */
-    public SimpleStringProperty[] getProperties() {
-        try {
-            Account account = getAccount(getNIF());
-            return new SimpleStringProperty[]{
-                    new SimpleStringProperty(getNIF()),
-                    new SimpleStringProperty(getName() + " " + getSurname()),
-                    new SimpleStringProperty(getAccount(getNIF()).getIBAN()),
-                    new SimpleStringProperty(getCreditCard(account.getIBAN()).getNumber())
-            };
-        } catch (HappyBankException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-    
     
     //Setters
     /**
      * Establece el email del cliente.
+     *
      * @param email Nombre del cliente.
      */
     public void setEmail(String email) {
         this.email = email;
+        clientRepository.update(this);
     }
     
     /**
      * Establece el teléfono del cliente.
+     *
      * @param phone Nombre del cliente.
      */
     public void setPhone(String phone) {
         this.phone = phone;
+        clientRepository.update(this);
     }
     
     /**
      * Establece la dirección del cliente.
+     *
      * @param address Nombre del cliente.
      */
     public void setAddress(String address) {
         this.address = address;
+        clientRepository.update(this);
     }
     
     
     //Override
     /**
      * Devuelve una cadena con la información del cliente.
+     *
      * @return Cadena con la información del cliente.
      */
     @Override
