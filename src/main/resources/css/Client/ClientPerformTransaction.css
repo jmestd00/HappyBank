@@ -5,14 +5,23 @@
 
 /* Labels */
 .customLabel {
-    -fx-background-color: white;
+    -fx-background-color: transparent;
     -fx-font-family: "Futura Medium";
     -fx-font-size: 24px;
     -fx-font-weight: bold
 }
 
-/* Text fields */
+/* Text field */
 .textField {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-font-size: 24px;
+    -fx-font-family: "Future Medium";
+    -fx-alignment: center_left;
+}
+
+/* Text area */
+.textArea {
     -fx-background-color: white;
     -fx-border-color: black;
     -fx-font-size: 24px;
@@ -36,7 +45,7 @@
     -fx-scale-y: 1.05;
 }
 
-/* Go back button */
+/* Go back window button */
 .goBackButton {
     -fx-border-color: black;
     -fx-border-radius: 48px;
@@ -53,8 +62,8 @@
     -fx-background-color: #EFEFEF;
 }
 
-/* Main menu button */
-.legendDisplay {
+/* Display legend button */
+.displayLegend {
     -fx-border-color: black;
     -fx-border-radius: 48px;
     -fx-background-color:transparent;
@@ -64,40 +73,22 @@
     -fx-border-width: 2px;
 }
 
-.legendDisplay:hover {
+.displayLegend:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-background-color: #EFEFEF;
 }
-
-/* Modify button */
-.modifyButton {
+/* Do transactions button */
+.doTransactionButton {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
     -fx-background-color: white;
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-font-family: "Futura Medium";
-    -fx-border-width: 1px;
-    -fx-border-color: black;
 }
 
-.modifyButton:hover {
+.doTransactionButton:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
-}
-
-/* Delete button */
-.elimButton {
-    -fx-background-size: 65px;
-    -fx-background-position: center;
-    -fx-background-image: url('/images/deleteClient.png');
-    -fx-border-width: 1px;
-    -fx-border-color: black;
-    -fx-background-color: transparent;
-}
-
-.elimButton:hover {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
 }
 
 

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane fx:id="rootPane" maxHeight="690.0" maxWidth="1610.0" prefHeight="690.0" prefWidth="1416.5" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.Admin.AdminClientTransactionHistoryController">
+<AnchorPane fx:id="rootPane" maxHeight="690.0" maxWidth="1610.0" prefHeight="690.0" prefWidth="1472.0" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.Admin.AdminClientTransactionHistoryController">
     <children>
         <Label fx:id="welcomeLabel" layoutX="15.0" layoutY="15.0" prefHeight="120.0" prefWidth="382.0" styleClass="customLabel" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" text="" />
         <Line endY="85.0" layoutX="409.0" layoutY="50.0" startY="-50.0" />
@@ -34,7 +34,7 @@
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">
                     <children>
-                        <Button fx:id="mainButton" mnemonicParsing="false" onAction="#goMain" prefHeight="96.0" prefWidth="96.0" styleClass="mainButton" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" />
+                        <Button fx:id="legendDisplay" mnemonicParsing="false" onAction="#showLegend" prefHeight="96.0" prefWidth="96.0" styleClass="legendDisplay" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" />
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">
@@ -45,20 +45,21 @@
             </children>
         </HBox>
       <Line endY="660.0" layoutX="439.0" layoutY="15.0" />
-        <HBox alignment="CENTER" layoutX="439.0" layoutY="45.0" prefHeight="44.0" prefWidth="977.5">
+        <HBox alignment="CENTER" layoutX="439.0" layoutY="26.0" prefHeight="44.0" prefWidth="1017.5">
             <children>
                 <Label fx:id="clientLabel" styleClass="customLabel" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" text="ESTE ES EL NOMBRE DEL CLIENTE" textAlignment="CENTER" />
             </children>
         </HBox>
-      <TableView fx:id="transactionTable" layoutX="469.0" layoutY="97.0" prefHeight="529.0" prefWidth="932.5" styleClass="tableView" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css">
+      <TableView fx:id="transactionTable" layoutX="469.0" layoutY="76.0" prefHeight="551.0" prefWidth="973.0" styleClass="tableView" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css">
          <columns>
-            <TableColumn fx:id="dateCol" editable="false" prefWidth="247" resizable="false" sortable="false" text="FECHA" />
-            <TableColumn fx:id="senderCol" editable="false" minWidth="0.0" prefWidth="269" resizable="false" sortable="false" text="NOMBRE DEL EMISOR" />
-            <TableColumn fx:id="receiverCol" editable="false" prefWidth="269" resizable="false" sortable="false" text="NOMBRE DEL RECEPTOR" />
-            <TableColumn fx:id="amountCol" editable="false" minWidth="0.0" prefWidth="141" resizable="false" sortable="false" text="CANTIDAD" />
+            <TableColumn fx:id="dateCol" editable="false" prefWidth="210.0" resizable="false" sortable="false" text="FECHA" />
+            <TableColumn fx:id="senderCol" editable="false" minWidth="0.0" prefWidth="278.0" resizable="false" sortable="false" text="EMISOR" />
+            <TableColumn fx:id="receiverCol" editable="false" prefWidth="278.0" resizable="false" sortable="false" text="RECEPTOR" />
+            <TableColumn fx:id="conceptCol" editable="false" prefWidth="60.0" resizable="false" sortable="false" />
+            <TableColumn fx:id="amountCol" editable="false" minWidth="0.0" prefWidth="141.0" resizable="false" sortable="false" text="CANTIDAD" />
          </columns>
       </TableView>
-      <Pagination fx:id="pagination" layoutX="683.75" layoutY="624.0" prefHeight="83.0" prefWidth="488.0" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" styleClass="pagination" />
+      <Pagination fx:id="pagination" layoutX="439.0" layoutY="624.0" prefHeight="83.0" prefWidth="1017.5" styleClass="pagination" stylesheets="@../../css/Admin/AdminClientTransactionHistory.css" />
     </children>
    <stylesheets>
       <URL value="@../../css/Admin/AdminClientTransactionHistory.css" />

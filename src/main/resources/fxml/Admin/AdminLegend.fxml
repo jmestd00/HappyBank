@@ -44,12 +44,6 @@
          </image>
       </ImageView>
       <Label layoutX="100.0" layoutY="505.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;filtar por la palabra insertada &#10;en el campo de texto" />
-      <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="15.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../images/goBack.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="100.0" layoutY="605.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;volver a la ventana anterior" />
       <Line layoutX="345.0" layoutY="90.0" startY="585.0" />
       <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="360.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -68,7 +62,7 @@
       </ImageView>
       <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="360.0" layoutY="405.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/bankLogo.png" />
+            <Image url="@../../images/goBack.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="360.0" layoutY="505.0" pickOnBounds="true" preserveRatio="true">
@@ -76,16 +70,16 @@
             <Image url="@../../images/deleteClient.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="360.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@../../images/legendIcon.png" />
-         </image>
-      </ImageView>
       <Label layoutX="435.0" layoutY="105.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;añadir un cliente o un &#10;administrador" />
       <Label layoutX="435.0" layoutY="205.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;ver el histórico de transacciones &#10;de un cliente" />
       <Label layoutX="435.0" layoutY="305.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;activar o desactivar la copia &#10;de seguridad diaria" />
-      <Label layoutX="435.0" layoutY="405.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;ir al menú principal" />
+      <Label layoutX="435.0" layoutY="405.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;volver a la ventana anterior" />
       <Label layoutX="435.0" layoutY="505.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para &#10;dar de baja a un cliente" />
-      <Label layoutX="435.0" layoutY="605.0" prefHeight="70.0" prefWidth="230.0" />
+      <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="15.0" layoutY="605.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/conceptIcon.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="100.0" layoutY="605.0" prefHeight="70.0" prefWidth="230.0" styleClass="customLabel" text="Este botón sirve para ver el &#10;concepto de una transferencia" />
    </children>
 </AnchorPane>

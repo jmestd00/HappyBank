@@ -10,6 +10,12 @@
     -fx-font-size: 24px;
     -fx-font-weight: bold
 }
+.customTinyLabel {
+    -fx-background-color: transparent;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold
+}
 
 /* Close session button */
 .closeSessionButton {
@@ -27,25 +33,25 @@
     -fx-scale-y: 1.05;
 }
 
-/* Go back window button */
-.goBackButton {
+/* Client list button */
+.openPersonalData {
     -fx-border-color: black;
     -fx-border-radius: 48px;
     -fx-background-color:transparent;
-    -fx-background-image: url('/images/goBack.png');
+    -fx-background-image: url('/images/personalData.png');
     -fx-background-size: 96px;
     -fx-background-radius: 48px;
     -fx-border-width: 2px;
 }
 
-.goBackButton:hover {
+.openPersonalData:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-background-color: #EFEFEF;
 }
 
-/* Main window button */
-.legendDisplay {
+/* Display legend button */
+.displayLegend {
     -fx-border-color: black;
     -fx-border-radius: 48px;
     -fx-background-color:transparent;
@@ -55,10 +61,49 @@
     -fx-border-width: 2px;
 }
 
-.legendDisplay:hover {
+.displayLegend:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-background-color: #EFEFEF;
+}
+/* Do transactions button */
+.doTransactionButton {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-background-color: white;
+}
+
+.doTransactionButton:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-background-color: #EFEFEF;
+}
+
+/* Open transaction history button */
+.transactionHistory {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-background-color: white;
+}
+
+.transactionHistory:hover {
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-background-color: #EFEFEF;
+}
+
+/* Show concept button */
+.conceptButton {
+    -fx-background-color: transparent;
+    -fx-background-image: url('/images/conceptIcon.png');
+    -fx-background-size: 53px;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+}
+
+.conceptButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
 /* Table view */
@@ -86,74 +131,3 @@
     -fx-background-color: white;
 }
 
-/* Pagination */
-.pagination {
-    -fx-font-family: "Futura Medium";
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-}
-.pagination .toggle-button {
-    -fx-background-color:#505050;
-    -fx-border-color: black;
-    -fx-font-weight: bold;
-    -fx-font-family: "Futura Medium";
-    -fx-font-size: 24px;
-    -fx-text-fill: white;
-}
-
-.pagination .toggle-button:hover {
-    -fx-background-color: #2F2F2F;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-
-.pagination .toggle-button:selected {
-    -fx-background-color: black;
-    -fx-text-fill: white;
-}
-
-.pagination .left-arrow, .pagination .right-arrow {
-    -fx-background-color: white;
-    -fx-text-fill: white;
-    -fx-border-color: #A9A9A9;
-    -fx-border-width: 1px;
-    -fx-padding: 5px;
-    -fx-font-size: 16px;
-}
-
-.pagination .left-arrow:hover, .pagination .right-arrow:hover {
-    -fx-background-color: white;
-    -fx-text-fill: white;
-}
-
-.pagination .left-arrow:pressed, .pagination .right-arrow:pressed {
-    -fx-background-color: white;
-    -fx-text-fill: white;
-}
-
-.pagination .button {
-    -fx-background-color:#505050;
-}
-
-.pagination .button:hover {
-    -fx-background-color: #2F2F2F;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-
-.pagination:focused {
-    -fx-border-color: transparent;
-}
-
-.conceptButton {
-    -fx-background-color: transparent;
-    -fx-background-image: url('/images/conceptIcon.png');
-    -fx-background-size: 53px;
-    -fx-border-width: 2px;
-    -fx-border-color: black;
-}
-
-.conceptButton:hover {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="60.0" prefWidth="342.0" styleClass="anchorPane" stylesheets="@../css/transactionConcept.css" xmlns="http://javafx.com/javafx/21.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.HappyBank.controller.TransactionConceptController">
+   <children>
+       <Label fx:id="conceptLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="10" prefHeight="50.0" prefWidth="332.0" styleClass="customLabel" textAlignment="CENTER" wrapText="true">
+         <stylesheets>
+            <URL value="@../css/transactionConcept.css" />
+         </stylesheets></Label>
+   </children>
+</AnchorPane>
