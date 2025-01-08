@@ -45,6 +45,8 @@ public class ClientRepositoryImpl implements IRepository<Client> {
         try (PreparedStatement stmt = getConnection().prepareStatement("UPDATE Clients SET Password=? WHERE NIF=?")) {
             stmt.setString(1, password);
             stmt.setString(2, NIF);
+            
+            stmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
@@ -62,10 +64,10 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             stmt.setString(2, client.getName());
             stmt.setString(3, client.getSurname());
             stmt.setString(4, client.getEmail());
-            stmt.setString(6, client.getPhone());
-            stmt.setString(7, client.getAddress());
-            stmt.setString(8, client.getBank());
-            stmt.setString(9, "password");
+            stmt.setString(5, client.getPhone());
+            stmt.setString(6, client.getAddress());
+            stmt.setString(7, client.getBank());
+            stmt.setString(8, "password");
             
             stmt.executeQuery();
         } catch (SQLException e) {

@@ -1,5 +1,6 @@
 package org.HappyBank.model.repository;
 
+import org.HappyBank.model.Account;
 import org.HappyBank.model.CreditCard;
 
 import java.sql.*;
@@ -79,6 +80,27 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
                 throw new RuntimeException("The credit card does not exist.");
             }
         } catch (SQLException e) {
+            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Obtiene una tarjeta del repositorio.
+     *
+     * @param account Cuenta asociada a la tarjeta.
+     * @return Tarjeta obtenida.
+     */
+    public CreditCard get(Account account) {
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM CreditCards WHERE AccountIBAN=?")) {
+            stmt.setString(1, account.getIBAN());
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                return createCard(rs);
+            } else {
+                throw new RuntimeException("The credit card does not exist.");
+            }
+        } catch (Exception e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
