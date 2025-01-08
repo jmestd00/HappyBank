@@ -1,20 +1,14 @@
 package org.HappyBank.model;
 
-import javafx.beans.property.SimpleStringProperty;
+import org.HappyBank.model.repository.TransactionRepositoryImpl;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static org.HappyBank.model.DatabaseManager.getClient;
-
 public class Transaction {
     //Attributes
-    /**
-     * Identificador de la transacción.
-     */
-    private final int ID;
     /**
      * Cuenta emisora.
      */
@@ -35,11 +29,10 @@ public class Transaction {
      * Fecha de la transacción.
      */
     private final LocalDateTime date;
-    
     /**
-     * Contador de identificadores.
+     * Conexión con la base de datos
      */
-    private static int IDCounter = 1;
+    private final TransactionRepositoryImpl transactionRepository;
     /**
      * Formateador de tiempo día/mes/año hora:minuto:segundo.
      */
@@ -47,96 +40,51 @@ public class Transaction {
     
     //Constructors
     /**
-     * Constructor para la DB.
-     * @param ID Identificador de la transacción.
-     * @param sender Cuenta emisora.
+     * Constructor para crear una transferencia.
+     *
+     * @param sender   Cuenta emisora.
      * @param receiver Cuenta receptora.
-     * @param concept Concepto de la transacción
-     * @param amount Cantidad de dinero.
-     * @param date Fecha de la transacción.
+     * @param concept  Concepto de la transacción
+     * @param amount   Cantidad de dinero.
      */
-    public Transaction(int ID, Account sender, Account receiver, String concept, BigDecimal amount, LocalDateTime date) {
-        try{
-            DatabaseManager.getInstance();
-        } catch (HappyBankException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        
-        this.ID = ID;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.concept = concept;
-        this.amount = amount;
-        this.date = date;
-    }
-    
-    /**
-     * Constructor con parámetros.
-     * @param sender Cuenta emisora.
-     * @param receiver Cuenta receptora.
-     * @param concept Concepto de la transacción
-     * @param amount Cantidad de dinero.
-     * @param date Fecha de la transacción.
-     */
-    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount, LocalDateTime date) throws HappyBankException {
+    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount) {
         if (receiver.equals(sender)) {
-            throw new HappyBankException("The sender and the receiver can't be the same account");
+            throw new RuntimeException("The sender and the receiver can't be the same account");
         }
         
-        try{
-            DatabaseManager.getInstance();
-        } catch (HappyBankException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        
-        this.ID = IDCounter;
-        IDCounter++;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.concept = concept;
-        this.amount = amount;
-        this.date = date;
-    }
-    
-    /**
-     * Constructor con parámetros.
-     * @param sender Cuenta emisora.
-     * @param receiver Cuenta receptora.
-     * @param concept Concepto de la transacción
-     * @param amount Cantidad de dinero.
-     */
-    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount) throws HappyBankException {
-        if (receiver.equals(sender)) {
-            throw new HappyBankException("The sender and the receiver can't be the same account");
-        }
-        
-        try{
-            DatabaseManager.getInstance();
-        } catch (HappyBankException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        
-        this.ID = IDCounter;
-        IDCounter++;
+        transactionRepository = new TransactionRepositoryImpl();
         this.sender = sender;
         this.receiver = receiver;
         this.concept = concept;
         this.amount = amount;
         this.date = LocalDateTime.now();
+        
+        transactionRepository.add(this);
+    }
+    
+    /**
+     * Constructor para descargar una transferencia.
+     *
+     * @param sender   Cuenta emisora.
+     * @param receiver Cuenta receptora.
+     * @param concept  Concepto de la transacción
+     * @param amount   Cantidad de dinero.
+     * @param date     Fecha de la transacción.
+     */
+    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount, LocalDateTime date) {
+        transactionRepository = new TransactionRepositoryImpl();
+        this.sender = sender;
+        this.receiver = receiver;
+        this.concept = concept;
+        this.amount = amount;
+        this.date = date;
     }
     
     
     //Getters
     /**
-     * Devuelve el identificador de la transacción.
-     * @return Identificador de la transacción.
-     */
-    public int getID() {
-        return ID;
-    }
-    
-    /**
      * Devuelve la cuenta emisora.
+     *
      * @return Cuenta emisora.
      */
     public Account getSender() {
@@ -145,6 +93,7 @@ public class Transaction {
     
     /**
      * Devuelve la cuenta receptora.
+     *
      * @return Cuenta receptora.
      */
     public Account getReceiver() {
@@ -153,6 +102,7 @@ public class Transaction {
     
     /**
      * Devuelve el concepto de la transacción.
+     *
      * @return Concepto de la transacción.
      */
     public String getConcept() {
@@ -161,6 +111,7 @@ public class Transaction {
     
     /**
      * Devuelve la cantidad de dinero.
+     *
      * @return Cantidad de dinero.
      */
     public BigDecimal getAmount() {
@@ -169,38 +120,22 @@ public class Transaction {
     
     /**
      * Devuelve la fecha de la transacción.
+     *
      * @return Fecha de la transacción.
      */
     public LocalDateTime getDate() {
         return date;
     }
     
-    /**
-     * Devuelve las propiedades de la transacción.
-     * @return Propiedades de la transacción.
-     */
-    public SimpleStringProperty[] getProperties() {
-        try {
-            return new SimpleStringProperty[]{
-                    new SimpleStringProperty(getClient(sender.getOwnerNIF()).getName() + " " + getClient(sender.getOwnerNIF()).getSurname()),
-                    new SimpleStringProperty(getClient(receiver.getOwnerNIF()).getName() + " " + getClient(receiver.getOwnerNIF()).getSurname()),
-                    new SimpleStringProperty(concept),
-                    new SimpleStringProperty(amount.setScale(2, RoundingMode.HALF_UP).toString()),
-                    new SimpleStringProperty(date.format(formater))
-           };
-        } catch (HappyBankException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-    
     
     //Override
     /**
      * Devuelve una cadena con la información de la transacción.
+     *
      * @return Cadena con la información de la transacción.
      */
     @Override
     public String toString() {
-        return "Transaction " + ID + ": \nDate: " + date.format(formater) + ", \nAmount: " + amount.setScale(2, RoundingMode.HALF_UP) + ", \nConcept: " + concept + ", \nSender Client: " + sender.toString() + ", \nReceiver Client: " + receiver.toString();
+        return "Transaction: \nDate: " + date.format(formater) + ", \nAmount: " + amount.setScale(2, RoundingMode.HALF_UP) + ", \nConcept: " + concept + ", \nSender Client: " + sender.toString() + ", \nReceiver Client: " + receiver.toString();
     }
 }

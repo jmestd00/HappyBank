@@ -1,5 +1,7 @@
 package org.HappyBank.model;
 
+import org.HappyBank.model.repository.AccountRepositoryImpl;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -13,25 +15,45 @@ public class Account {
      */
     private final String IBAN;
     /**
-     * NIF del propietario.
+     * Propietario de la cuenta.
      */
-    private final String ownerNIF;
+    private final Client owner;
     /**
      * Saldo de la cuenta.
      */
     private BigDecimal balance;
+    /**
+     * Conexión a la base de datos
+     */
+    private final AccountRepositoryImpl accountRepository;
     
     
     //Constructors
     /**
-     * Constructor con parámetros.
-     * @param IBAN Número de cuenta.
-     * @param ownerNIF NIF del propietario.
-     * @param balance Saldo de la cuenta.
+     * Constructor para crear una cuenta.
+     *
+     * @param owner Propietario.
      */
-    public Account(String IBAN, String ownerNIF, BigDecimal balance) {
+    public Account(Client owner) {
+        this.accountRepository = new AccountRepositoryImpl();
+        this.IBAN = Generator.generateUniqueIBAN();
+        this.owner = owner;
+        this.balance = new BigDecimal(0);
+        
+        accountRepository.add(this);
+    }
+    
+    /**
+     * Constructor para descargar una cuenta.
+     *
+     * @param IBAN     Número de cuenta.
+     * @param owner NIF del propietario.
+     * @param balance  Saldo de la cuenta.
+     */
+    public Account(String IBAN, Client owner, BigDecimal balance) {
+        this.accountRepository = new AccountRepositoryImpl();
         this.IBAN = IBAN;
-        this.ownerNIF = ownerNIF;
+        this.owner = owner;
         this.balance = balance;
     }
     
@@ -39,6 +61,7 @@ public class Account {
     //Getters
     /**
      * Devuelve el número de cuenta.
+     *
      * @return Número de cuenta.
      */
     public String getIBAN() {
@@ -46,15 +69,17 @@ public class Account {
     }
     
     /**
-     * Devuelve el NIF del propietario.
-     * @return NIF del propietario.
+     * Devuelve al propietario.
+     *
+     * @return Propietario.
      */
-    public String getOwnerNIF() {
-        return ownerNIF;
+    public Client getOwner() {
+        return owner;
     }
     
     /**
      * Devuelve el saldo de la cuenta.
+     *
      * @return Saldo de la cuenta.
      */
     public BigDecimal getBalance() {
@@ -65,25 +90,29 @@ public class Account {
     //Setters
     /**
      * Establece el saldo de cuenta.
+     *
      * @param balance Número de cuenta.
      */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+        accountRepository.update(this);
     }
     
     
     //Overrides
     /**
      * Devuelve una cadena con la información de la cuenta.
+     *
      * @return Cadena con la información de la cuenta.
      */
     @Override
     public String toString() {
-        return "Account " + IBAN + " , Owner NIF: " + ownerNIF + " , Balance: " + balance.setScale(2, RoundingMode.HALF_UP);
+        return "Account " + IBAN + " , Owner NIF: " + owner.getNIF() + " , Balance: " + balance.setScale(2, RoundingMode.HALF_UP);
     }
     
     /**
      * Comprueba si dos cuentas son la misma.
+     *
      * @param o Objeto a comparar.
      * @return true si es la misma cuenta, false en caso contrario.
      */
