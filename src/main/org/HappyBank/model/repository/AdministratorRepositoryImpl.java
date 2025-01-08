@@ -45,6 +45,8 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
         try (PreparedStatement stmt = getConnection().prepareStatement("UPDATE Administrators SET Password=? WHERE NIF=?")) {
             stmt.setString(1, password);
             stmt.setString(2, NIF);
+            
+            stmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }

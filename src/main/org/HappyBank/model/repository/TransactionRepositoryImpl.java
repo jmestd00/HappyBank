@@ -1,5 +1,6 @@
 package org.HappyBank.model.repository;
 
+import org.HappyBank.model.Account;
 import org.HappyBank.model.Transaction;
 
 import java.sql.*;
@@ -90,15 +91,41 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
     }
     
     /**
-     * Obtiene las últimas 5 transacciones del repositorio.
+     * Obtiene las transacciones de una cuenta.
      *
-     * @return Lista con todas las transacciones del repositorio.
+     * @param account Cuenta de la que se quieren obtener las transacciones
+     * @return Lista con las transacciones de la cuenta
      */
-    public ArrayList<Transaction> getLastTransactions(int quantity) {
+    public ArrayList<Transaction> getAccountTransactions (Account account) {
         ArrayList<Transaction> list = new ArrayList<>();
         
-        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM Transactions ORDER BY Date DESC LIMIT ?")){
-            stmt.setInt(1, quantity);
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM  Transactions WHERE Sender=?")) {
+            stmt.setString(1, account.getIBAN());
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                list.add(createTransaction(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        }
+        
+        return list;
+    }
+    
+    /**
+     * Obtiene las últimas transacciones de una cuenta.
+     *
+     * @param account  Cuenta de la que se quieren obtener las transacciones
+     * @param quantity Cantidad de transacciones a obtener
+     * @return Lista con las últimas transacciones de la cuenta
+     */
+    public ArrayList<Transaction> getLastTransactions(Account account, int quantity) {
+        ArrayList<Transaction> list = new ArrayList<>();
+        
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM Transactions WHERE Sender=? ORDER BY Date DESC LIMIT ?")){
+            stmt.setString(1, account.getIBAN());
+            stmt.setInt(2, quantity);
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {

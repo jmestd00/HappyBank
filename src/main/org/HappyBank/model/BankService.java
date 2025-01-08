@@ -55,12 +55,32 @@ public class BankService {
     }
     
     /**
+     * Obtiene todos los clientes.
+     *
+     * @return Lista de todos los clientes.
+     */
+    public ArrayList<Client> getAllClients() {
+        return clientRepository.getAll();
+    }
+    
+    /**
      * Elimina un cliente.
      *
      * @param client Cliente a eliminar.
      */
     public void deleteClient(Client client) {
         clientRepository.remove(client);
+    }
+    
+    /**
+     * Autentifica a un cliente del banco
+     *
+     * @param NIF      NIF del cliente
+     * @param password Contraseña del cliente
+     * @return True si sus credenciales son correctas, false en caso contrario
+     */
+    public boolean loginClient(String NIF, String password) {
+        return clientRepository.validateClient(NIF, password);
     }
     
     
@@ -92,12 +112,32 @@ public class BankService {
     }
     
     /**
+     * Obtiene todos los administradores.
+     *
+     * @return Lista de todos los administradores.
+     */
+    public ArrayList<Administrator> getAllAdministrators() {
+        return administratorRepository.getAll();
+    }
+    
+    /**
      * Elimina un administrador.
      *
      * @param admin Administrador a eliminar.
      */
     public void removeAdministrator(Administrator admin) {
         administratorRepository.remove(admin);
+    }
+    
+    /**
+     * Autentifica a un administrador del banco
+     *
+     * @param NIF      NIF del cliente
+     * @param password Contraseña del administrador
+     * @return True si sus credenciales son correctas, false en caso contrario
+     */
+    public boolean loginAdministrator(String NIF, String password) {
+        return administratorRepository.validateAdministrator(NIF, password);
     }
     
     
@@ -133,6 +173,15 @@ public class BankService {
     }
     
     /**
+     * Obtiene todas las cuentas.
+     *
+     * @return Lista de todas las cuentas.
+     */
+    public ArrayList<Account> getAllAccounts() {
+        return accountRepository.getAll();
+    }
+    
+    /**
      * Elimina una cuenta.
      *
      * @param account Cuenta a eliminar.
@@ -161,6 +210,25 @@ public class BankService {
      */
     public CreditCard getCreditCard(String number) {
         return cardRepository.get(number);
+    }
+    
+    /**
+     * Obtiene una tarjeta de crédito.
+     *
+     * @param account Cuenta asociada a la tarjeta de crédito.
+     * @return Tarjeta de crédito.
+     */
+    public CreditCard getCreditCard(Account account) {
+        return cardRepository.get(account);
+    }
+    
+    /**
+     * Obtiene todas las tarjetas de crédito.
+     *
+     * @return Lista de todas las tarjetas de crédito.
+     */
+    public ArrayList<CreditCard> getAllCreditCards() {
+        return cardRepository.getAll();
     }
     
     /**
@@ -197,12 +265,22 @@ public class BankService {
     }
     
     /**
+     * Obtiene las transacciones de una cuenta.
+     *
+     * @param account Cuenta de la que se quieren obtener las transacciones.
+     * @return Lista con las transacciones de la cuenta.
+     */
+    public ArrayList<Transaction> getAccountTransactions(Account account) {
+        return transactionRepository.getAccountTransactions(account);
+    }
+    
+    /**
      * Obtiene las últimas n transacciones.
      *
      * @param quantity Cantidad de transacciones a obtener.
      * @return Lista de las últimas n transacciones.
      */
-    public ArrayList<Transaction> getLastTransactions(int quantity) {
-        return transactionRepository.getLastTransactions(quantity);
+    public ArrayList<Transaction> getLastTransactions(Account account, int quantity) {
+        return transactionRepository.getLastTransactions(account, quantity);
     }
 }

@@ -61,6 +61,8 @@ public class AccountRepositoryImpl implements IRepository<Account> {
         try (PreparedStatement stmt = getConnection().prepareStatement("UPDATE Accounts SET Balance=? WHERE IBAN=?")) {
             stmt.setBigDecimal(1, account.getBalance());
             stmt.setString(2, account.getIBAN());
+            
+            stmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
