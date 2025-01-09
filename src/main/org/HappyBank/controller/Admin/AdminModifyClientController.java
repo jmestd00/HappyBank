@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.HappyBank.model.Administrator;
-import org.HappyBank.model.Client;
+import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 
 /**
@@ -28,6 +28,7 @@ public class AdminModifyClientController {
     private Label clientLabel;
     private String username;
     private ViewFactory viewFactory;
+    private BankService bankService = new BankService();
 
     /**
      * Initializes the viewFactory instance.
@@ -63,15 +64,19 @@ public class AdminModifyClientController {
     public void modifyClient() {
         if (!phone.getText().isEmpty()) {
             client.setPhone(phone.getText());
+            phone.clear();
         }
         if (!email.getText().isEmpty()) {
             client.setEmail(email.getText());
+            email.clear();
         }
         if (!address.getText().isEmpty()) {
             client.setAddress(address.getText());
+            address.clear();
         }
         if (!password.getText().isEmpty()) {
-            //falta implementar el cambio de contraseña
+            bankService.changeClientPassword(client.getNIF(), password.getText());
+            password.clear();
         }
     }
 
@@ -103,12 +108,9 @@ public class AdminModifyClientController {
      * Method that goes to the main window.
      * It shows a window with an error message if there are fields with data.
      */
-    public void goMain() {
-        if (checkCritic()) {
-            viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyModifyPersonFields.fxml")));
-        } else {
-            viewFactory.showAdminMainWindow(admin.getNIF());
-        }
+    public void showLegend() {
+        viewFactory.closeLegend();
+        viewFactory.showAdminLegend();
     }
 
     /**

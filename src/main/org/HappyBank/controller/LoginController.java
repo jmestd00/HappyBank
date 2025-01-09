@@ -8,7 +8,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
-import static org.HappyBank.model.DatabaseManager.*;
 
 public class LoginController {
     @FXML
@@ -22,6 +21,7 @@ public class LoginController {
     private String accountType;
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
     private boolean accSelected = false;
+    private BankService bankService = new BankService();
 
     /**
      * Initializes the login window.
@@ -47,20 +47,12 @@ public class LoginController {
      */
     @FXML
     public void loginUser() {
-        try {
-            getInstance();
-        } catch (HappyBankException e) {
-            e.printStackTrace();
-        }
+
         getFields();
         boolean success = false;
             if (accountType.equals("ADMINISTRADOR")) {
                 success = false;
-                try {
-                    success = loginAdministrator(username, password);
-                } catch (HappyBankException e) {
-                    e.printStackTrace();
-                }
+                success = bankService.loginAdministrator(username, password);
                 if (success) {
                     viewFactory.showAdminMainWindow(username);
                 } else {
@@ -69,11 +61,7 @@ public class LoginController {
 
             } else {
                 success = false;
-                try {
-                    success = loginClient(username, password);
-                } catch (HappyBankException e) {
-                    e.printStackTrace();
-                }
+                    success = bankService.loginClient(username, password);
                 if (success) {
                     viewFactory.showClientMainWindow(username);
                 } else {

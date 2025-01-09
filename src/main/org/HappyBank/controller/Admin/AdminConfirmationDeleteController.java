@@ -6,17 +6,17 @@ import javafx.fxml.FXML;
 import javafx.util.Duration;
 import org.HappyBank.model.Administrator;
 import org.HappyBank.model.Client;
-import org.HappyBank.model.HappyBankException;
+import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 import javafx.scene.control.Button;
 
-import static org.HappyBank.model.DatabaseManager.*;
 
 /**
  * Controller for the confirmation window to delete a user.
  */
 public class AdminConfirmationDeleteController {
     private ViewFactory viewFactory;
+    private BankService bankService = new BankService();
     private Client client;
     private Administrator administrator;
     @FXML
@@ -32,11 +32,7 @@ public class AdminConfirmationDeleteController {
         confirmDelete.setDisable(true);
         confirmDelete.setText("ELIMINAR");
         declineDelete.setText("CANCELAR");
-        try {
-            getInstance();
-        }catch (HappyBankException e) {
-            e.printStackTrace();
-        }
+
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),
                 event -> confirmDelete.setDisable(false)
         ));
@@ -58,11 +54,7 @@ public class AdminConfirmationDeleteController {
      * Method that deletes the user from the database and closes the confirmation window.
      */
     public void delete() {
-        try {
-        deleteClient(client.getNIF());
-        } catch (HappyBankException e) {
-            e.printStackTrace();
-        }
+        bankService.deleteClient(client);
         viewFactory.closePopup();
         viewFactory.showClientList(administrator);
     }

@@ -19,13 +19,13 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import static org.HappyBank.model.DatabaseManager.*;
 
 /**
  * Controller for the client list view.
  */
 public class AdminClientListController {
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
+    private BankService bankService = new BankService();
     private Administrator administrator;
     @FXML
     private Label welcomeLabel;
@@ -67,11 +67,6 @@ public class AdminClientListController {
      * Initializes the bbdd instance, read the options.config, setup the list data and initializes the pagination.
      */
     public void initialize(){
-        try {
-            getInstance();
-        } catch (HappyBankException e) {
-            e.printStackTrace();
-        }
         readConfig();
         searchBar.setContextMenu(new ContextMenu());
         setupData();
@@ -86,28 +81,28 @@ public class AdminClientListController {
         if (data.getValue() == null) {
         return new SimpleStringProperty("");
         } else {
-            return data.getValue().getProperties()[0];
+            return new SimpleStringProperty(data.getValue().getNIF());
         }
         });
         NameCol.setCellValueFactory(data -> {
         if (data.getValue() == null) {
         return new SimpleStringProperty("");
         } else {
-            return data.getValue().getProperties()[1];
+            return new SimpleStringProperty(data.getValue().getName() + " " + data.getValue().getSurname());
         }
         });
         accountCol.setCellValueFactory(data -> {
         if (data.getValue() == null) {
         return new SimpleStringProperty("");
         } else {
-            return data.getValue().getProperties()[2];
+            return new SimpleStringProperty(bankService.getAccount(data.getValue()).getIBAN());
         }
         });
         creditCardCol.setCellValueFactory(data -> {
         if (data.getValue() == null) {
         return new SimpleStringProperty("");
         } else {
-            return data.getValue().getProperties()[3];
+            return new SimpleStringProperty(bankService.getCreditCard(bankService.getAccount(data.getValue())).getNumber());
         }
         });
         editCol.setCellFactory(param -> new TableCell<Client, Void>() {
@@ -161,16 +156,15 @@ public class AdminClientListController {
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
 
-                // Verificar si la fila está vacía o si el Batch es nulo
                 if (empty || getTableRow() == null || getTableRow().getItem() == null) {
-                    setGraphic(null);  // No mostrar el botón si está vacío
+                    setGraphic(null);
                 } else {
                     Client selectedClient = getTableView().getItems().get(getIndex());
                     if (selectedClient != null) {
-                        setGraphic(transactionHistoryButton);  // Mostrar el botón si el Batch es válido
-                        setAlignment(Pos.CENTER);  // Alinear el botón
+                        setGraphic(transactionHistoryButton);
+                        setAlignment(Pos.CENTER);
                     } else {
-                        setGraphic(null);  // No mostrar el botón si el Batch es nulo
+                        setGraphic(null);
                     }
                 }
             }
@@ -221,11 +215,7 @@ public class AdminClientListController {
      * Sets up the data of the clients.
      */
     private void setupData() {
-       try {
-        fullListClients = getAllClients();
-       } catch (HappyBankException e) {
-           e.printStackTrace();
-       }
+        fullListClients = bankService.getAllClients();
     }
 
     /**
@@ -264,21 +254,13 @@ public class AdminClientListController {
         String filter = searchBar.getText().toLowerCase();
         if (!searchBar.getText().equals("")) {
         fullListClients.clear();
-        try {
-            fullListClients = DatabaseManager.searchClient(filter, filter, filter);
-            refreshTable();
-        } catch (HappyBankException e) {
-            e.printStackTrace();
-        }
+        fullListClients = bankService.searchClients(filter, filter, filter);
+        refreshTable();
         } else {
         fullListClients.clear();
-            try {
-            fullListClients = getAllClients();
-            } catch (HappyBankException e) {
-                e.printStackTrace();
-            }
-        }
+        fullListClients = bankService.getAllClients();
         refreshTable();
+        }
     }
 
     /**

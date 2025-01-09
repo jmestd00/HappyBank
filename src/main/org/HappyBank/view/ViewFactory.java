@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -13,10 +14,13 @@ import javafx.util.Duration;
 import org.HappyBank.controller.Admin.*;
 import org.HappyBank.controller.Client.*;
 import org.HappyBank.controller.*;
+import org.HappyBank.model.Account;
 import org.HappyBank.model.Administrator;
 import org.HappyBank.model.Client;
+import org.HappyBank.model.HappyBankException;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -32,6 +36,7 @@ public class ViewFactory {
     private Stage primaryStage;
     private Stage popupStage = new Stage();
     private Stage legendStage = new Stage();
+    private Stage conceptStage = new Stage();
 
 
     // All the windows' controllers for all the main windows, to be able to pass the arguments needeed between controllers
@@ -41,16 +46,16 @@ public class ViewFactory {
     private AdminClientListController clientList;
     private AdminClientTransactionHistoryController transactionHistory;
     private AdminAddPersonController addPerson;
-    private AdminLegendController legend;
     private AdminConfirmationDeleteController confirmationDelete;
     /* Client */
     private ClientMainWindowController clientMainWindow;
     private ClientPerformTransactionController performTransaction;
     private ClientPersonalDataController personalData;
     private ClientTransactionListController transactionList;
-    private ClientViewAccountController viewAccount;
     /* Common */
+    private LegendController legend;
     private ConfirmCloseSessionController confirmCloseSessionController;
+    private TransactionConceptController transactionConcept;
     /* Error */
     private ErrorController errorController;
     /* Login */
@@ -86,14 +91,14 @@ public class ViewFactory {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/loginView.fxml")));
             Scene scene = new Scene(root);
-            primaryStage.setTitle("HappyBank");
+            primaryStage.setTitle("HappyBank - Inicio de Sesión");
             primaryStage.setScene(scene);
             primaryStage.getIcons().add(happyBankLogo);
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
             primaryStage.centerOnScreen();
             primaryStage.show();
             primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -116,7 +121,7 @@ public class ViewFactory {
             adminMainWindow.setNIF(username);
             primaryStage.show();
             primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -132,13 +137,13 @@ public class ViewFactory {
             Parent root = loader.load();
             confirmationDelete = loader.getController();
             confirmationDelete.setData(client, admin);
-            popupStage.setTitle("HappyBank");
+            popupStage.setTitle("HappyBank - Confirmar Eliminación");
             popupStage.setScene(new Scene(root));
             popupStage.getIcons().add(happyBankLogo);
             popupStage.resizableProperty().setValue(Boolean.FALSE);
             popupStage.centerOnScreen();
             popupStage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -152,7 +157,7 @@ public class ViewFactory {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminClientList.fxml")));
             Parent root = loader.load();
             clientList = loader.getController();
-            primaryStage.setTitle("HappyBank");
+            primaryStage.setTitle("HappyBank - Lista de Clientes");
             primaryStage.setScene(new Scene(root));
             primaryStage.getIcons().add(happyBankLogo);
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
@@ -160,7 +165,7 @@ public class ViewFactory {
             primaryStage.centerOnScreen();
             primaryStage.show();
             primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -180,7 +185,7 @@ public class ViewFactory {
             legendStage.setScene(new Scene(popupRoot));
             legendStage.centerOnScreen();
             legendStage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -195,7 +200,7 @@ public class ViewFactory {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminModifyClient.fxml")));
             Parent root = loader.load();
             modifyClient = loader.getController();
-            primaryStage.setTitle("HappyBank");
+            primaryStage.setTitle("HappyBank - Modificar Cliente");
             primaryStage.setScene(new Scene(root));
             primaryStage.getIcons().add(happyBankLogo);
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
@@ -203,7 +208,7 @@ public class ViewFactory {
             primaryStage.centerOnScreen();
             primaryStage.show();
             primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -218,7 +223,7 @@ public class ViewFactory {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminClientTransactionHistory.fxml")));
             Parent root = loader.load();
             transactionHistory = loader.getController();
-            primaryStage.setTitle("HappyBank");
+            primaryStage.setTitle("HappyBank - Historial de Transacciones");
             primaryStage.setScene(new Scene(root));
             primaryStage.getIcons().add(happyBankLogo);
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
@@ -226,7 +231,7 @@ public class ViewFactory {
             primaryStage.centerOnScreen();
             primaryStage.show();
             primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -240,7 +245,7 @@ public class ViewFactory {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminAddPerson.fxml")));
             Parent root = loader.load();
             addPerson = loader.getController();
-            primaryStage.setTitle("HappyBank");
+            primaryStage.setTitle("HappyBank - Añadir Cliente");
             primaryStage.setScene(new Scene(root));
             primaryStage.getIcons().add(happyBankLogo);
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
@@ -248,7 +253,7 @@ public class ViewFactory {
             primaryStage.centerOnScreen();
             primaryStage.show();
             primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -270,11 +275,83 @@ public class ViewFactory {
             primaryStage.centerOnScreen();
             primaryStage.show();
             primaryStage.setOnCloseRequest(event -> System.exit(0));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void showPerformTransactionWindow(Client client, Account account) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientPerformTransaction.fxml")));
+            Parent root = loader.load();
+            performTransaction = loader.getController();
+            performTransaction.setData(client, account);
+            primaryStage.setTitle("HappyBank - Realizar Transacción");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.getIcons().add(happyBankLogo);
+            primaryStage.resizableProperty().setValue(Boolean.FALSE);
+            primaryStage.centerOnScreen();
+            primaryStage.show();
+            primaryStage.setOnCloseRequest(event -> System.exit(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    public void showPersonalData(Client client) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientPersonalData.fxml")));
+            Parent root = loader.load();
+            personalData = loader.getController();
+            personalData.setData(client);
+            primaryStage.setTitle("HappyBank - Datos Personales");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.getIcons().add(happyBankLogo);
+            primaryStage.resizableProperty().setValue(Boolean.FALSE);
+            primaryStage.centerOnScreen();
+            primaryStage.show();
+            primaryStage.setOnCloseRequest(event -> System.exit(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showTransactionList(Client client) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientTransactionList.fxml")));
+            Parent root = loader.load();
+            transactionList = loader.getController();
+            transactionList.setData(client);
+            primaryStage.setTitle("HappyBank - Historial de Transacciones");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.getIcons().add(happyBankLogo);
+            primaryStage.resizableProperty().setValue(Boolean.FALSE);
+            primaryStage.centerOnScreen();
+            primaryStage.show();
+            primaryStage.setOnCloseRequest(event -> System.exit(0));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showClientLegend() {
+        try {
+            // Cargar el archivo FXML del popup
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientLegend.fxml")));
+            Parent popupRoot = loader.load();
+            legendStage = new Stage();
+            legendStage.resizableProperty().setValue(Boolean.FALSE);
+            legendStage.setTitle("Leyenda");
+            legendStage.getIcons().add(happyBankLogo);
+            legendStage.setScene(new Scene(popupRoot));
+            legendStage.centerOnScreen();
+            legendStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 /* Auxiliar Methods */
     /**
      * Method to close the popups windows that haven't a established time to close
@@ -290,17 +367,39 @@ public class ViewFactory {
         legendStage.close();
     }
 
+    public void closeConcept() {
+        conceptStage.close();
+    }
+
+    public void showConcept(String concept, int index, Point2D coordinates) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/transactionConcept.fxml")));
+            Parent root = loader.load();
+            transactionConcept = loader.getController();
+            transactionConcept.setConcept(concept);
+            conceptStage.setTitle("HappyBank - Concepto de la Transacción " + index);
+            conceptStage.setScene(new Scene(root));
+            conceptStage.getIcons().add(happyBankLogo);
+            conceptStage.resizableProperty().setValue(Boolean.FALSE);
+            conceptStage.setX(coordinates.getX());
+            conceptStage.setY(coordinates.getY());
+            conceptStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showCloseSessionConfirmation() {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/ConfirmCloseSession.fxml")));
             Parent root = loader.load();
-            popupStage.setTitle("HappyBank");
+            popupStage.setTitle("HappyBank - Confirmar Cierre de Sesión");
             popupStage.setScene(new Scene(root));
             popupStage.getIcons().add(happyBankLogo);
             popupStage.resizableProperty().setValue(Boolean.FALSE);
             popupStage.centerOnScreen();
             popupStage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -314,9 +413,9 @@ public class ViewFactory {
             Parent popupRoot = fxmlLoader.load();
             popupStage = new Stage();
             popupStage.resizableProperty().setValue(Boolean.FALSE);
-            popupStage.setTitle("ERROR");
+            popupStage.setTitle("HappyBank - ERROR");
             popupStage.setScene(new Scene(popupRoot));
-            popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/warn_icon.png")));
+            popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/warnIcon.png")));
             popupStage.centerOnScreen();
             popupStage.show();
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),
@@ -324,7 +423,7 @@ public class ViewFactory {
             ));
             timeline.setCycleCount(1);
             timeline.play();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
