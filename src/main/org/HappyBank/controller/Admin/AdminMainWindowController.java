@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import static org.HappyBank.model.DatabaseManager.*;
 
 /**
  * Controller for the main window of the administrator.
@@ -23,17 +22,14 @@ public class AdminMainWindowController {
     private Label welcomeLabel;
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
     private boolean backUp = false;
+    private BankService bankService = new BankService();
 
 
     /**
      * Initializes the viewFactory instance and reads the configuration file to perform the backup or not.
      */
     public void initialize() {
-         try {
-        getInstance();
-        } catch (HappyBankException e) {
-            e.printStackTrace();
-        }
+
         readConfig();
         if (backUp) {
             //doBackUp();
@@ -65,11 +61,7 @@ public class AdminMainWindowController {
      */
     public void setNIF(String NIF) {
         this.NIF = NIF;
-        try {
-        admin = getAdministrator(NIF);
-        } catch (HappyBankException e) {
-            e.printStackTrace();
-        }
+        admin = bankService.getAdministrator(NIF);
         username = admin.getName() + " " + admin.getSurname();
         welcomeLabel.setText("¡Hola " + username + "!\nBienvenido al panel de \nadministración de HappyBank.");
         initialize();
@@ -93,6 +85,7 @@ public class AdminMainWindowController {
      * Method that shows the legend of the administrator part of the application.
      */
     public void showLegend() {
+        viewFactory.closeLegend();
         viewFactory.showAdminLegend();
     }
 }

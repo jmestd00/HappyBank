@@ -11,14 +11,15 @@ import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
-import static org.HappyBank.model.DatabaseManager.*;
 
 /**
  * Controller for the add person view.
  */
 public class AdminAddPersonController {
     private Administrator administrator;
+    private BankService bankService = new BankService();
     private ViewFactory viewFactory;
     private String username;
     @FXML
@@ -76,11 +77,7 @@ public class AdminAddPersonController {
         clientAddress.setContextMenu(new ContextMenu());
         clientEmail.setContextMenu(new ContextMenu());
         clientPassword.setContextMenu(new ContextMenu());
-        try {
-        getInstance();
-        } catch (HappyBankException e) {
-            e.printStackTrace();
-        }
+
         type.setValue("CLIENTE");
         if (type.getValue().equals("ADMINISTRADOR")) {
             Admin.setVisible(true);
@@ -125,37 +122,37 @@ public class AdminAddPersonController {
             if (adminName.getText().isEmpty() || adminSurname.getText().isEmpty() || adminNIF.getText().isEmpty() || adminSSN.getText().isEmpty() || adminSalary.getText().isEmpty() || adminPassword.getText().isEmpty()) {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyAddPersonFields.fxml")));
             } else {
-                    Administrator adminToAdd = new Administrator(adminName.getText(), adminSurname.getText(), adminNIF.getText(), adminSSN.getText(), new BigDecimal(adminSalary.getText()), "HappyBank");
                 try {
-                    insertAdministrator(adminToAdd, adminPassword.getText());
-                    adminName.clear();
-                    adminSurname.clear();
-                    adminNIF.clear();
-                    adminSSN.clear();
-                    adminSalary.clear();
-                    adminPassword.clear();
-
-                } catch (HappyBankException e) {
-                        viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
+                    bankService.createAdministrator(adminName.getText(), adminSurname.getText(), adminNIF.getText(), adminSSN.getText(), new BigDecimal(adminSalary.getText()), "HappyBank", adminPassword.getText());
+                } catch (RuntimeException e) {
+                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
                 }
+                adminName.clear();
+                adminSurname.clear();
+                adminNIF.clear();
+                adminSSN.clear();
+                adminSalary.clear();
+                adminPassword.clear();
             }
         } else {
             if (clientName.getText().isEmpty() || clientSurname.getText().isEmpty() || clientNIF.getText().isEmpty() || clientPhone.getText().isEmpty() || clientAddress.getText().isEmpty() || clientEmail.getText().isEmpty() || clientPassword.getText().isEmpty()) {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyAddPersonFields.fxml")));
             } else {
-                    Client clientToAdd = new Client(clientName.getText(), clientSurname.getText(), clientNIF.getText(), clientEmail.getText(), clientPhone.getText(), clientAddress.getText(), "HappyBank");
                 try {
-                        insertClient(clientToAdd, clientPassword.getText());
-                        clientName.clear();
-                        clientSurname.clear();
-                        clientNIF.clear();
-                        clientPhone.clear();
-                        clientAddress.clear();
-                        clientEmail.clear();
-                        clientPassword.clear();
-                } catch (HappyBankException e) {
-                        viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
+                bankService.createClient(clientName.getText(),clientSurname.getText(),clientNIF.getText(),
+                        clientEmail.getText(), clientPhone.getText(), clientAddress.getText(), "HappyBank", clientPassword.getText());
+                bankService.createAccount(clientNIF.getText());
+                bankService.createCreditCard(bankService.getAccount(bankService.getClient(clientNIF.getText())).getIBAN());
+                } catch (RuntimeException e) {
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
                 }
+                clientName.clear();
+                clientSurname.clear();
+                clientNIF.clear();
+                clientPhone.clear();
+                clientAddress.clear();
+                clientEmail.clear();
+                clientPassword.clear();
             }
         }
     }
@@ -199,22 +196,11 @@ public class AdminAddPersonController {
     }
 
     /**
-     * Method that goes to the main window.
+     * Method that shows the legend.
      */
-    public void goMain() {
-        if (type.getValue().equals("ADMINISTRADOR")) {
-            if (adminName.getText().isEmpty() && adminSurname.getText().isEmpty() && adminNIF.getText().isEmpty() && adminSSN.getText().isEmpty() && adminSalary.getText().isEmpty() && adminPassword.getText().isEmpty()) {
-                viewFactory.showAdminMainWindow(administrator.getNIF());
-            } else {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
-            }
-        } else {
-            if (clientName.getText().isEmpty() && clientSurname.getText().isEmpty() && clientNIF.getText().isEmpty() && clientPhone.getText().isEmpty() && clientAddress.getText().isEmpty() && clientEmail.getText().isEmpty() && clientPassword.getText().isEmpty()) {
-                viewFactory.showAdminMainWindow(administrator.getNIF());
-            } else {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
-            }
-        }
+    public void showLegend() {
+        viewFactory.closeLegend();
+        viewFactory.showAdminLegend();
     }
 
     /**

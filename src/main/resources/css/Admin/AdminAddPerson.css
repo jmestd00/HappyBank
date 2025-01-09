@@ -64,17 +64,17 @@
 }
 
 /* Main window button */
-.mainButton {
+.legendDisplay {
     -fx-border-color: black;
     -fx-border-radius: 48px;
     -fx-background-color:transparent;
-    -fx-background-image: url('/images/bankLogo.png');
+    -fx-background-image: url('/images/legendIcon.png');
     -fx-background-size: 96px;
     -fx-background-radius: 48px;
     -fx-border-width: 2px;
 }
 
-.mainButton:hover {
+.legendDisplay:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-background-color: #EFEFEF;

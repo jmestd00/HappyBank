@@ -34,7 +34,7 @@
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">
                     <children>
-                        <Button fx:id="mainButton" mnemonicParsing="false" onAction="#goMain" prefHeight="96.0" prefWidth="96.0" styleClass="mainButton" stylesheets="@../../css/Admin/AdminAddPerson.css" />
+                        <Button fx:id="legendDisplay" mnemonicParsing="false" onAction="#showLegend" prefHeight="96.0" prefWidth="96.0" styleClass="legendDisplay" stylesheets="@../../css/Admin/AdminAddPerson.css" />
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="162.0">

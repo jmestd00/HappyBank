@@ -6,5 +6,4 @@ package org.HappyBank.controller;
  * It does not have any functionality.
  */
 public class ErrorController {
-    public void initialize() {}
 }

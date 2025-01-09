@@ -44,8 +44,8 @@
     -fx-background-color: #EFEFEF;
 }
 
-/* Main window button */
-.legendDisplay {
+/* Display legend button */
+.displayLegend {
     -fx-border-color: black;
     -fx-border-radius: 48px;
     -fx-background-color:transparent;
@@ -55,10 +55,24 @@
     -fx-border-width: 2px;
 }
 
-.legendDisplay:hover {
+.displayLegend:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-background-color: #EFEFEF;
+}
+
+/* Show concept button */
+.conceptButton {
+    -fx-background-color: transparent;
+    -fx-background-image: url('/images/conceptIcon.png');
+    -fx-background-size: 53px;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+}
+
+.conceptButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
 /* Table view */
@@ -145,15 +159,4 @@
     -fx-border-color: transparent;
 }
 
-.conceptButton {
-    -fx-background-color: transparent;
-    -fx-background-image: url('/images/conceptIcon.png');
-    -fx-background-size: 53px;
-    -fx-border-width: 2px;
-    -fx-border-color: black;
-}
 
-.conceptButton:hover {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}

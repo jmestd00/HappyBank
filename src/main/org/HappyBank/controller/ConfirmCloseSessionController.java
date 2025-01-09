@@ -19,6 +19,7 @@ public class ConfirmCloseSessionController {
      * Method that closes the session and shows the login view.
      */
     public void close() {
+        viewFactory.closeLegend();
         viewFactory.showLoginView();
         viewFactory.closePopup();
     }
