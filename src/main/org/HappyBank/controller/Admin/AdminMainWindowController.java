@@ -11,7 +11,7 @@ import java.util.Properties;
 
 
 /**
- * Controller for the main window of the administrator.
+ * Controlador de la ventana principal del administrador.
  */
 public class AdminMainWindowController {
 
@@ -26,7 +26,7 @@ public class AdminMainWindowController {
 
 
     /**
-     * Initializes the viewFactory instance and reads the configuration file to perform the backup or not.
+     * Método que inicializa la ventana principal del administrador. Lee la configuración para ver si la opción de backup está activada.
      */
     public void initialize() {
 
@@ -38,7 +38,7 @@ public class AdminMainWindowController {
     }
 
     /**
-     * Reads the configuration file to check if the backup option is enabled.
+     * Método que lee la configuración del archivo options.config para ver si la opción de backup está activada.
      */
     private void readConfig() {
         Properties prop = new Properties();
@@ -56,8 +56,8 @@ public class AdminMainWindowController {
     }
 
     /**
-     * Method tha set the NIF of the administrator and initializes the view.
-     * @param NIF
+     * Método que establece el NIF del administrador.
+     * @param NIF (NIF del administrador)
      */
     public void setNIF(String NIF) {
         this.NIF = NIF;
@@ -68,21 +68,21 @@ public class AdminMainWindowController {
     }
 
     /**
-     * Method that goes to the login view.
+     * Método que cierra la sesión del administrador.
      */
     public void closeSession() {
         viewFactory.showCloseSessionConfirmation();
     }
 
     /**
-     * Method that goes to the client list view.
+     * Método que muestra la ventana de la lista de clientes.
      */
     public void showClientList() {
         viewFactory.showClientList(admin);
     }
 
     /**
-     * Method that shows the legend of the administrator part of the application.
+     * Método que muestra la ventana de la leyenda de la parte administrativa.
      */
     public void showLegend() {
         viewFactory.closeLegend();

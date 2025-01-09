@@ -2,8 +2,6 @@ package org.HappyBank.controller.Client;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -12,11 +10,12 @@ import javafx.scene.control.*;
 import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 
-import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-
+/**
+ * Controlador para la vista principal de cliente.
+ */
 public class ClientMainWindowController {
 
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
@@ -50,6 +49,9 @@ public class ClientMainWindowController {
     private BankService bankService = new BankService();
     private ArrayList<Transaction> transactions = new ArrayList<>();
 
+    /**
+     * Método que inicializa los datos de la tabla de los últimos movimientos.
+     */
     public void setup() {
 
         setupData();
@@ -135,14 +137,17 @@ public class ClientMainWindowController {
     }
 
     /**
-     * Method that sets up the data of the transaction list.
+     * Método que inicializa los datos de la lista de movimientos.
      */
     private void setupData() {
         transactions = bankService.getLastTransactions(bankService.getAccount(client), 4);
         transactionTable.setItems(FXCollections.observableArrayList(transactions));
     }
 
-
+    /**
+     * Método que establece el NIF del cliente.
+     * @param NIF (El NIF del cliente)
+     */
     public void setNIF(String NIF) {
         this.NIF = NIF;
         this.client = bankService.getClient(NIF);
@@ -157,27 +162,42 @@ public class ClientMainWindowController {
         setup();
     }
 
+    /**
+     * Método que cierra la sesión del cliente.
+     */
     public void closeSession() {
         viewFactory.closeConcept();
         viewFactory.showCloseSessionConfirmation();
     }
 
+    /**
+     * Método que muestra la leyenda de la vista.
+     */
     public void showLegend() {
         viewFactory.closeLegend();
         viewFactory.closeConcept();
         viewFactory.showClientLegend();
     }
 
+    /**
+     * Método que muestra la ventana de los datos personales del cliente.
+     */
     public void showPersonalData() {
         viewFactory.closeConcept();
         viewFactory.showPersonalData(client);
     }
 
+    /**
+     * Método que muestra la ventana de realizar una transacción.
+     */
     public void showPerformTransaction() {
         viewFactory.closeConcept();
         viewFactory.showPerformTransactionWindow(client, bankService.getAccount(client));
     }
 
+    /**
+     * Método que muestra la ventana de la lista de transacciones.
+     */
     public void showTransactionList() {
         viewFactory.closeConcept();
         viewFactory.showTransactionList(client);

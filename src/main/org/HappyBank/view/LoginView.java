@@ -1,43 +1,36 @@
 package org.HappyBank.view;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.HappyBank.controller.LoginController;
+import java.io.IOException;
 
-import javax.swing.text.View;
-import java.util.Objects;
-
+/**
+ * Clase principal para lanzar la aplicación JavaFX para gestionar y mostrar un banco.
+ * Inicializa la ventana principal y carga el diseño FXML para la lista de lotes semanales.
+ */
 public class LoginView extends Application{
     ViewFactory viewFactory;
 
-/**
- * Main class to launch the JavaFX application for managing and displaying a bank.
- * It initializes the primary window and loads the FXML layout for the weekly batches list.
- */
 
     /**
-     * Entry point for the JavaFX application.
-     * This method launches the JavaFX application and calls the start method
+     * Punto de entrada para la aplicación JavaFX.
+     * Este método lanza la aplicación JavaFX y llama al método start
      *
-     * @param args Command-line arguments
+     * @param args (Argumentos de la línea de comandos)
      */
     public static void main(String[] args) {
         launch(args);
     }
 
     /**
-     * Initializes the JavaFX window and loads the FXML layout for the login section of the Bank.
-     * This method is called when the JavaFX application is launched
+     * Inicializa la ventana JavaFX y carga el diseño FXML para la sección de inicio de sesión del banco.
+     * Este método se llama cuando se lanza la aplicación JavaFX.
      *
-     * @param primaryStage the primary stage for the application, representing the main window
-     * @throws Exception exception thrown if any error occurs while loading the FXML file or initializing the window
+     * @param primaryStage (el escenario principal para la aplicación, que representa la ventana principal)
+     * @throws IOException (excepción lanzada si ocurre algún error al cargar el archivo FXML o al inicializar la ventana)
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws IOException {
         viewFactory = viewFactory.getInstance(primaryStage);
         viewFactory.showLoginView();
     }

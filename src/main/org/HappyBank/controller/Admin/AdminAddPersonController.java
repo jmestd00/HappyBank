@@ -9,15 +9,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
-
 import java.math.BigDecimal;
-import java.sql.SQLException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 
 /**
- * Controller for the add person view.
+ * Controlador de la ventana de añadir una persona.
  */
 public class AdminAddPersonController {
+    private static final Logger logger = LogManager.getLogger(AdminAddPersonController.class.getName());
     private Administrator administrator;
     private BankService bankService = new BankService();
     private ViewFactory viewFactory;
@@ -60,7 +63,7 @@ public class AdminAddPersonController {
     private TextField clientPassword;
 
     /**
-     * Initializes the viewFactory instance, the bbdd instance, removes the context menus and hides the admin vbox.
+     * Inicializa la ventana de añadir una persona.
      */
     public void initialize() {
         viewFactory = viewFactory.getInstance(null);
@@ -89,7 +92,7 @@ public class AdminAddPersonController {
     }
 
     /**
-     * Method that swaps the vbox depending on the selected type.
+     * Método que intercambia el VBox entre los campos de admin y de cliente.
      */
     public void swapVbox() {
         if (type.getValue().equals("ADMINISTRADOR")) {
@@ -102,6 +105,7 @@ public class AdminAddPersonController {
             clientPhone.clear();
             clientSurname.clear();
             clientPassword.clear();
+            logger.info("Se ha seleccionado el tipo de persona: Administrador");
         } else {
             Admin.setVisible(false);
             Client.setVisible(true);
@@ -111,21 +115,25 @@ public class AdminAddPersonController {
             adminSSN.clear();
             adminSalary.clear();
             adminPassword.clear();
+            logger.info("Se ha seleccionado el tipo de persona: Cliente");
         }
     }
 
     /**
-     * Method that adds a person to the database.
+     * Método que añade una persona a la base de datos.
      */
     public void addPerson() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() || adminSurname.getText().isEmpty() || adminNIF.getText().isEmpty() || adminSSN.getText().isEmpty() || adminSalary.getText().isEmpty() || adminPassword.getText().isEmpty()) {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyAddPersonFields.fxml")));
+                logger.info("No se han rellenado todos los campos para añadir un administrador.");
             } else {
                 try {
                     bankService.createAdministrator(adminName.getText(), adminSurname.getText(), adminNIF.getText(), adminSSN.getText(), new BigDecimal(adminSalary.getText()), "HappyBank", adminPassword.getText());
+                    logger.info("Se ha añadido un administrador a la base de datos con NIF {" + adminNIF.getText() + "}");
                 } catch (RuntimeException e) {
                     viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
+                    logger.error("El administrador ya existe en la base de datos.");
                 }
                 adminName.clear();
                 adminSurname.clear();
@@ -137,14 +145,18 @@ public class AdminAddPersonController {
         } else {
             if (clientName.getText().isEmpty() || clientSurname.getText().isEmpty() || clientNIF.getText().isEmpty() || clientPhone.getText().isEmpty() || clientAddress.getText().isEmpty() || clientEmail.getText().isEmpty() || clientPassword.getText().isEmpty()) {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyAddPersonFields.fxml")));
+                logger.info("No se han rellenado todos los campos para añadir un cliente.");
             } else {
                 try {
                 bankService.createClient(clientName.getText(),clientSurname.getText(),clientNIF.getText(),
                         clientEmail.getText(), clientPhone.getText(), clientAddress.getText(), "HappyBank", clientPassword.getText());
                 bankService.createAccount(clientNIF.getText());
                 bankService.createCreditCard(bankService.getAccount(bankService.getClient(clientNIF.getText())).getIBAN());
+                logger.info("Se ha añadido un cliente a la base de datos con NIF {" + clientNIF.getText() + "}");
+                logger.info("Se ha creado una cuenta y una tarjeta de crédito para el cliente con NIF {" + clientNIF.getText() + "}");
                 } catch (RuntimeException e) {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
+                logger.info("El cliente ya existe en la base de datos.");
                 }
                 clientName.clear();
                 clientSurname.clear();
@@ -158,54 +170,63 @@ public class AdminAddPersonController {
     }
 
     /**
-     * Method that goes back to the client list view.
+     * Método que cierra la ventana de añadir una persona.
      */
     public void goBack() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() && adminSurname.getText().isEmpty() && adminNIF.getText().isEmpty() && adminSSN.getText().isEmpty() && adminSalary.getText().isEmpty() && adminPassword.getText().isEmpty()) {
                 viewFactory.showClientList(administrator);
+                logger.info("Se ha cerrado la ventana de añadir una persona volviendo a la lista de clientes.");
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                logger.info("No se ha cerrado la ventana de añadir una persona porque hay campos no vacíos.");
             }
         } else {
             if (clientName.getText().isEmpty() && clientSurname.getText().isEmpty() && clientNIF.getText().isEmpty() && clientPhone.getText().isEmpty() && clientAddress.getText().isEmpty() && clientEmail.getText().isEmpty() && clientPassword.getText().isEmpty()) {
                 viewFactory.showClientList(administrator);
+                logger.info("Se ha cerrado la ventana de añadir una persona volviendo a la lista de clientes.");
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                logger.info("No se ha cerrado la ventana de añadir una persona porque hay campos no vacíos.");
             }
         }
     }
 
     /**
-     * Method that closes the session.
+     * Método que muestra el mensaje de confirmación de cierre de sesión.
      */
     public void closeSession() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() && adminSurname.getText().isEmpty() && adminNIF.getText().isEmpty() && adminSSN.getText().isEmpty() && adminSalary.getText().isEmpty() && adminPassword.getText().isEmpty()) {
                 viewFactory.showCloseSessionConfirmation();
+                logger.info("Se ha mostrado la ventana de confirmación de cierre de sesión desde la ventana de añadir una persona.");
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                logger.info("No se ha mostrado la ventana de confirmación de cierre de sesión porque hay campos no vacíos.");
             }
         } else {
             if (clientName.getText().isEmpty() && clientSurname.getText().isEmpty() && clientNIF.getText().isEmpty() && clientPhone.getText().isEmpty() && clientAddress.getText().isEmpty() && clientEmail.getText().isEmpty() && clientPassword.getText().isEmpty()) {
                 viewFactory.showCloseSessionConfirmation();
+                logger.info("Se ha mostrado la ventana de confirmación de cierre de sesión desde la ventana de añadir una persona.");
             } else {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                logger.info("No se ha mostrado la ventana de confirmación de cierre de sesión porque hay campos no vacíos.");
             }
         }
     }
 
     /**
-     * Method that shows the legend.
+     * Método que muestra la leyenda.
      */
     public void showLegend() {
         viewFactory.closeLegend();
         viewFactory.showAdminLegend();
+        logger.info("Se ha mostrado la leyenda desde la ventana de añadir una persona.");
     }
 
     /**
-     * Method that sets the administrator.
-     * @param administrator
+     * Método que establece el administrador.
+     * @param administrator (administrador que realiza la acción)
      */
     public void setAdmin(Administrator administrator) {
         this.administrator = administrator;
