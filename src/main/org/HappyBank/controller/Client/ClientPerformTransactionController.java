@@ -2,17 +2,19 @@ package org.HappyBank.controller.Client;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.HappyBank.model.Account;
 import org.HappyBank.model.BankService;
 import org.HappyBank.model.Client;
-import org.HappyBank.model.Transaction;
 import org.HappyBank.view.ViewFactory;
-
 import java.math.BigDecimal;
 
+/**
+ * Controlador para la vista de realizar transacción de cliente.
+ */
 public class ClientPerformTransactionController {
     private Account account;
     private Client client;
@@ -28,11 +30,22 @@ public class ClientPerformTransactionController {
     private TextArea concept;
     private BankService bankService = new BankService();
 
+    /**
+     * Método que inicializa la vista de realizar transacción de cliente.
+     */
     public void initialize() {
         viewFactory = ViewFactory.getInstance(null);
+        amount.setContextMenu(new ContextMenu());
+        accNumber.setContextMenu(new ContextMenu());
+        concept.setContextMenu(new ContextMenu());
 
     }
 
+    /**
+     * Método que establece los datos del cliente y la cuenta en la vista.
+     * @param client (El cliente que realiza la consulta)
+     * @param account (La cuenta del cliente)
+     */
     public void setData(Client client, Account account) {
         this.client = client;
         this.account = account;
@@ -40,6 +53,9 @@ public class ClientPerformTransactionController {
         welcomeLabel.setText("¡Hola " + username + "!\nBienvenido al panel de \nclientes de HappyBank.");
     }
 
+    /**
+     * Método que cierra la sesión del cliente.
+     */
     public void closeSession() {
         if (criticWindow()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyPerformTransactionFields.fxml")));
@@ -48,6 +64,9 @@ public class ClientPerformTransactionController {
         }
     }
 
+    /**
+     * Método que muestra la ventana de inicio.
+     */
     public void goBack() {
         if (criticWindow()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyPerformTransactionFields.fxml")));
@@ -56,11 +75,17 @@ public class ClientPerformTransactionController {
         }
     }
 
+    /**
+     * Método que muestra la leyenda de la vista.
+     */
     public void showLegend() {
         viewFactory.closeLegend();
         viewFactory.showClientLegend();
     }
 
+    /**
+     * Método que realiza la transacción de la cuenta del cliente.
+     */
     public void performTransaction() {
         try {
             if (account.equals(bankService.getAccount(accNumber.getText()))) {
@@ -90,6 +115,10 @@ public class ClientPerformTransactionController {
         }
     }
 
+    /**
+     * Método que comprueba si los campos de la ventana están vacíos.
+     * @return (Devuelve true si los campos están vacíos, false si no)
+     */
     private boolean criticWindow() {
         if (amount.getText().isEmpty() && accNumber.getText().isEmpty() && concept.getText().isEmpty()) {
             return false;

@@ -12,10 +12,12 @@ import javafx.scene.control.*;
 import org.HappyBank.model.Client;
 import org.HappyBank.view.ViewFactory;
 import org.HappyBank.model.*;
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * Controlador para la vista de lista de transacciones de cliente.
+ */
 public class ClientTransactionListController {
     private ViewFactory viewFactory;
     private Client client;
@@ -40,12 +42,15 @@ public class ClientTransactionListController {
     @FXML
     private Pagination pagination;
 
+    /**
+     * Método que inicializa la vista de lista de transacciones de cliente.
+     */
     public void initialize() {
         viewFactory = ViewFactory.getInstance(null);
     }
 
     /**
-     * Initializes the viewFactory instance, the bbdd instance, the transaction list and the pagination.
+     * Método que configura la vista de lista de transacciones de cliente.
      */
     public void setup() {
 
@@ -96,7 +101,6 @@ public class ClientTransactionListController {
                     Transaction selectedTransaction = getTableView().getItems().get(getIndex());
                     if (selectedTransaction != null) {
                         Bounds boundsInScreen = concept.localToScreen(concept.getBoundsInLocal());
-                        // Mover la ventana 40 píxeles por encima de la esquina superior izquierda del botón
                         double newX = boundsInScreen.getMinX() - 151;
                         double newY = boundsInScreen.getMinY() - 90;
                         viewFactory.closeConcept();
@@ -138,9 +142,9 @@ public class ClientTransactionListController {
     }
 
     /**
-     * Method that changes the table view.
-     * @param index
-     * @param limit
+     * Método que cambia la vista de la tabla de transacciones.
+     * @param index (El índice de la página)
+     * @param limit (El límite de la página)
      */
     private void changeTableView(int index, int limit) {
         int fromIndex = index * limit;
@@ -161,12 +165,16 @@ public class ClientTransactionListController {
     }
 
     /**
-     * Method that sets up the data of the transaction list.
+     * Método que configura los datos de la vista de lista de transacciones de cliente.
      */
     private void setupData() {
         transactions = bankService.getAccountTransactions(bankService.getAccount(client));
     }
 
+    /**
+     * Método que establece los datos del cliente.
+     * @param client (El cliente que realiza la acción)
+     */
     public void setData(Client client) {
         this.client = client;
         this.username = client.getName() + " " + client.getSurname();
@@ -174,17 +182,26 @@ public class ClientTransactionListController {
         setup();
     }
 
+    /**
+     * Método que cierra la sesión del cliente.
+     */
     public void closeSession() {
         viewFactory.closeConcept();
         viewFactory.showCloseSessionConfirmation();
     }
 
+    /**
+     * Método que muestra la leyenda de la vista.
+     */
     public void showLegend() {
         viewFactory.closeConcept();
         viewFactory.closeLegend();
         viewFactory.showClientLegend();
     }
 
+    /**
+     * Método que muestra la ventana de inicio.
+     */
     public void goBack() {
         viewFactory.closeConcept();
         viewFactory.showClientMainWindow(client.getNIF());

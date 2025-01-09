@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * Controller for the client transaction history view.
+ * Controlador de la ventana de historial de transacciones de un cliente.
  */
 public class AdminClientTransactionHistoryController {
     private Client client;
@@ -56,7 +56,7 @@ public class AdminClientTransactionHistoryController {
 
 
     /**
-     * Initializes the viewFactory instance, the bbdd instance, the transaction list and the pagination.
+     * Inicializa la ventana, la tabla y la paginación.
      */
     public void setup() {
 
@@ -150,9 +150,9 @@ public class AdminClientTransactionHistoryController {
     }
 
     /**
-     * Method that changes the table view.
-     * @param index
-     * @param limit
+     * Método que cambia la vista de la tabla de transacciones.
+     * @param index (índice de la página)
+     * @param limit (límite de la página)
      */
     private void changeTableView(int index, int limit) {
         int fromIndex = index * limit;
@@ -173,16 +173,16 @@ public class AdminClientTransactionHistoryController {
     }
 
     /**
-     * Method that sets up the data of the transaction list.
+     * Método que establece los datos de las transacciones del cliente.
      */
     private void setupData() {
         transactions = bankService.getAccountTransactions(bankService.getAccount(client));
     }
 
     /**
-     * Method that sets the data of the client and the administrator.
-     * @param client
-     * @param administrator
+     * Método que establece los datos del cliente y del administrador.
+     * @param client (cliente a visualizar)
+     * @param administrator (administrador que realiza la acción)
      */
     public void setData(Client client, Administrator administrator) {
         this.client = client;
@@ -194,7 +194,7 @@ public class AdminClientTransactionHistoryController {
     }
 
     /**
-     * Method that goes back to the client list view.
+     * Método que cierra la ventana de historial de transacciones.
      */
     public void goBack() {
         viewFactory.closeConcept();
@@ -202,7 +202,7 @@ public class AdminClientTransactionHistoryController {
     }
 
     /**
-     * Method that closes the session.
+     * Método que abre la ventana de confirmación de cierre de sesión del administrador.
      */
     public void closeSession() {
         viewFactory.closeConcept();
@@ -210,7 +210,7 @@ public class AdminClientTransactionHistoryController {
     }
 
     /**
-     * Method that goes to the main window.
+     * Método que muestra la leyenda de la parte administrativa.
      */
     public void showLegend() {
         viewFactory.closeConcept();

@@ -1,9 +1,9 @@
 package org.HappyBank.controller;
 
 /**
- * Controller for the legend view.
- * This view is used to show the legend of the different icons used in the application.
- * It does not have any functionality.
+ * Controlador para la vista de leyenda.
+ * Esta vista se utiliza para mostrar la leyenda de los diferentes iconos utilizados en la aplicación.
+ * No tiene ninguna funcionalidad.
  */
 public class LegendController {
 

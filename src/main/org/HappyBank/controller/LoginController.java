@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 
+/**
+ * Controlador para la vista de inicio de sesión.
+ */
 public class LoginController {
     @FXML
     private TextField userField;
@@ -24,7 +27,7 @@ public class LoginController {
     private BankService bankService = new BankService();
 
     /**
-     * Initializes the login window.
+     * Método que se encarga de inicializar la vista de inicio de sesión.
      */
     public void initialize() {
         userField.setContextMenu(new ContextMenu());
@@ -33,7 +36,7 @@ public class LoginController {
     }
 
     /**
-     * Method that gets the value of the account picker, the NIF and the password.
+     * Método que se encarga de obtener los campos de texto de la vista de inicio de sesión.
      */
     private void getFields() {
         username = userField.getText();
@@ -42,8 +45,8 @@ public class LoginController {
     }
 
     /**
-     * Method that logis the user in using a query to the database to perform the login.
-     * It throws a window with an error message if the login fails.
+     * Método que inicia sesión del usuario utilizando una consulta a la base de datos para realizar el inicio de sesión.
+     * Muestra una ventana con un mensaje de error si el inicio de sesión falla.
      */
     @FXML
     public void loginUser() {

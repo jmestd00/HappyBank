@@ -9,7 +9,7 @@ import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 
 /**
- * Controller for the modify client view.
+ * Controlador para la vista de modificación de cliente.
  */
 public class AdminModifyClientController {
     private Client client;
@@ -31,17 +31,16 @@ public class AdminModifyClientController {
     private BankService bankService = new BankService();
 
     /**
-     * Initializes the viewFactory instance.
+     * Inicializa la vista de modificación de cliente.
      */
     public void initialize() {
         viewFactory = viewFactory.getInstance(null);
     }
 
     /**
-     * Sets the data of the client and the administrator.
-     * This method is called from the viewFactory instance.
-     * @param client
-     * @param administrator
+     * Método que establece los datos del cliente y del administrador en la vista.
+     * @param client (El cliente a modificar)
+     * @param administrator (El administrador que realiza la acción)
      */
     public void setData(Client client, Administrator administrator) {
         this.client = client;
@@ -52,14 +51,14 @@ public class AdminModifyClientController {
     }
 
     /**
-     * Method that opens the confirmation window to delete the user.
+     * Método que abre la ventana de confirmación para eliminar un cliente.
      */
     public void deleteUser() {
         viewFactory.showConfirmationWindow(client, admin);
     }
 
     /**
-     * Method that modifies the client data.
+     * Método que modifica los datos del cliente.
      */
     public void modifyClient() {
         if (!phone.getText().isEmpty()) {
@@ -81,8 +80,7 @@ public class AdminModifyClientController {
     }
 
     /**
-     * Method that goes back to the client list view.
-     * It shows a window with an error message if there are fields with data.
+     * Método que vuelve a la ventana de lista de clientes.
      */
     public void goBack() {
         if (checkCritic()) {
@@ -93,8 +91,7 @@ public class AdminModifyClientController {
     }
 
     /**
-     * Method that closes the session.
-     * It shows a window with an error message if there are fields with data.
+     * Método que abre la ventana para confirmar el cierre de sesión.
      */
     public void closeSession() {
         if (checkCritic()) {
@@ -105,8 +102,7 @@ public class AdminModifyClientController {
     }
 
     /**
-     * Method that goes to the main window.
-     * It shows a window with an error message if there are fields with data.
+     * Método que muestra la leyenda de la vista.
      */
     public void showLegend() {
         viewFactory.closeLegend();

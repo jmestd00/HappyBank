@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * This class is responsible for managing the views of the application.
+ * Clase que se encarga de gestionar las vistas de la aplicación.
  */
 public class ViewFactory {
 
@@ -32,7 +32,8 @@ public class ViewFactory {
 
     Image happyBankLogo = new Image(String.valueOf(getClass().getResource("/images/bankLogo.png")));
 
-    // The two stages of the application (primary for all the windows of the app, the legend popup and popup for the errors like wrong login)
+    // The two stages of the application (primary for all the windows of the app, the legend popup, the concept popup
+    // and popup for the errors like wrong login)
     private Stage primaryStage;
     private Stage popupStage = new Stage();
     private Stage legendStage = new Stage();
@@ -53,16 +54,11 @@ public class ViewFactory {
     private ClientPersonalDataController personalData;
     private ClientTransactionListController transactionList;
     /* Common */
-    private LegendController legend;
-    private ConfirmCloseSessionController confirmCloseSessionController;
     private TransactionConceptController transactionConcept;
-    /* Error */
-    private ErrorController errorController;
-    /* Login */
-    private LoginController loginController;
+
 
     /**
-     * Constructor of the class ViewFactory to use the singleton pattern
+     * Constructor of the class ViewFactory usado por el patrón singleton.
      * @param primaryStage
      */
     private ViewFactory(Stage primaryStage) {
@@ -71,9 +67,9 @@ public class ViewFactory {
     }
 
     /**
-     * Method to get the instance of the class ViewFactory
+     * Método que devuelve la instancia de la clase ViewFactory.
      * @param primaryStage
-     * @return vFactoryInstance (the instance of the class ViewFactory)
+     * @return vFactoryInstance (la instancia de la clase ViewFactory)
      */
     public static ViewFactory getInstance(Stage primaryStage) {
         if (vFactoryInstance == null) {
@@ -85,7 +81,7 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the login window
+     * Este método se encarga de mostrar la ventana de inicio de sesión.
      */
     public void showLoginView() {
         try {
@@ -105,8 +101,8 @@ public class ViewFactory {
 
 /* Admin */
     /**
-     * Method to show the window to view the main window of the administrator
-     * @param username
+     * Este método se encarga de mostrar la ventana principal del administrador.
+     * @param username (NIF del administrador)
      */
     public void showAdminMainWindow(String username) {
         try {
@@ -127,9 +123,9 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the window to confirm the delete operation of a client
-     * @param client
-     * @param admin
+     * Este método se encarga de mostrar la ventana de confirmación para eliminar un cliente.
+     * @param client (Cliente a eliminar)
+     * @param admin (Administrador que realiza la acción)
      */
     public void showConfirmationWindow(Client client, Administrator admin) {
         try {
@@ -149,8 +145,8 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the window to view the bank's client list
-     * @param admin
+     * Este método se encarga de mostrar la ventana de la lista de clientes del banco.
+     * @param admin (Administrador que realiza la acción)
      */
     public void showClientList(Administrator admin) {
         try {
@@ -171,7 +167,7 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the legend window to provide information about the buttons of the application
+     * Este método se encarga de mostrar la ventana de la leyenda de la parte administrativa.
      */
     public void showAdminLegend() {
         try {
@@ -191,9 +187,9 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the window to edit the personal data of a client
-     * @param selectedClient
-     * @param administrator
+     * Este método se encarga de mostrar la ventana de edición de un cliente.
+     * @param selectedClient (cliente a editar)
+     * @param administrator (administrador que realiza la acción)
      */
     public void showAdminClientEditView(Client selectedClient, Administrator administrator) {
         try {
@@ -214,9 +210,9 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the window to view the transaction history of a client
-     * @param selectedClient
-     * @param administrator
+     * Este método se encarga de mostrar el historial de transacciones de un cliente.
+     * @param selectedClient (cliente seleccionado)
+     * @param administrator (administrador que realiza la acción)
      */
     public void showAdminTransactionHistoryView(Client selectedClient, Administrator administrator) {
         try {
@@ -237,8 +233,8 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the window to add a new client
-     * @param admin
+     * Este método se encarga de mostrar la ventana de añadir un cliente.
+     * @param admin (administrador que realiza la acción)
      */
     public void showAddClient(Administrator admin) {
         try {
@@ -259,7 +255,7 @@ public class ViewFactory {
     }
 /* Client */
     /**
-     * Method to show the main window of the client
+     * Method to show the main window of the client.
      * @param username
      */
     public void showClientMainWindow(String username) {
@@ -280,6 +276,11 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Este método se encarga de mostrar la ventana para realizar una transacción.
+     * @param client (Cliente que realiza la acción)
+     * @param account (Cuenta del cliente)
+     */
     public void showPerformTransactionWindow(Client client, Account account) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientPerformTransaction.fxml")));
@@ -298,7 +299,11 @@ public class ViewFactory {
         }
 
     }
-    
+
+    /**
+     * Este método se encarga de mostrar los datos personales de un cliente.
+     * @param client (Cliente que realiza la acción)
+     */
     public void showPersonalData(Client client) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientPersonalData.fxml")));
@@ -317,6 +322,10 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Este método se encarga de mostrar el historial de transacciones de un cliente.
+     * @param client (Cliente que realiza la acción)
+     */
     public void showTransactionList(Client client) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientTransactionList.fxml")));
@@ -335,6 +344,9 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Este método se encarga de mostrar la ventana de la leyenda de la parte de cliente.
+     */
     public void showClientLegend() {
         try {
             // Cargar el archivo FXML del popup
@@ -354,23 +366,32 @@ public class ViewFactory {
     
 /* Auxiliar Methods */
     /**
-     * Method to close the popups windows that haven't a established time to close
+     * Este método se encarga de cerrar las ventanas extra de la aplicación.
      */
     public void closePopup() {
         popupStage.close();
     }
 
     /**
-     * Method to close the legend window
+     * Este método se encarga de cerrar la ventana de la leyenda.
      */
     public void closeLegend() {
         legendStage.close();
     }
 
+    /**
+     * Este método se encarga de cerrar la ventana del concepto de la transacción.
+     */
     public void closeConcept() {
         conceptStage.close();
     }
 
+    /**
+     * Este método se encarga de mostrar el concepto de una transacción.
+     * @param concept (Concepto de la transacción)
+     * @param index (ID de la transacción)
+     * @param coordinates (Coordenadas de la ventana)
+     */
     public void showConcept(String concept, int index, Point2D coordinates) {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/transactionConcept.fxml")));
@@ -389,6 +410,9 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Este método se encarga de mostrar la ventana de error de inicio de sesión.
+     */
     public void showCloseSessionConfirmation() {
         try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/ConfirmCloseSession.fxml")));
@@ -405,8 +429,8 @@ public class ViewFactory {
     }
 
     /**
-     * Method to show the window error
-     * @param fxmlLoader
+     * Este método se encarga de mostrar la ventana de error.
+     * @param fxmlLoader (cargador del fxml del error correspondiente)
      */
     public void showError(FXMLLoader fxmlLoader) {
         try {

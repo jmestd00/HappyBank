@@ -21,7 +21,7 @@ import java.util.Properties;
 
 
 /**
- * Controller for the client list view.
+ * Controlador de la ventana de lista de clientes del administrador.
  */
 public class AdminClientListController {
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
@@ -64,7 +64,7 @@ public class AdminClientListController {
     private ArrayList<Client> filteredList = new ArrayList<>();
 
     /**
-     * Initializes the bbdd instance, read the options.config, setup the list data and initializes the pagination.
+     * Inicializa la ventana de lista de clientes del administrador.
      */
     public void initialize(){
         readConfig();
@@ -179,9 +179,9 @@ public class AdminClientListController {
     }
 
     /**
-     * Changes the table view to show the clients of the current page.
-     * @param index
-     * @param limit
+     * Método que cambia la vista de la tabla de clientes.
+     * @param index (índice de la página)
+     * @param limit (límite de la página)
      */
     private void changeTableView(int index, int limit) {
         int fromIndex = index * limit;
@@ -202,7 +202,7 @@ public class AdminClientListController {
     }
 
     /**
-     * Refreshes the table view.
+     * Método que refresca la tabla de clientes.
      */
     public void refreshTable() {
         int totalPage = (int) Math.ceil(fullListClients.size() * 1.0 / ROWS_PER_PAGE);
@@ -212,28 +212,28 @@ public class AdminClientListController {
     }
 
     /**
-     * Sets up the data of the clients.
+     * Método que establece los datos de los clientes.
      */
     private void setupData() {
         fullListClients = bankService.getAllClients();
     }
 
     /**
-     * Method that closes the current session.
+     * Método que muestra la ventana de confirmación del cierre de sesión del administrador.
      */
     public void closeSession() {
         viewFactory.showCloseSessionConfirmation();
     }
 
     /**
-     * Method that goes back to the main window.
+     * Método que muestra la ventana principal del administrador.
      */
     public void goBackToMain() {
         viewFactory.showAdminMainWindow(administrator.getNIF());
     }
 
     /**
-     * Method that shows the legend.
+     * Método que muestra la leyenda de la aplicación.
      */
     public void showLegend() {
         viewFactory.closeLegend();
@@ -241,14 +241,14 @@ public class AdminClientListController {
     }
 
     /**
-     * Method that shows the add client view.
+     * Método que muestra la ventana de añadir un cliente.
      */
     public void showAdd() {
         viewFactory.showAddClient(administrator);
     }
 
     /**
-     * Method that searches a client.
+     * Método que filtra en la tabla por nombre, apellido o NIF.
      */
     public void search() {
         String filter = searchBar.getText().toLowerCase();
@@ -264,7 +264,7 @@ public class AdminClientListController {
     }
 
     /**
-     * Method that reads the configuration file.
+     * Método que lee la configuración del archivo options.config para ver si la opción de backup está activada.
      */
     public void readConfig() {
         Properties prop = new Properties();
@@ -293,8 +293,8 @@ public class AdminClientListController {
     }
 
     /**
-     * Method that writes the configuration file.
-     * @param backUp
+     * Método que escribe la configuración en el archivo options.config.
+     * @param backUp (opción de backup)
      */
     private void writeConfig(boolean backUp) {
         String resourceName = "options.config";
@@ -322,7 +322,7 @@ public class AdminClientListController {
     }
 
     /**
-     * Method that activates the diary backUp.
+     * Método que activa o desactiva la opción de backup de la base de datos.
      */
     public void bbddBackUp() {
         backUp = !backUp;
@@ -343,8 +343,8 @@ public class AdminClientListController {
     }
 
     /**
-     * Method that sets the administrator data.
-     * @param admin
+     * Método que establece el administrador.
+     * @param admin (administrador a establecer)
      */
     public void setAdmin(Administrator admin) {
         this.administrator = admin;

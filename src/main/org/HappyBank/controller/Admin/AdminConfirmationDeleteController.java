@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 
 
 /**
- * Controller for the confirmation window to delete a user.
+ * Controlador de la ventana de confirmación de eliminación de un cliente.
  */
 public class AdminConfirmationDeleteController {
     private ViewFactory viewFactory;
@@ -25,7 +25,7 @@ public class AdminConfirmationDeleteController {
     private Button declineDelete;
 
     /**
-     * Initializes the viewFactory instance, a countdown to enable the delete button and the confirmation window.
+     * Inicializa la ventana de confirmación de eliminación de un cliente. Hace que el botón de confirmación se habilite a los 3 segundos.
      */
     public void initialize() {
         viewFactory = viewFactory.getInstance(null);
@@ -41,9 +41,9 @@ public class AdminConfirmationDeleteController {
     }
 
     /**
-     * Sets the data of the client and the administrator.
-     * @param client
-     * @param admin
+     * Método que establece los datos del cliente y del administrador.
+     * @param client (cliente a eliminar)
+     * @param admin (administrador que realiza la acción)
      */
     public void setData(Client client, Administrator admin) {
         this.client = client;
@@ -51,7 +51,7 @@ public class AdminConfirmationDeleteController {
     }
 
     /**
-     * Method that deletes the user from the database and closes the confirmation window.
+     * Método que elimina al cliente y cierra la ventana de confirmación.
      */
     public void delete() {
         bankService.deleteClient(client);
@@ -60,7 +60,7 @@ public class AdminConfirmationDeleteController {
     }
 
     /**
-     * Method that closes the confirmation window and opens the edit client view.
+     * Método que cierra la ventana de confirmación y vuelve a la ventana de edición de cliente.
      */
     public void decline() {
         viewFactory.closePopup();

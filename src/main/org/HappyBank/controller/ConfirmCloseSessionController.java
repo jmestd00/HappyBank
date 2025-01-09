@@ -3,20 +3,20 @@ package org.HappyBank.controller;
 import org.HappyBank.view.ViewFactory;
 
 /**
- * Controller for the confirmation window to close the session.
+ * Controlador para la vista de confirmación de cierre de sesión.
  */
 public class ConfirmCloseSessionController {
     private ViewFactory viewFactory;
 
     /**
-     * Initializes the viewFactory instance.
+     * Metodo que inicializa la vista de confirmación de cierre de sesión.
      */
     public void initialize() {
         viewFactory = viewFactory.getInstance(null);
     }
 
     /**
-     * Method that closes the session and shows the login view.
+     * Metodo que cierra la sesión del usuario cerrando también los diversos popups.
      */
     public void close() {
         viewFactory.closeLegend();
@@ -25,7 +25,7 @@ public class ConfirmCloseSessionController {
     }
 
     /**
-     * Method that closes the confirmation window.
+     * Metodo que cancela el cierre de sesión.
      */
     public void decline() {
         viewFactory.closePopup();
