@@ -52,13 +52,13 @@
             <TextArea fx:id="concept" prefHeight="158.0" prefWidth="460.0" styleClass="textArea" wrapText="true" />
             <HBox alignment="CENTER" prefHeight="116.0" prefWidth="460.0">
                <children>
-                  <Button fx:id="doTransactionButton" mnemonicParsing="false" prefHeight="83.0" prefWidth="485.0" styleClass="doTransactionButton">
+                  <Button fx:id="doTransactionButton" onAction="#performTransaction" mnemonicParsing="false" prefHeight="83.0" prefWidth="485.0" styleClass="doTransactionButton">
                      <graphic>
-                        <Label fx:id="transactionButton" onDragDetected="#performTransaction" prefHeight="70.0" prefWidth="439.0" styleClass="customLabel" text="REALIZAR TRANSFERENCIA">
+                        <Label fx:id="transactionButton" prefHeight="70.0" prefWidth="439.0" styleClass="customLabel" text="REALIZAR TRANSFERENCIA">
                            <graphic>
                               <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/transactionHistory.png" />
+                                    <Image url="@../../images/performTransaction.png" />
                                  </image>
                               </ImageView>
                            </graphic>

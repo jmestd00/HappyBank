@@ -60,7 +60,7 @@
                         <TableColumn fx:id="amountCol" editable="false" minWidth="0.0" prefWidth="141.0" resizable="false" sortable="false" text="CANTIDAD" />
                     </columns>
                 </TableView>
-            <Pagination layoutY="550.0" prefHeight="83.0" prefWidth="934.0" />
+            <Pagination fx:id="pagination" layoutY="550.0" prefHeight="83.0" prefWidth="934.0" styleClass="pagination" />
             </children>
         </Pane>
     </children>
