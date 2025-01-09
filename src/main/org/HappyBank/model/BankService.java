@@ -55,6 +55,18 @@ public class BankService {
     }
     
     /**
+     * Busca clientes.
+     *
+     * @param NIF     NIF del cliente.
+     * @param name    Nombre del cliente.
+     * @param surname Apellidos del cliente.
+     * @return Lista de clientes que cumplen los criterios de búsqueda.
+     */
+    public ArrayList<Client> searchClients(String NIF, String name, String surname) {
+        return clientRepository.searchClient(NIF, name, surname);
+    }
+    
+    /**
      * Obtiene todos los clientes.
      *
      * @return Lista de todos los clientes.
@@ -81,6 +93,16 @@ public class BankService {
      */
     public boolean loginClient(String NIF, String password) {
         return clientRepository.validateClient(NIF, password);
+    }
+    
+    /**
+     * Cambia la contraseña de un cliente.
+     *
+     * @param NIF         NIF del cliente.
+     * @param newPassword Nueva contraseña.
+     */
+    public void changeClientPassword(String NIF, String newPassword) {
+        clientRepository.changePassword(NIF, newPassword);
     }
     
     
@@ -138,6 +160,16 @@ public class BankService {
      */
     public boolean loginAdministrator(String NIF, String password) {
         return administratorRepository.validateAdministrator(NIF, password);
+    }
+    
+    /**
+     * Cambia la contraseña de un administrador.
+     *
+     * @param NIF         NIF del administrador.
+     * @param newPassword Nueva contraseña.
+     */
+    public void changeAdministratorPassword(String NIF, String newPassword) {
+        administratorRepository.changePassword(NIF, newPassword);
     }
     
     
