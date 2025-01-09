@@ -4,13 +4,12 @@ Este proyecto consiste en un sistema de gestión de cuentas bancarias,
 el cual permite realizar operaciones como:
 * Distinción entre administradores y clientes
 1. Para los administradores:
-    * Crear cuentas
-    * Eliminar cuentas
-    * Modificar los datos de un cliente
-    * Consultar el saldo de una cuenta
-    * Consultar el listado de usuarios del banco
-    * Consultar el historial de transacciones de una cuenta
-    * Activar o desactivar la copia de seguridad
+   * Crear cuentas
+   * Eliminar cuentas
+   * Modificar los datos de un cliente
+   * Consultar el listado de usuarios del banco
+   * Consultar el historial de transacciones de una cuenta
+   * Activar o desactivar la copia de seguridad
 
 2. Para los clientes:
    * Realizar transferencias entre cuentas
@@ -30,6 +29,7 @@ el cual permite realizar operaciones como:
 * Maven 4.0.0
 * SceneBuilder 11.0.0
 * Git 2.39.5
+* Log4j2 2.20.0
 
 ## ¿Cómo se ejecuta?
 Se descarga [este](#cómo-se-ejecuta) archivo y se ejecuta en la terminal el comando
