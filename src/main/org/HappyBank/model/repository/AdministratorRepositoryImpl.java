@@ -12,7 +12,7 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
      * @return Conexión a al base de datos
      * @throws SQLException Si no es posible conectarse
      */
-    private Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         return DatabaseManager.getInstance();
     }
     
@@ -31,7 +31,7 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             
             return rs.next();
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating or executing the query: " + e);
+            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
     
@@ -59,13 +59,14 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
      */
     @Override
     public void add(Administrator admin) {
-        try (PreparedStatement stmt = getConnection().prepareStatement("INSERT INTO Administrators(NIF, Name, Surname, SSN, BankName, Password) VALUES(?, ?, ?, ?, ?, ?)")) {
+        try (PreparedStatement stmt = getConnection().prepareStatement("INSERT INTO Administrators(NIF, Name, Surname, SSN, Salary, BankName, Password) VALUES(?, ?, ?, ?, ?, ?, ?)")) {
             stmt.setString(1, admin.getNIF());
             stmt.setString(2, admin.getName());
             stmt.setString(3, admin.getSurname());
             stmt.setString(4, admin.getSSN());
-            stmt.setString(5, admin.getBank());
-            stmt.setString(6, "Password");
+            stmt.setBigDecimal(5, admin.getSalary());
+            stmt.setString(6, admin.getBank());
+            stmt.setString(7, "Password");
             
             stmt.executeQuery();
         } catch (SQLException e) {
@@ -145,6 +146,9 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        }
+        if (list.isEmpty()) {
+            throw new RuntimeException("There are no administrators.");
         }
         
         return list;

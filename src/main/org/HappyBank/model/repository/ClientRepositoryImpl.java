@@ -12,7 +12,7 @@ public class ClientRepositoryImpl implements IRepository<Client> {
      * @return Conexión a al base de datos
      * @throws SQLException Si no es posible conectarse
      */
-    private Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         return DatabaseManager.getInstance();
     }
     
@@ -67,7 +67,7 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             stmt.setString(5, client.getPhone());
             stmt.setString(6, client.getAddress());
             stmt.setString(7, client.getBank());
-            stmt.setString(8, "password");
+            stmt.setString(8, "Password");
             
             stmt.executeQuery();
         } catch (SQLException e) {
@@ -134,6 +134,10 @@ public class ClientRepositoryImpl implements IRepository<Client> {
         } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
+        if (list.isEmpty()) {
+            throw new RuntimeException("There are no clients.");
+        }
+        
         return list;
     }
     
@@ -176,6 +180,9 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        }
+        if (list.isEmpty()) {
+            throw new RuntimeException("There are no clients.");
         }
         
         return list;

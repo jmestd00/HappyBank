@@ -32,8 +32,12 @@ public class DatabaseManager {
      */
     public static Connection getInstance() throws SQLException {
         if (connection == null) {
+            new DatabaseManager();
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
         return connection;
+    }
+    
+    private DatabaseManager() {
     }
 }

@@ -8,12 +8,33 @@ import java.util.ArrayList;
 
 public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
     /**
+     * Repositorio de clientes
+     */
+    private AccountRepositoryImpl accountRepository;
+    
+    /**
+     * Constructor de la clase
+     */
+    public CreditCardRepositoryImpl() {
+        this.accountRepository = new AccountRepositoryImpl();
+    }
+    
+    /**
+     * Establece el repositorio de clientes
+     *
+     * @param accountRepository Repositorio de clientes
+     */
+    public void setAccountRepository(AccountRepositoryImpl accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+    
+    /**
      * Devuelve una conexión a la base de datos
      *
      * @return Conexión a al base de datos
      * @throws SQLException Si no es posible conectarse
      */
-    private Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         return DatabaseManager.getInstance();
     }
     
@@ -100,7 +121,7 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
             } else {
                 throw new RuntimeException("The credit card does not exist.");
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -118,11 +139,15 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
              ResultSet rs = stmt.executeQuery("SELECT * FROM CreditCards")) {
             
             while (rs.next()) {
-                createCard(rs);
+                list.add(createCard(rs));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating or executing the statement: " + e.getMessage());
+            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
+        if (list.isEmpty()) {
+            throw new RuntimeException("There are no credit cards.");
+        }
+        
         return list;
     }
     
@@ -138,7 +163,7 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
             ResultSet rs = stmt.executeQuery();
             return rs.next();
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating or executing the statement: " + e.getMessage());
+            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
     
@@ -150,8 +175,6 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
      * @throws SQLException Si el ResultSet está vacío
      */
     private CreditCard createCard(ResultSet rs) throws SQLException {
-        AccountRepositoryImpl accountRepository = new AccountRepositoryImpl();
-        
         return new CreditCard(
                 rs.getString("Number"),
                 accountRepository.get(rs.getString("AccountIBAN")),
