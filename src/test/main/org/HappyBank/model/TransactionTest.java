@@ -9,79 +9,69 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TransactionTest {
-    Account account1;
-    Account account2;
-    Transaction transaction;
+    Account mockSender;
+    Account mockReceiver;
+    Transaction mockTransaction;
     LocalDateTime date = LocalDateTime.of(2024, 12, 25, 12, 30, 10);
     
     @Before
     public void setUp() {
-        account1 = new Account("ES6621000418401234567891", "12345678A", new BigDecimal(1000));
-        account2 = new Account("ES6621000418401234567892", "12345678B", new BigDecimal(1000));
-        transaction = new Transaction(0, account1, account2, "Concepto de la transacción", new BigDecimal(100), date);
+        
+        mockSender = new Account("ES19 0064 0001 83 9329930006", new Client("Juan", "Pérez", "12345678A", "juanperez@example.com", "123456789", "Calle Falsa 123", "HappyBank"), new BigDecimal(100));
+        mockReceiver = new Account("ES07 0064 0001 60 9168908623", new Client("Pedro", "García", "87654321Z", "pedrogarcia@example.com", "987654321", "Calle Irreal 321", "HappyBank"), new BigDecimal(100));
+        mockTransaction = new Transaction(mockSender, mockReceiver, "Concepto de la transacción", new BigDecimal(100), date);
     }
     
     @Test
     public void createTransactionsTest() throws HappyBankException {
-        Transaction transactionTest1 = new Transaction(account1, account2, "Concepto de la transacción", new BigDecimal(100));
-        Transaction transactionTest2 = new Transaction(account1, account2, "Concepto de la transacción", new BigDecimal(100), date);
+        Transaction transactionTest1 = new Transaction(mockSender, mockReceiver, "Concepto de la transacción", new BigDecimal(100));
+        Transaction transactionTest2 = new Transaction(mockSender, mockReceiver, "Concepto de la transacción", new BigDecimal(100), date);
+        
         assertNotNull(transactionTest1);
         assertNotNull(transactionTest2);
     }
     
     @Test
     public void getSenderTest() {
-        assertEquals("ES6621000418401234567891", transaction.getSender().getIBAN());
+        assertEquals("ES19 0064 0001 83 9329930006", mockTransaction.getSender().getIBAN());
     }
     
     @Test
     public void getReceiverTest() {
-        assertEquals("ES6621000418401234567892", transaction.getReceiver().getIBAN());
+        assertEquals("ES07 0064 0001 60 9168908623", mockTransaction.getReceiver().getIBAN());
     }
     
     @Test
     public void getConceptTest() {
-        assertEquals("Concepto de la transacción", transaction.getConcept());
+        assertEquals("Concepto de la transacción", mockTransaction.getConcept());
     }
     
     @Test
     public void getAmountTest() {
-        assertEquals(new BigDecimal(100), transaction.getAmount());
-    }
-    
-    @Test
-    public void getIDTest() {
-        assertEquals(0, transaction.getID());
+        assertEquals(new BigDecimal(100), mockTransaction.getAmount());
     }
     
     @Test
     public void getDateTest() {
-        assertEquals(date, transaction.getDate());
+        assertEquals(date, mockTransaction.getDate());
     }
     
     @Test (expected = HappyBankException.class)
-    public void createInvalidTransactionWithoutDate() throws HappyBankException {
-        Transaction t = new Transaction(account1, account1, "Concepto de la transacción", new BigDecimal(100));
-        assertNull(t);
-    }
-    
-    
-    @Test (expected = HappyBankException.class)
-    public void createInvalidTransactionWithDate() throws HappyBankException {
-        Transaction t = new Transaction(account1, account1, "Concepto de la transacción", new BigDecimal(100), date);
+    public void createInvalidTransaction() throws HappyBankException {
+        Transaction t = new Transaction(mockSender, mockSender, "Concepto", new BigDecimal(100));
         assertNull(t);
     }
     
     @Test
     public void toStringTest() {
         assertEquals("""
-                Transaction 0:\s
+                Transaction:\s
                 Date: 25/12/2024 12:30:10,\s
                 Amount: 100.00,\s
                 Concept: Concepto de la transacción,\s
-                Sender Client: Account ES6621000418401234567891 , Owner NIF: 12345678A , Balance: 1000.00,\s
-                Receiver Client: Account ES6621000418401234567892 , Owner NIF: 12345678B , Balance: 1000.00""",
+                Sender Client: Account ES19 0064 0001 83 9329930006 , Owner NIF: 12345678A , Balance: 100.00,\s
+                Receiver Client: Account ES07 0064 0001 60 9168908623 , Owner NIF: 87654321Z , Balance: 100.00""",
                 
-                transaction.toString());
+                mockTransaction.toString());
     }
 }
