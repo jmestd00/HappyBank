@@ -2,6 +2,8 @@ package org.HappyBank.model.repository;
 
 import org.HappyBank.model.Account;
 import org.HappyBank.model.CreditCard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +15,11 @@ import java.util.ArrayList;
  * @see org.HappyBank.model.repository.IRepository
  */
 public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
+    /**
+     * Logger de la clase
+     */
+    private static final Logger logger = LogManager.getLogger(CreditCardRepositoryImpl.class);
+    
     /**
      * Repositorio de clientes
      */
@@ -58,7 +65,9 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
             stmt.setString(4, card.getCVV());
             
             stmt.executeQuery();
+            logger.info("Se ha creado una tarjeta de crédito con número {}.", card.getNumber());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -74,7 +83,9 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
             stmt.setString(1, card.getNumber());
             
             stmt.executeQuery();
+            logger.info("Se ha eliminado la tarjeta de crédito con número {}.", card.getNumber());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -86,6 +97,7 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
      */
     @Override
     public void update(CreditCard card) {
+        logger.error("Se ha accedido a una operación no permitida: update.");
         throw new UnsupportedOperationException("This method is unsupported.");
     }
     
@@ -102,11 +114,14 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
+                logger.info("Obtenida la tarjeta de crédito con número {}.", number);
                 return createCard(rs);
             } else {
+                logger.error("No se ha encontrado la tarjeta de crédito con número {}.", number);
                 throw new RuntimeException("The credit card does not exist.");
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -123,11 +138,14 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
+                logger.info("Obtenida la tarjeta de crédito asociada a la cuenta con IBAN: {}.", account.getIBAN());
                 return createCard(rs);
             } else {
+                logger.error("No se ha encontrado la tarjeta de crédito asociada a la cuenta con IBAN: {}.", account.getIBAN());
                 throw new RuntimeException("The credit card does not exist.");
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -148,12 +166,15 @@ public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
                 list.add(createCard(rs));
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
         if (list.isEmpty()) {
+            logger.error("No hay tarjetas de crédito.");
             throw new RuntimeException("There are no credit cards.");
         }
         
+        logger.info("Obtenidas todas las tarjetas de crédito.");
         return list;
     }
     

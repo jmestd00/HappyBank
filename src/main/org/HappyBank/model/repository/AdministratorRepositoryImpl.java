@@ -1,6 +1,8 @@
 package org.HappyBank.model.repository;
 
 import org.HappyBank.model.Administrator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,6 +14,11 @@ import java.util.ArrayList;
  * @see org.HappyBank.model.repository.IRepository
  */
 public class AdministratorRepositoryImpl implements IRepository<Administrator> {
+    /**
+     * Logger de la clase
+     */
+    private static final Logger logger = LogManager.getLogger(AdministratorRepositoryImpl.class);
+    
     /**
      * Devuelve una conexión a la base de datos
      *
@@ -35,8 +42,10 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             
+            logger.info("Administrador {} ha iniciado sesión.", NIF);
             return rs.next();
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -53,7 +62,9 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             stmt.setString(2, NIF);
             
             stmt.executeQuery();
+            logger.info("Administrador {} ha cambiado su contraseña.", NIF);
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -75,7 +86,9 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             stmt.setString(7, "Password");
             
             stmt.executeQuery();
+            logger.info("Creado el administrador con NIF: {}", admin.getNIF());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -91,7 +104,9 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             stmt.setString(1, admin.getNIF());
             
             stmt.executeQuery();
+            logger.info("Administrador eliminado con NIF: {}", admin.getNIF());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -108,7 +123,9 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             stmt.setString(2, admin.getNIF());
             
             stmt.executeQuery();
+            logger.info("Administrador actualizado con NIF: {}", admin.getNIF());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -126,11 +143,14 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
+                logger.info("Obtenido el administrador con NIF: {}", NIF);
                 return createAdmin(rs);
             } else {
+                logger.error("El administrador con NIF: {} no existe.", NIF);
                 throw new RuntimeException("The administrator does not exist.");
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -151,12 +171,15 @@ public class AdministratorRepositoryImpl implements IRepository<Administrator> {
                 list.add(createAdmin(rs));
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
         if (list.isEmpty()) {
+            logger.error("No hay administradores en la base de datos.");
             throw new RuntimeException("There are no administrators.");
         }
         
+        logger.info("Obtenidos todos los administradores.");
         return list;
     }
     

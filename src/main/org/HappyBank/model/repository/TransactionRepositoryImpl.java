@@ -2,6 +2,8 @@ package org.HappyBank.model.repository;
 
 import org.HappyBank.model.Account;
 import org.HappyBank.model.Transaction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +15,14 @@ import java.util.ArrayList;
  * @see org.HappyBank.model.repository.IRepository
  */
 public class TransactionRepositoryImpl implements IRepository<Transaction> {
+    /**
+     * Logger de la clase
+     */
+    private static final Logger logger = LogManager.getLogger(TransactionRepositoryImpl.class);
+    
+    /**
+     * Repositorio de cuentas
+     */
     private AccountRepositoryImpl accountRepository;
     
     /**
@@ -56,7 +66,9 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
             stmt.setTimestamp(5, Timestamp.valueOf(transaction.getDate()));
             
             stmt.executeQuery();
+            logger.info("Transacción de {} para {} ha sido añadida.", transaction.getSender().getOwner().getNIF(), transaction.getReceiver().getOwner().getNIF());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -68,6 +80,7 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      */
     @Override
     public void remove(Transaction transaction) {
+        logger.error("Se ha accedido a una operación no permitida: remove.");
         throw new UnsupportedOperationException("This method is unsupported.");
     }
     
@@ -78,6 +91,7 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      */
     @Override
     public void update(Transaction transaction) {
+        logger.error("Se ha accedido a una operación no permitida: update.");
         throw new UnsupportedOperationException("This method is unsupported.");
     }
     
@@ -89,6 +103,7 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      */
     @Override
     public Transaction get(String ID) {
+        logger.error("Se ha accedido a una operación no permitida: get.");
         throw new UnsupportedOperationException("This method is unsupported.");
     }
     
@@ -99,6 +114,7 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      */
     @Override
     public ArrayList<Transaction> getAll() {
+        logger.error("Se ha accedido a una operación no permitida: getAll.");
         throw new UnsupportedOperationException("This method is unsupported.");
     }
     
@@ -119,12 +135,15 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
                 list.add(createTransaction(rs));
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
         if (list.isEmpty()) {
+            logger.error("No hay transacciones");
             throw new RuntimeException("There are no transactions.");
         }
         
+        logger.info("Transacciones de la cuenta con IBAN: {} obtenidas.", account.getIBAN());
         return list;
     }
     
