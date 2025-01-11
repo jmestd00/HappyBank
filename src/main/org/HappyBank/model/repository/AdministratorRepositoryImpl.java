@@ -5,6 +5,12 @@ import org.HappyBank.model.Administrator;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un repositorio de administradores.
+ * Implementa la interfaz IRepository.
+ *
+ * @see org.HappyBank.model.repository.IRepository
+ */
 public class AdministratorRepositoryImpl implements IRepository<Administrator> {
     /**
      * Devuelve una conexión a la base de datos

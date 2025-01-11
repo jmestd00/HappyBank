@@ -6,6 +6,12 @@ import org.HappyBank.model.CreditCard;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un repositorio de tarjetas de crédito.
+ * Implementa la interfaz IRepository.
+ *
+ * @see org.HappyBank.model.repository.IRepository
+ */
 public class CreditCardRepositoryImpl implements IRepository<CreditCard> {
     /**
      * Repositorio de clientes

@@ -6,13 +6,27 @@ import org.HappyBank.model.Transaction;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un repositorio de transacciones.
+ * Implementa la interfaz IRepository.
+ *
+ * @see org.HappyBank.model.repository.IRepository
+ */
 public class TransactionRepositoryImpl implements IRepository<Transaction> {
     private AccountRepositoryImpl accountRepository;
     
+    /**
+     * Constructor del repositorio de transacciones.
+     */
     public TransactionRepositoryImpl() {
         this.accountRepository = new AccountRepositoryImpl();
     }
     
+    /**
+     * Establece el repositorio de cuentas.
+     *
+     * @param accountRepository Repositorio de cuentas
+     */
     public void setAccountRepository(AccountRepositoryImpl accountRepository) {
         this.accountRepository = accountRepository;
     }

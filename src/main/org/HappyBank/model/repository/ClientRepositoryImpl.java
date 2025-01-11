@@ -5,6 +5,12 @@ import org.HappyBank.model.Client;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un repositorio de clientes.
+ * Implementa la interfaz IRepository.
+ *
+ * @see org.HappyBank.model.repository.IRepository
+ */
 public class ClientRepositoryImpl implements IRepository<Client> {
     /**
      * Devuelve una conexión a la base de datos
