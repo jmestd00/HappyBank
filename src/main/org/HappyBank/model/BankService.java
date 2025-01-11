@@ -5,12 +5,15 @@ import org.HappyBank.model.repository.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa el servicio de acceso a las operaciones en base de datos de manera simplificada.
+ */
 public class BankService {
-    private final AccountRepositoryImpl accountRepository;
-    private final AdministratorRepositoryImpl administratorRepository;
-    private final ClientRepositoryImpl clientRepository;
-    private final CreditCardRepositoryImpl cardRepository;
-    private final TransactionRepositoryImpl transactionRepository;
+    private AccountRepositoryImpl accountRepository;
+    private AdministratorRepositoryImpl administratorRepository;
+    private ClientRepositoryImpl clientRepository;
+    private CreditCardRepositoryImpl cardRepository;
+    private TransactionRepositoryImpl transactionRepository;
     
     
     //Constructor
@@ -23,6 +26,52 @@ public class BankService {
         clientRepository = new ClientRepositoryImpl();
         cardRepository = new CreditCardRepositoryImpl();
         transactionRepository = new TransactionRepositoryImpl();
+    }
+    
+    //Setters
+    /**
+     * Establece el repositorio de cuentas.
+     *
+     * @param accountRepository Repositorio de cuentas.
+     */
+    public void setAccountRepository(AccountRepositoryImpl accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+    
+    /**
+     * Establece el repositorio de administradores.
+     *
+     * @param administratorRepository Repositorio de administradores.
+     */
+    public void setAdministratorRepository(AdministratorRepositoryImpl administratorRepository) {
+        this.administratorRepository = administratorRepository;
+    }
+    
+    /**
+     * Establece el repositorio de clientes.
+     *
+     * @param clientRepository Repositorio de clientes.
+     */
+    public void setClientRepository(ClientRepositoryImpl clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+    
+    /**
+     * Establece el repositorio de tarjetas de crédito.
+     *
+     * @param cardRepository Repositorio de tarjetas de crédito.
+     */
+    public void setCreditCardRepository(CreditCardRepositoryImpl cardRepository) {
+        this.cardRepository = cardRepository;
+    }
+    
+    /**
+     * Establece el repositorio de transacciones.
+     *
+     * @param transactionRepository Repositorio de transacciones.
+     */
+    public void setTransactionRepository(TransactionRepositoryImpl transactionRepository) {
+        this.transactionRepository = transactionRepository;
     }
     
     
@@ -38,10 +87,12 @@ public class BankService {
      * @param address  Dirección del cliente.
      * @param bank     Entidad bancaria del cliente.
      * @param password Contraseña del cliente.
-     * @return Cliente creado.
      */
-    public Client createClient(String name, String surname, String NIF, String email, String phone, String address, String bank, String password) {
-        return new Client(name, surname, NIF, email, phone, address, bank, password);
+    public void createClient(String name, String surname, String NIF, String email, String phone, String address, String bank, String password) {
+        Client client = new Client(name, surname, NIF, email, phone, address, bank);
+        clientRepository.add(client);
+        clientRepository.changePassword(NIF, password);
+        createAccount(client);
     }
     
     /**
@@ -80,7 +131,7 @@ public class BankService {
      *
      * @param client Cliente a eliminar.
      */
-    public void deleteClient(Client client) {
+    public void removeClient(Client client) {
         clientRepository.remove(client);
     }
     
@@ -117,10 +168,10 @@ public class BankService {
      * @param salary   Salario del administrador.
      * @param bank     Entidad bancaria del administrador.
      * @param password Contraseña del administrador.
-     * @return Administrador creado.
      */
-    public Administrator createAdministrator(String name, String surname, String NIF, String SSN, BigDecimal salary, String bank, String password) {
-        return new Administrator(name, surname, NIF, SSN, salary, bank, password);
+    public void createAdministrator(String name, String surname, String NIF, String SSN, BigDecimal salary, String bank, String password) {
+        administratorRepository.add(new Administrator(name, surname, NIF, SSN, salary, bank));
+        administratorRepository.changePassword(NIF, password);
     }
     
     /**
@@ -177,11 +228,12 @@ public class BankService {
     /**
      * Crea una cuenta.
      *
-     * @param ownerNIF NIF del propietario de la cuenta.
-     * @return Cuenta creada.
+     * @param client Propietario de la cuenta.
      */
-    public Account createAccount(String ownerNIF) {
-        return new Account(clientRepository.get(ownerNIF));
+    public void createAccount(Client client) {
+        Account account = new Account(client);
+        accountRepository.add(account);
+        createCreditCard(account);
     }
     
     /**
@@ -227,11 +279,10 @@ public class BankService {
     /**
      * Crea una tarjeta de crédito.
      *
-     * @param IBAN IBAN de la cuenta asociada a la tarjeta.
-     * @return Tarjeta de crédito creada.
+     * @param account Cuenta asociada a la tarjeta.
      */
-    public CreditCard createCreditCard(String IBAN) {
-        return new CreditCard(accountRepository.get(IBAN));
+    public void createCreditCard(Account account) {
+        cardRepository.add(new CreditCard(account));
     }
     
     /**
@@ -281,10 +332,9 @@ public class BankService {
      * @param receiver Cuenta receptora de la transacción.
      * @param concept  Concepto de la transacción.
      * @param amount   Cantidad de la transacción
-     * @return Transacción creada.
      */
-    public Transaction createTransaction(Account sender, Account receiver, String concept, BigDecimal amount) {
-        return new Transaction(sender, receiver, concept, amount);
+    public void createTransaction(Account sender, Account receiver, String concept, BigDecimal amount) throws HappyBankException {
+        transactionRepository.add(new Transaction(sender, receiver, concept, amount));
     }
     
     /**
@@ -292,7 +342,7 @@ public class BankService {
      *
      * @return Lista de todas las transacciones.
      */
-    public ArrayList<Transaction> getAllTransaction() {
+    public ArrayList<Transaction> getAllTransactions() {
         return transactionRepository.getAll();
     }
     
@@ -307,10 +357,11 @@ public class BankService {
     }
     
     /**
-     * Obtiene las últimas n transacciones.
+     * Obtiene las últimas X transacciones.
      *
+     * @param account  Cuenta de la que se quieren obtener las transacciones.
      * @param quantity Cantidad de transacciones a obtener.
-     * @return Lista de las últimas n transacciones.
+     * @return Lista de las últimas X transacciones.
      */
     public ArrayList<Transaction> getLastTransactions(Account account, int quantity) {
         return transactionRepository.getLastTransactions(account, quantity);

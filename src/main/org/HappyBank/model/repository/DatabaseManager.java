@@ -29,11 +29,18 @@ public class DatabaseManager {
     //Singleton
     /**
      * Crea la instancia de la base de datos.
+     *
+     * @return Conexión con la base de datos.
+     * @throws SQLException Si no es posible conectarse a la base de datos.
      */
     public static Connection getInstance() throws SQLException {
         if (connection == null) {
+            new DatabaseManager();
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
         return connection;
+    }
+    
+    private DatabaseManager() {
     }
 }

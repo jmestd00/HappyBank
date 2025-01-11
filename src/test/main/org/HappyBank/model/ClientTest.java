@@ -1,73 +1,82 @@
 package org.HappyBank.model;
 
+import org.HappyBank.model.repository.ClientRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 
 public class ClientTest {
-    Client client;
+    ClientRepositoryImpl clientRepository;
+    Client mockClient;
     
     @Before
     public void setUp() {
-        client = new Client("Juan", "Pérez", "12345678A", "juanperez@gmail.com", "123456789", "Calle de Prueba 123", "HappyBank");
+        mockClient = new Client("Juan", "Pérez", "12345678A", "juanperez@gmail.com", "123456789", "Calle de Prueba 123", "HappyBank");
+        clientRepository = mock(ClientRepositoryImpl.class);
+        mockClient.setClientRepository(clientRepository);
+        
+        doNothing().when(clientRepository).update(any());
     }
     
     @Test
     public void getNameTest() {
-        assertEquals("Juan", client.getName());
+        assertEquals("Juan", mockClient.getName());
     }
     
     @Test
     public void getSurnameTest() {
-        assertEquals("Pérez", client.getSurname());
+        assertEquals("Pérez", mockClient.getSurname());
     }
     
     @Test
     public void getNIFTest() {
-        assertEquals("12345678A", client.getNIF());
+        assertEquals("12345678A", mockClient.getNIF());
     }
     
     @Test
     public void getEmailTest() {
-        assertEquals("juanperez@gmail.com", client.getEmail());
+        assertEquals("juanperez@gmail.com", mockClient.getEmail());
     }
     
     @Test
     public void getPhoneTest() {
-        assertEquals("123456789", client.getPhone());
+        assertEquals("123456789", mockClient.getPhone());
     }
     
     @Test
     public void getAddressTest() {
-        assertEquals("Calle de Prueba 123", client.getAddress());
+        assertEquals("Calle de Prueba 123", mockClient.getAddress());
     }
     
     @Test
     public void getBankTest() {
-        assertEquals("HappyBank", client.getBank());
+        assertEquals("HappyBank", mockClient.getBank());
     }
     
     @Test
     public void setEmailTest() {
-        client.setEmail("juanperez@example.com");
-        assertEquals("juanperez@example.com", client.getEmail());
+        mockClient.setEmail("juanperez@example.com");
+        assertEquals("juanperez@example.com", mockClient.getEmail());
     }
     
     @Test
     public void setPhoneTest() {
-        client.setPhone("987654321");
-        assertEquals("987654321", client.getPhone());
+        mockClient.setPhone("987654321");
+        assertEquals("987654321", mockClient.getPhone());
     }
     
     @Test
     public void setBankTest() {
-        client.setAddress("Calle de Prueba 321");
-        assertEquals("Calle de Prueba 321", client.getAddress());
+        mockClient.setAddress("Calle de Prueba 321");
+        assertEquals("Calle de Prueba 321", mockClient.getAddress());
     }
     
     @Test
     public void toStringTest() {
-        assertEquals("Juan Pérez , BankName: HappyBank , DNI: 12345678A , Email: juanperez@gmail.com , Phone Number: 123456789 , Address: Calle de Prueba 123", client.toString());
+        assertEquals("Juan Pérez , BankName: HappyBank , DNI: 12345678A , Email: juanperez@gmail.com , Phone Number: 123456789 , Address: Calle de Prueba 123", mockClient.toString());
     }
 }

@@ -6,14 +6,38 @@ import org.HappyBank.model.Transaction;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un repositorio de transacciones.
+ * Implementa la interfaz IRepository.
+ *
+ * @see org.HappyBank.model.repository.IRepository
+ */
 public class TransactionRepositoryImpl implements IRepository<Transaction> {
+    private AccountRepositoryImpl accountRepository;
+    
+    /**
+     * Constructor del repositorio de transacciones.
+     */
+    public TransactionRepositoryImpl() {
+        this.accountRepository = new AccountRepositoryImpl();
+    }
+    
+    /**
+     * Establece el repositorio de cuentas.
+     *
+     * @param accountRepository Repositorio de cuentas
+     */
+    public void setAccountRepository(AccountRepositoryImpl accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+    
     /**
      * Devuelve una conexión a la base de datos
      *
      * @return Conexión a al base de datos
      * @throws SQLException Si no es posible conectarse
      */
-    private Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         return DatabaseManager.getInstance();
     }
     
@@ -75,19 +99,7 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      */
     @Override
     public ArrayList<Transaction> getAll() {
-        ArrayList<Transaction> list = new ArrayList<>();
-        
-        try (Statement stmt = getConnection().createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT  * FROM Transactions")) {
-            
-            while (rs.next()) {
-                list.add(createTransaction(rs));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
-        }
-        
-        return list;
+        throw new UnsupportedOperationException("This method is unsupported.");
     }
     
     /**
@@ -99,7 +111,7 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
     public ArrayList<Transaction> getAccountTransactions (Account account) {
         ArrayList<Transaction> list = new ArrayList<>();
         
-        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM  Transactions WHERE Sender=?")) {
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM  Transactions WHERE Sender=? ORDER BY Date DESC")) {
             stmt.setString(1, account.getIBAN());
             ResultSet rs = stmt.executeQuery();
             
@@ -108,6 +120,9 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        }
+        if (list.isEmpty()) {
+            throw new RuntimeException("There are no transactions.");
         }
         
         return list;
@@ -121,21 +136,13 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      * @return Lista con las últimas transacciones de la cuenta
      */
     public ArrayList<Transaction> getLastTransactions(Account account, int quantity) {
-        ArrayList<Transaction> list = new ArrayList<>();
+        ArrayList<Transaction> list = getAccountTransactions(account);
         
-        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM Transactions WHERE Sender=? ORDER BY Date DESC LIMIT ?")){
-            stmt.setString(1, account.getIBAN());
-            stmt.setInt(2, quantity);
-            ResultSet rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                list.add(createTransaction(rs));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        if (quantity > list.size()) {
+            quantity = list.size();
         }
         
-        return list;
+        return new ArrayList<>(list.subList(0, quantity));
     }
     
     /**
@@ -146,8 +153,6 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
      * @throws SQLException Si el ResultSet está vacío
      */
     private Transaction createTransaction(ResultSet rs) throws SQLException {
-        AccountRepositoryImpl accountRepository = new AccountRepositoryImpl();
-        
         return new Transaction(
                 accountRepository.get(rs.getString("Sender")),
                 accountRepository.get(rs.getString("Receiver")),

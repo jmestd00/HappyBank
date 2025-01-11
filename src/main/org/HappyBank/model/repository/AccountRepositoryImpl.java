@@ -6,14 +6,41 @@ import org.HappyBank.model.Client;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un repositorio de cuentas.
+ * Implementa la interfaz IRepository.
+ *
+ * @see org.HappyBank.model.repository.IRepository
+ */
 public class AccountRepositoryImpl implements IRepository<Account> {
+    /**
+     * Repositorio de clientes
+     */
+    private ClientRepositoryImpl clientRepository;
+    
+    /**
+     * Constructor de la clase
+     */
+    public AccountRepositoryImpl() {
+        this.clientRepository = new ClientRepositoryImpl();
+    }
+    
+    /**
+     * Establece el repositorio de clientes
+     *
+     * @param clientRepository Repositorio de clientes
+     */
+    public void setClientRepository(ClientRepositoryImpl clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+    
     /**
      * Devuelve una conexión a la base de datos
      *
      * @return Conexión a al base de datos
      * @throws SQLException Si no es posible conectarse
      */
-    private Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         return DatabaseManager.getInstance();
     }
     
@@ -127,7 +154,10 @@ public class AccountRepositoryImpl implements IRepository<Account> {
                 list.add(createAccount(rs));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating or executing the query: ");
+            throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
+        }
+        if (list.isEmpty()) {
+            throw new RuntimeException("There are no accounts.");
         }
         
         return list;
@@ -157,8 +187,6 @@ public class AccountRepositoryImpl implements IRepository<Account> {
      * @throws SQLException Si el ResultSet está vacío
      */
     private Account createAccount(ResultSet rs) throws SQLException {
-        ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
-        
         return new Account(
                 rs.getString("IBAN"),
                 clientRepository.get(rs.getString("OwnerNIF")),
