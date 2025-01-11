@@ -38,38 +38,12 @@ public class Client {
     /**
      * Conexión con la base de datos
      */
-    private final ClientRepositoryImpl clientRepository;
+    private ClientRepositoryImpl clientRepository;
     
     
     //Constructors
     /**
-     * Constructor para crear un cliente.
-     *
-     * @param name     Nombre del cliente.
-     * @param surname  Apellidos del cliente.
-     * @param NIF      NIF del cliente.
-     * @param email    Email del cliente.
-     * @param phone    Teléfono del cliente.
-     * @param address  Dirección del cliente.
-     * @param bank     Nombre del banco.
-     * @param password Contraseña del cliente.
-     */
-    public Client(String name, String surname, String NIF, String email, String phone, String address, String bank, String password) {
-        clientRepository = new ClientRepositoryImpl();
-        this.NIF = NIF;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.bank = bank;
-        
-        clientRepository.add(this);
-        clientRepository.changePassword(NIF, password);
-    }
-    
-    /**
-     * Constructor para descargar un cliente.
+     * Constructor universal de cliente.
      *
      * @param name    Nombre del cliente.
      * @param surname Apellidos del cliente.
@@ -187,6 +161,14 @@ public class Client {
         clientRepository.update(this);
     }
     
+    /**
+     * Establece la conexión con la base de datos.
+     *
+     * @param clientRepository Conexión con la base de datos.
+     */
+    public void setClientRepository(ClientRepositoryImpl clientRepository) {
+        this.clientRepository = clientRepository;
+    }
     
     //Override
     /**

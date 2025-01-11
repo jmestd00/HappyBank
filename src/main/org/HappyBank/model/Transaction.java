@@ -1,12 +1,13 @@
 package org.HappyBank.model;
 
-import org.HappyBank.model.repository.TransactionRepositoryImpl;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Clase que representa una transacción.
+ */
 public class Transaction {
     //Attributes
     /**
@@ -30,10 +31,6 @@ public class Transaction {
      */
     private final LocalDateTime date;
     /**
-     * Conexión con la base de datos
-     */
-    private final TransactionRepositoryImpl transactionRepository;
-    /**
      * Formateador de tiempo día/mes/año hora:minuto:segundo.
      */
     private static final DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -46,20 +43,18 @@ public class Transaction {
      * @param receiver Cuenta receptora.
      * @param concept  Concepto de la transacción
      * @param amount   Cantidad de dinero.
+     * @throws RuntimeException Si el emisor y el receptor son la misma cuenta.
      */
-    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount) {
+    public Transaction(Account sender, Account receiver, String concept, BigDecimal amount) throws HappyBankException {
         if (receiver.equals(sender)) {
-            throw new RuntimeException("The sender and the receiver can't be the same account");
+            throw new HappyBankException("The sender and the receiver can't be the same account");
         }
         
-        transactionRepository = new TransactionRepositoryImpl();
         this.sender = sender;
         this.receiver = receiver;
         this.concept = concept;
         this.amount = amount;
         this.date = LocalDateTime.now();
-        
-        transactionRepository.add(this);
     }
     
     /**
@@ -72,7 +67,6 @@ public class Transaction {
      * @param date     Fecha de la transacción.
      */
     public Transaction(Account sender, Account receiver, String concept, BigDecimal amount, LocalDateTime date) {
-        transactionRepository = new TransactionRepositoryImpl();
         this.sender = sender;
         this.receiver = receiver;
         this.concept = concept;

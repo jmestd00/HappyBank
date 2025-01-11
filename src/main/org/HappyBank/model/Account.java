@@ -25,7 +25,7 @@ public class Account {
     /**
      * Conexión a la base de datos
      */
-    private final AccountRepositoryImpl accountRepository;
+    private AccountRepositoryImpl accountRepository;
     
     
     //Constructors
@@ -35,12 +35,12 @@ public class Account {
      * @param owner Propietario.
      */
     public Account(Client owner) {
+        Generator generator = new Generator();
+        
         this.accountRepository = new AccountRepositoryImpl();
-        this.IBAN = Generator.generateUniqueIBAN();
+        this.IBAN = generator.generateUniqueIBAN();
         this.owner = owner;
         this.balance = new BigDecimal(0);
-        
-        accountRepository.add(this);
     }
     
     /**
@@ -98,6 +98,14 @@ public class Account {
         accountRepository.update(this);
     }
     
+    /**
+     * Establece la conexión a la base de datos.
+     *
+     * @param accountRepository Conexión a la base de datos.
+     */
+    public void setAccountRepository(AccountRepositoryImpl accountRepository) {
+        this.accountRepository = accountRepository;
+    }
     
     //Overrides
     /**

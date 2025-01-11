@@ -1,7 +1,5 @@
 package org.HappyBank.model;
 
-import org.HappyBank.model.repository.CreditCardRepositoryImpl;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -27,10 +25,6 @@ public class CreditCard {
      */
     private final String CVV;
     /**
-     * Conexión con la base de datos
-     */
-    private final CreditCardRepositoryImpl cardRepository;
-    /**
      * Formateador de fechas en día/mes/año.
      */
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
@@ -43,13 +37,12 @@ public class CreditCard {
      * @param account Cuenta asociada a la tarjeta.
      */
     public CreditCard(Account account) {
-        cardRepository = new CreditCardRepositoryImpl();
-        this.number = Generator.generateUniqueCreditCard();
+        Generator generator = new Generator();
+        
+        this.number = generator.generateUniqueCreditCard();
         this.account = account;
         this.expirationDate = LocalDate.now().plusMonths(41);
         this.CVV = Generator.generateCVV();
-        
-        cardRepository.add(this);
     }
     
     /**
@@ -61,7 +54,6 @@ public class CreditCard {
      * @param CVV            CVV de la tarjeta.
      */
     public CreditCard(String number, Account account, LocalDate expirationDate, String CVV) {
-        cardRepository = new CreditCardRepositoryImpl();
         this.number = number;
         this.account = account;
         this.expirationDate = expirationDate;
