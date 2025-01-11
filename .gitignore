@@ -37,3 +37,9 @@ build/
 ### LIB ###
 !lib/*
 lib/**/
+
+### Backup ###
+/etc/backup/*
+
+### Logs ###
+/etc/logs/*
