@@ -138,10 +138,6 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
             logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
-        if (list.isEmpty()) {
-            logger.error("No hay transacciones");
-            throw new RuntimeException("There are no transactions.");
-        }
         
         logger.info("Transacciones de la cuenta con IBAN: {} obtenidas.", account.getIBAN());
         return list;
