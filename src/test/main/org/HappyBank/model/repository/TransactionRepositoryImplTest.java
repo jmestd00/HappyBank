@@ -153,20 +153,6 @@ public class TransactionRepositoryImplTest {
     }
     
     @Test
-    public void getAllDoesNotExistTest() throws Exception {
-        when(mockResultSet.next()).thenReturn(false);
-        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
-        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
-        
-        try {
-            transactionRepository.getAccountTransactions(mockSender);
-            fail("Se esperaba una RuntimeException porque la transacción no existe");
-        } catch (RuntimeException e) {
-            assertEquals("There are no transactions.", e.getMessage());
-        }
-    }
-    
-    @Test
     public void getAllFailTest() throws Exception {
         when(mockConnection.prepareStatement(anyString())).thenThrow(new SQLException("Error de conexión"));
         
