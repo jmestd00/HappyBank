@@ -19,7 +19,6 @@ public class DatabaseManager {
      * Contraseña de la base de datos.
      */
     private static final String PASSWORD = "INSO.";
-    
     /**
      * Conexión con la base de datos.
      */
@@ -41,6 +40,5 @@ public class DatabaseManager {
         return connection;
     }
     
-    private DatabaseManager() {
-    }
+    private DatabaseManager() {}
 }

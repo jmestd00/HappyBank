@@ -2,6 +2,8 @@ package org.HappyBank.model.repository;
 
 import org.HappyBank.model.Account;
 import org.HappyBank.model.Client;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +15,10 @@ import java.util.ArrayList;
  * @see org.HappyBank.model.repository.IRepository
  */
 public class AccountRepositoryImpl implements IRepository<Account> {
+    /**
+     * Logger de la clase
+     */
+    private static final Logger logger = LogManager.getLogger(AccountRepositoryImpl.class);
     /**
      * Repositorio de clientes
      */
@@ -57,7 +63,9 @@ public class AccountRepositoryImpl implements IRepository<Account> {
             stmt.setBigDecimal(3, account.getBalance());
             
             stmt.executeQuery();
+            logger.info("Creada la cuenta con IBAN: {}", account.getIBAN());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -73,7 +81,9 @@ public class AccountRepositoryImpl implements IRepository<Account> {
             stmt.setString(1, account.getIBAN());
             
             stmt.executeQuery();
+            logger.info("Cuenta eliminada con IBAN: {}", account.getIBAN());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -90,7 +100,9 @@ public class AccountRepositoryImpl implements IRepository<Account> {
             stmt.setString(2, account.getIBAN());
             
             stmt.executeQuery();
+            logger.info("Cuenta actualizada con IBAN: {}", account.getIBAN());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -108,8 +120,10 @@ public class AccountRepositoryImpl implements IRepository<Account> {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
+                logger.info("Cuenta obtenida con IBAN: {}", IBAN);
                 return createAccount(rs);
             } else {
+                logger.error("La cuenta con IBAN {} no existe.", IBAN);
                 throw new RuntimeException("The account does not exist.");
             }
         } catch (SQLException e) {
@@ -129,8 +143,10 @@ public class AccountRepositoryImpl implements IRepository<Account> {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
+                logger.info("Cuenta obtenida con NIF: {}", client.getNIF());
                 return createAccount(rs);
             } else {
+                logger.error("La cuenta con NIF {} no existe.", client.getNIF());
                 throw new RuntimeException("The account does not exist.");
             }
         } catch (SQLException e) {
@@ -154,12 +170,15 @@ public class AccountRepositoryImpl implements IRepository<Account> {
                 list.add(createAccount(rs));
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
         if (list.isEmpty()) {
+            logger.error("No hay cuentas.");
             throw new RuntimeException("There are no accounts.");
         }
         
+        logger.info("Todas las cuentas obtenidas.");
         return list;
     }
     

@@ -1,6 +1,8 @@
 package org.HappyBank.model.repository;
 
 import org.HappyBank.model.Client;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,6 +14,11 @@ import java.util.ArrayList;
  * @see org.HappyBank.model.repository.IRepository
  */
 public class ClientRepositoryImpl implements IRepository<Client> {
+    /**
+     * Logger de la clase
+     */
+    private static final Logger logger = LogManager.getLogger(ClientRepositoryImpl.class);
+    
     /**
      * Devuelve una conexión a la base de datos
      *
@@ -35,8 +42,10 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
             
+            logger.info("Cliente {} ha iniciado sesión.", NIF);
             return rs.next();
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -53,7 +62,9 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             stmt.setString(2, NIF);
             
             stmt.executeQuery();
+            logger.info("Cliente {} ha cambiado su contraseña.", NIF);
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -76,7 +87,9 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             stmt.setString(8, "Password");
             
             stmt.executeQuery();
+            logger.info("Creado el cliente con NIF: {}", client.getNIF());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -92,7 +105,9 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             stmt.setString(1, client.getNIF());
             
             stmt.executeQuery();
+            logger.info("Cliente eliminado con NIF: {}", client.getNIF());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -111,7 +126,9 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             stmt.setString(4, client.getNIF());
             
             stmt.executeQuery();
+            logger.info("Cliente actualizado con NIF: {}", client.getNIF());
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -138,12 +155,15 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             }
             
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
         if (list.isEmpty()) {
+            logger.error("No hay clientes que encajen con la descripción.");
             throw new RuntimeException("There are no clients.");
         }
         
+        logger.info("Clientes obtenidos según la descripción.");
         return list;
     }
     
@@ -160,11 +180,14 @@ public class ClientRepositoryImpl implements IRepository<Client> {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
+                logger.info("Cliente obtenido con NIF: {}", NIF);
                 return createClient(rs);
             } else {
+                logger.error("El cliente con NIF {} no existe.", NIF);
                 throw new RuntimeException("The client does not exist.");
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
     }
@@ -185,12 +208,15 @@ public class ClientRepositoryImpl implements IRepository<Client> {
                 list.add(createClient(rs));
             }
         } catch (SQLException e) {
+            logger.error("Error con la consulta a la base de datos: {}", e.getMessage());
             throw new RuntimeException("Error creating or executing the query: " + e.getMessage());
         }
         if (list.isEmpty()) {
+            logger.error("No hay clientes en la base de datos.");
             throw new RuntimeException("There are no clients.");
         }
         
+        logger.info("Obtenidos todos los clientes.");
         return list;
     }
     

@@ -1,9 +1,13 @@
 package org.HappyBank.model.repository;
 
 import org.HappyBank.model.Client;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.net.URI;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -17,6 +21,13 @@ public class ClientRepositoryImplTest {
     private Connection mockConnection;
     private ResultSet mockResultSet;
     private Client mockClient;
+    
+    @BeforeClass
+    public static void configureLogger() {
+        LoggerContext context = (LoggerContext) LogManager.getContext(false);
+        // Apunta al archivo de configuración en src/test/resources
+        context.setConfigLocation(URI.create("src/test/main/resources/log4j2-test.xml"));
+    }
     
     @Before
     public void setUp() throws Exception {
