@@ -22,7 +22,7 @@ public class BackupRepository {
     /**
      * Fichero de la copia de seguridad.
      */
-    private static final String BACKUP_FILE = "HappyBank_" + LocalDateTime.now().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyy HH:mm:ss").toFormatter()) + ".csv";
+    private static final String BACKUP_FILE = "HappyBank_" + LocalDateTime.now().format(new DateTimeFormatterBuilder().appendPattern("dd-MM-yyy HH-mm-ss").toFormatter()) + ".csv";
     
     /**
      * Devuelve una conexión a la base de datos

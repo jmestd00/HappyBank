@@ -29,7 +29,7 @@ el cual permite realizar operaciones como:
 * Maven 4.0.0
 * SceneBuilder 11.0.0
 * Git 2.39.5
-* Log4j2 2.20.0
+* Log4j2 2.23.1
 
 ## ¿Cómo se ejecuta?
 Se descarga [este](#cómo-se-ejecuta) archivo y se ejecuta en la terminal el comando

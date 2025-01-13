@@ -14,6 +14,7 @@ public class BankService {
     private ClientRepositoryImpl clientRepository;
     private CreditCardRepositoryImpl cardRepository;
     private TransactionRepositoryImpl transactionRepository;
+    private BackupRepository backupRepository;
     
     
     //Constructor
@@ -26,6 +27,7 @@ public class BankService {
         clientRepository = new ClientRepositoryImpl();
         cardRepository = new CreditCardRepositoryImpl();
         transactionRepository = new TransactionRepositoryImpl();
+        backupRepository = new BackupRepository();
     }
     
     //Setters
@@ -72,6 +74,15 @@ public class BankService {
      */
     public void setTransactionRepository(TransactionRepositoryImpl transactionRepository) {
         this.transactionRepository = transactionRepository;
+    }
+    
+    /**
+     * Establece el repositorio de copias de seguridad.
+     *
+     * @param backupRepository Repositorio de copias de seguridad.
+     */
+    public void setBackupRepository(BackupRepository backupRepository) {
+        this.backupRepository = backupRepository;
     }
     
     
@@ -365,5 +376,14 @@ public class BankService {
      */
     public ArrayList<Transaction> getLastTransactions(Account account, int quantity) {
         return transactionRepository.getLastTransactions(account, quantity);
+    }
+    
+    
+    //Backup
+    /**
+     * Realiza una copia de seguridad de los datos.
+     */
+    public void createBackup() {
+        backupRepository.backupDatabase();
     }
 }

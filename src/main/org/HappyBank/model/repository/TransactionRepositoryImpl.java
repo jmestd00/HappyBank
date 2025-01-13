@@ -127,8 +127,9 @@ public class TransactionRepositoryImpl implements IRepository<Transaction> {
     public ArrayList<Transaction> getAccountTransactions (Account account) {
         ArrayList<Transaction> list = new ArrayList<>();
         
-        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM  Transactions WHERE Sender=? ORDER BY Date DESC")) {
+        try (PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM  Transactions WHERE (Sender=? OR Receiver=?) ORDER BY Date DESC")) {
             stmt.setString(1, account.getIBAN());
+            stmt.setString(2, account.getIBAN());
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
