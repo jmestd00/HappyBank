@@ -1,0 +1,20 @@
+/* Anchor Pane */
+.root {
+    -fx-background-color: white;
+}
+
+/* Title label */
+.title {
+    -fx-font-family: "Futura medium";
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-background-color: #FFFFFF;
+}
+
+/* Rest of the labels */
+.customLabel {
+    -fx-font-family: 'Futura medium';
+    -fx-font-size: 16px;
+}
+

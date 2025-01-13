@@ -1,0 +1,58 @@
+/* Panel principal */
+.anchorPane {
+    -fx-background-color: white;
+}
+
+/* Botón de iniciar sesión */
+.loginButton {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-background-color:#FFFFFF;
+    -fx-padding: 1px 0px 0px 0px;
+}
+
+.loginButton:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #EFEFEF;
+    -fx-text-fill: black;
+}
+
+/* Etiquetas de texto */
+.customLabel {
+    -fx-background-color: white;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold
+}
+
+/* ComboBox */
+.accountPicker {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-font-family: "Futura Medium";
+    -fx-font-size: 24px;
+    -fx-alignment: center;
+}
+
+/* Text field*/
+.userAccount_Field {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-font-size: 24px;
+    -fx-font-family: "Future Medium";
+    -fx-alignment: center_left;
+}
+
+/* Password field */
+.passwordField {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-font-size: 24px;
+    -fx-font-family: "Future Medium";
+    -fx-alignment: center_left;
+}

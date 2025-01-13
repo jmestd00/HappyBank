@@ -49,7 +49,7 @@
             </children>
         </HBox>
       <Line endY="660.0" layoutX="439.0" layoutY="15.0" />
-      <TextField fx:id="searchBar" layoutX="469.0" layoutY="15.0" minHeight="-Infinity" prefWidth="844.0" promptText="Inserte un nombre para su búsqueda" styleClass="textField" stylesheets="@../../css/login.css" />
+      <TextField fx:id="searchBar" layoutX="469.0" layoutY="15.0" minHeight="-Infinity" prefWidth="844.0" promptText="Inserte un nombre para su búsqueda" styleClass="textField" stylesheets="@../../css/Login.css" />
       <TableView fx:id="clientTable" layoutX="469.0" layoutY="97.0" prefHeight="529.0" prefWidth="1111.0" styleClass="tableView" stylesheets="@../../css/Admin/AdminClientList.css">
          <columns>
             <TableColumn fx:id="NIFCol" editable="false" prefWidth="94" resizable="false" sortable="false" text="NIF" />

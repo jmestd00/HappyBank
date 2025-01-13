@@ -126,14 +126,14 @@ public class AdminAddPersonController {
     public void addPerson() {
         if (type.getValue().equals("ADMINISTRADOR")) {
             if (adminName.getText().isEmpty() || adminSurname.getText().isEmpty() || adminNIF.getText().isEmpty() || adminSSN.getText().isEmpty() || adminSalary.getText().isEmpty() || adminPassword.getText().isEmpty()) {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyAddPersonFields.fxml")));
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/EmptyAddPersonFields.fxml")));
                 logger.error("No se han rellenado todos los campos para añadir un administrador.");
             } else {
                 try {
                     logger.info("El administrador " + administrator.getNIF() + " está añadiendo un administrador a la base de datos.");
                     bankService.createAdministrator(adminName.getText(), adminSurname.getText(), adminNIF.getText(), adminSSN.getText(), new BigDecimal(adminSalary.getText()), "HappyBank", adminPassword.getText());
                 } catch (RuntimeException e) {
-                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
+                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/PersonAlreadyExists.fxml")));
                     logger.error("El administrador ya existe en la base de datos.");
                 }
                 adminName.clear();
@@ -145,7 +145,7 @@ public class AdminAddPersonController {
             }
         } else {
             if (clientName.getText().isEmpty() || clientSurname.getText().isEmpty() || clientNIF.getText().isEmpty() || clientPhone.getText().isEmpty() || clientAddress.getText().isEmpty() || clientEmail.getText().isEmpty() || clientPassword.getText().isEmpty()) {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyAddPersonFields.fxml")));
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/EmptyAddPersonFields.fxml")));
                 logger.error("No se han rellenado todos los campos para añadir un cliente.");
             } else {
                 try {
@@ -153,7 +153,7 @@ public class AdminAddPersonController {
                 bankService.createClient(clientName.getText(),clientSurname.getText(),clientNIF.getText(),
                         clientEmail.getText(), clientPhone.getText(), clientAddress.getText(), "HappyBank", clientPassword.getText());
                 } catch (RuntimeException e) {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/personAlreadyExists.fxml")));
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/PersonAlreadyExists.fxml")));
                 logger.error("El cliente ya existe en la base de datos.");
                 }
                 clientName.clear();
@@ -176,7 +176,7 @@ public class AdminAddPersonController {
                 viewFactory.showClientList(administrator);
                 logger.info("Se ha cerrado la ventana de añadir una persona volviendo a la lista de clientes.");
             } else {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/NotEmptyAddPersonFields.fxml")));
                 logger.error("No se ha cerrado la ventana de añadir una persona porque hay campos no vacíos.");
             }
         } else {
@@ -184,7 +184,7 @@ public class AdminAddPersonController {
                 viewFactory.showClientList(administrator);
                 logger.info("Se ha cerrado la ventana de añadir una persona volviendo a la lista de clientes.");
             } else {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/NotEmptyAddPersonFields.fxml")));
                 logger.error("No se ha cerrado la ventana de añadir una persona porque hay campos no vacíos.");
             }
         }
@@ -199,7 +199,7 @@ public class AdminAddPersonController {
                 viewFactory.showCloseSessionConfirmation();
                 logger.info("Se ha mostrado la ventana de confirmación de cierre de sesión desde la ventana de añadir una persona.");
             } else {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/NotEmptyAddPersonFields.fxml")));
                 logger.error("No se ha mostrado la ventana de confirmación de cierre de sesión porque hay campos no vacíos.");
             }
         } else {
@@ -207,7 +207,7 @@ public class AdminAddPersonController {
                 viewFactory.showCloseSessionConfirmation();
                 logger.info("Se ha mostrado la ventana de confirmación de cierre de sesión desde la ventana de añadir una persona.");
             } else {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyAddPersonFields.fxml")));
+                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/NotEmptyAddPersonFields.fxml")));
                 logger.error("No se ha mostrado la ventana de confirmación de cierre de sesión porque hay campos no vacíos.");
             }
         }

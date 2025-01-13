@@ -63,7 +63,7 @@ private static final Logger logger = LogManager.getLogger(LoginController.class.
                 if (success) {
                     viewFactory.showAdminMainWindow(username);
                 } else {
-                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/loginError.fxml")));
+                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/LoginError.fxml")));
                     logger.error("Error al iniciar sesión como administrador, contraseña o usuario incorrectos.");
                 }
 
@@ -73,7 +73,7 @@ private static final Logger logger = LogManager.getLogger(LoginController.class.
                 if (success) {
                     viewFactory.showClientMainWindow(username);
                 } else {
-                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/loginError.fxml")));
+                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/LoginError.fxml")));
                     logger.error("Error al iniciar sesión como cliente, contraseña o usuario incorrectos.");
                 }
             }
