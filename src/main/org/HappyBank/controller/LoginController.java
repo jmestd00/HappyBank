@@ -9,10 +9,14 @@ import javafx.scene.control.TextField;
 import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Controlador para la vista de inicio de sesión.
  */
 public class LoginController {
+private static final Logger logger = LogManager.getLogger(LoginController.class.getName());
     @FXML
     private TextField userField;
     @FXML
@@ -60,6 +64,7 @@ public class LoginController {
                     viewFactory.showAdminMainWindow(username);
                 } else {
                     viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/loginError.fxml")));
+                    logger.error("Error al iniciar sesión como administrador, contraseña o usuario incorrectos.");
                 }
 
             } else {
@@ -69,6 +74,7 @@ public class LoginController {
                     viewFactory.showClientMainWindow(username);
                 } else {
                     viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/loginError.fxml")));
+                    logger.error("Error al iniciar sesión como cliente, contraseña o usuario incorrectos.");
                 }
             }
     }

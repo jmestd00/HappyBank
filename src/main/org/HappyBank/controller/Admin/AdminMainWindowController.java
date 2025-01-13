@@ -30,29 +30,6 @@ public class AdminMainWindowController {
      */
     public void initialize() {
 
-        readConfig();
-        if (backUp) {
-            //doBackUp();
-        }
-
-    }
-
-    /**
-     * Método que lee la configuración del archivo options.config para ver si la opción de backup está activada.
-     */
-    private void readConfig() {
-        Properties prop = new Properties();
-        try {
-            File file = new File("options.config");
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                prop.load(fis);
-                fis.close();
-                backUp = Boolean.parseBoolean(prop.getProperty("bbddBackup"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

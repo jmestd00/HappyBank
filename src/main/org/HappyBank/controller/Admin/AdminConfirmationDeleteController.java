@@ -10,11 +10,14 @@ import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 import javafx.scene.control.Button;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Controlador de la ventana de confirmación de eliminación de un cliente.
  */
 public class AdminConfirmationDeleteController {
+private static final Logger logger = LogManager.getLogger(AdminConfirmationDeleteController.class.getName());
     private ViewFactory viewFactory;
     private BankService bankService = new BankService();
     private Client client;
@@ -54,7 +57,8 @@ public class AdminConfirmationDeleteController {
      * Método que elimina al cliente y cierra la ventana de confirmación.
      */
     public void delete() {
-        bankService.deleteClient(client);
+        logger.info("El administrador " + administrator.getNIF() + " ha eliminado al cliente " + client.getNIF() + ".");
+        bankService.removeClient(client);
         viewFactory.closePopup();
         viewFactory.showClientList(administrator);
     }
@@ -63,6 +67,7 @@ public class AdminConfirmationDeleteController {
      * Método que cierra la ventana de confirmación y vuelve a la ventana de edición de cliente.
      */
     public void decline() {
+        logger.info("El administrador " + administrator.getNIF() + " ha cancelado la eliminación del cliente " + client.getNIF() + ".");
         viewFactory.closePopup();
         viewFactory.showAdminClientEditView(client, administrator);
     }
