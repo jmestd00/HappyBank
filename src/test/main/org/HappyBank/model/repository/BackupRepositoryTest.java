@@ -3,6 +3,7 @@ package org.HappyBank.model.repository;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.sql.*;
 
 import static org.HappyBank.model.repository.BackupRepository.setBackupDirectory;
@@ -36,6 +37,7 @@ public class BackupRepositoryTest {
     
     @Test
     public void backupTest() throws Exception {
+        ensureBackupDirectoryExists();
         when(mockConnection.createStatement()).thenReturn(mockStatement);
         
         when(mockStatement.executeQuery("SHOW TABLES")).thenReturn(mockResultSet);
@@ -60,7 +62,7 @@ public class BackupRepositoryTest {
                 .thenReturn("Juan")
                 .thenReturn("Maria");
         
-        setBackupDirectory("target/etc/");
+        setBackupDirectory("target/etc/backup/");
         backupRepository.backupDatabase();
         
         verify(mockStatement).executeQuery("SHOW TABLES");
@@ -79,6 +81,15 @@ public class BackupRepositoryTest {
             fail("Se esperaba un RuntimeException");
         } catch (RuntimeException e) {
             assertEquals("Error creating or executing the query: Error de conexión", e.getMessage());
+        }
+    }
+    
+    private void ensureBackupDirectoryExists() {
+        File directory = new File("target/etc/backup/");
+        if (!directory.exists()) {
+            if (!directory.mkdirs()) {
+                throw new RuntimeException("No se pudo crear la carpeta de respaldo en: " + "target/etc/backup/");
+            }
         }
     }
 }
