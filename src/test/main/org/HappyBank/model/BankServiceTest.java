@@ -36,6 +36,7 @@ public class BankServiceTest {
         ClientRepositoryImpl clientRepository = mock(ClientRepositoryImpl.class);
         CreditCardRepositoryImpl cardRepository = mock(CreditCardRepositoryImpl.class);
         TransactionRepositoryImpl transactionRepository = mock(TransactionRepositoryImpl.class);
+        BackupRepository backupRepository = mock(BackupRepository.class);
         
         //Setteo los repositorios mockeados en el servicio
         bankService.setAccountRepository(accountRepository);
@@ -43,6 +44,7 @@ public class BankServiceTest {
         bankService.setClientRepository(clientRepository);
         bankService.setCreditCardRepository(cardRepository);
         bankService.setTransactionRepository(transactionRepository);
+        bankService.setBackupRepository(backupRepository);
         
         //Hago que los métodos get de los repositorios mockeados devuelvan los objetos mockeados
         doReturn(mockClient).when(clientRepository).get(any());
@@ -76,6 +78,9 @@ public class BankServiceTest {
         
         //Hago que los métodos getAllTransactions devuelvan una lista con los objetos mockeados
         doReturn(new ArrayList<Transaction>(){{add(mockTransaction);}}).when(transactionRepository).getAccountTransactions(any());
+        
+        //Hago que la copia de seguridad no se cree
+        doNothing().when(backupRepository).backupDatabase();
     }
     
     @Test
@@ -149,5 +154,10 @@ public class BankServiceTest {
         
         assertEquals(1, transactions.size());
         assertEquals(0, lastTransactions.size());
+    }
+    
+    @Test
+    public void createBackup() {
+        bankService.createBackup();
     }
 }
