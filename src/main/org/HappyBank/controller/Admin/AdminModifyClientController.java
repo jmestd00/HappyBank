@@ -88,7 +88,7 @@ private static final Logger logger = LogManager.getLogger(AdminModifyClientContr
      */
     public void goBack() {
         if (checkCritic()) {
-            viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyModifyPersonFields.fxml")));
+            viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/NotEmptyModifyPersonFields.fxml")));
             logger.error("Los campos para modificar no están vacíos por lo que no se puede volver a la ventana anterior.");
         } else {
             viewFactory.showClientList(admin);
@@ -100,7 +100,7 @@ private static final Logger logger = LogManager.getLogger(AdminModifyClientContr
      */
     public void closeSession() {
         if (checkCritic()) {
-            viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyModifyPersonFields.fxml")));
+            viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/NotEmptyModifyPersonFields.fxml")));
             logger.error("Los campos para modificar no están vacíos por lo que no se puede cerrar sesión.");
         } else {
             viewFactory.showCloseSessionConfirmation();

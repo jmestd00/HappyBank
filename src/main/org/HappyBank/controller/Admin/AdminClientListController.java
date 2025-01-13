@@ -17,6 +17,7 @@ import org.HappyBank.view.ViewFactory;
 import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -119,7 +120,7 @@ private static final Logger logger = LogManager.getLogger(AdminClientListControl
                     }
                 });
 
-                editButton.getStylesheets().add(getClass().getResource("/css/admin/AdminClientList.css").toString());
+                editButton.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/Admin/AdminClientList.css")).toString());
                 editButton.getStyleClass().add("editButton");
                 editButton.setPrefHeight(53);
                 editButton.setPrefWidth(53);
@@ -151,7 +152,7 @@ private static final Logger logger = LogManager.getLogger(AdminClientListControl
                     }
                 });
 
-                transactionHistoryButton.getStylesheets().add(getClass().getResource("/css/admin/AdminClientList.css").toString());
+                transactionHistoryButton.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/Admin/AdminClientList.css")).toString());
                 transactionHistoryButton.getStyleClass().add("transactionHistoryButton");
                 transactionHistoryButton.setPrefHeight(53);
                 transactionHistoryButton.setPrefWidth(53);

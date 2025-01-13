@@ -89,7 +89,7 @@ private static final Logger logger = LogManager.getLogger(ViewFactory.class.getN
         try {
             logger.info("Se ha iniciado la aplicación.");
             logger.info("Se ha cargado la ventana de inicio de sesión.");
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/loginView.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/LoginView.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setTitle("HappyBank - Inicio de Sesión");
             primaryStage.setScene(scene);
@@ -412,7 +412,7 @@ private static final Logger logger = LogManager.getLogger(ViewFactory.class.getN
     public void showConcept(String concept, int index, Point2D coordinates) {
         try {
             logger.info("Se ha solicitado el concepto de la transacción " + index + ".");
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/transactionConcept.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/TransactionConcept.fxml")));
             Parent root = loader.load();
             transactionConcept = loader.getController();
             transactionConcept.setConcept(concept);
