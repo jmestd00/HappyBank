@@ -19,11 +19,15 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  * Controlador de la ventana de lista de clientes del administrador.
  */
 public class AdminClientListController {
+private static final Logger logger = LogManager.getLogger(AdminClientListController.class.getName());
     private ViewFactory viewFactory = ViewFactory.getInstance(null);
     private BankService bankService = new BankService();
     private Administrator administrator;
@@ -253,10 +257,12 @@ public class AdminClientListController {
     public void search() {
         String filter = searchBar.getText().toLowerCase();
         if (!searchBar.getText().equals("")) {
+            logger.info("El administrador " + administrator.getNIF() + " ha buscado a un cliente usando el siguiente filtro: " +filter + ".");
         fullListClients.clear();
         fullListClients = bankService.searchClients(filter, filter, filter);
         refreshTable();
         } else {
+            logger.info("El administrador " + administrator.getNIF() + " ha buscado a un cliente sin filtros.");
         fullListClients.clear();
         fullListClients = bankService.getAllClients();
         refreshTable();
@@ -316,6 +322,7 @@ public class AdminClientListController {
         // Escribir en el archivo copiado
         try (FileWriter writer = new FileWriter(externalFile, false)) { // 'true' para agregar contenido
             writer.write("bbddBackup=" + backUp);
+            logger.info("Configuración de backup de la base de datos actualizada.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -329,11 +336,13 @@ public class AdminClientListController {
         writeConfig(backUp);
         TranslateTransition transition = new TranslateTransition(Duration.seconds(0.25), slider);
         if (backUp) {
+            logger.info("El backup de la base de datos está activado.");
             transition.setToX(63); // Mover a la derecha
             background.setStyle("-fx-fill: lightgreen;");
             off.setVisible(false);
             on.setVisible(true);
         } else {
+            logger.info("El backup de la base de datos está desactivado.");
             transition.setToX(0); // Mover a la izquierda
             background.setStyle("-fx-fill: red;");
             off.setVisible(true);

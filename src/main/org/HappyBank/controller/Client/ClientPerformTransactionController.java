@@ -9,13 +9,18 @@ import javafx.scene.control.TextField;
 import org.HappyBank.model.Account;
 import org.HappyBank.model.BankService;
 import org.HappyBank.model.Client;
+import org.HappyBank.model.HappyBankException;
 import org.HappyBank.view.ViewFactory;
 import java.math.BigDecimal;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Controlador para la vista de realizar transacción de cliente.
  */
 public class ClientPerformTransactionController {
+private static final Logger logger = LogManager.getLogger(ClientPerformTransactionController.class.getName());
     private Account account;
     private Client client;
     private String username;
@@ -59,6 +64,7 @@ public class ClientPerformTransactionController {
     public void closeSession() {
         if (criticWindow()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyPerformTransactionFields.fxml")));
+            logger.error("No se puede cerrar sesión porque los campos de transacción no están vacíos.");
         } else {
         viewFactory.showCloseSessionConfirmation();
         }
@@ -70,6 +76,7 @@ public class ClientPerformTransactionController {
     public void goBack() {
         if (criticWindow()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyPerformTransactionFields.fxml")));
+            logger.error("No se puede volver a la ventana anterior porque los campos de transacción no están vacíos.");
         } else {
             viewFactory.showClientMainWindow(client.getNIF());
         }
@@ -88,17 +95,15 @@ public class ClientPerformTransactionController {
      */
     public void performTransaction() {
         try {
-            if (account.equals(bankService.getAccount(accNumber.getText()))) {
-                viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/receiverAccountCanNotBeTheSame.fxml")));
-            }  else if (account.getBalance().compareTo(new BigDecimal(amount.getText())) < 0) {
+            if (account.getBalance().compareTo(new BigDecimal(amount.getText())) < 0) {
                 viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/insufficientFunds.fxml")));
-
+                logger.error("El cliente no tiene fondos suficientes en la cuenta para realicar la transacción de " + amount.getText() + "€.");
             } else {
-
-                if (concept.getText().isEmpty()) {
-                    concept.setText("Sin concepto");
-                }
-                if (!amount.getText().isEmpty() && !accNumber.getText().isEmpty()) {
+                    if (concept.getText().isEmpty()) {
+                        concept.setText("Sin concepto");
+                    }
+                    if (!amount.getText().isEmpty() && !accNumber.getText().isEmpty()) {
+                        logger.info("El cliente " + client.getNIF() + " está realizando una transacción.");
                         bankService.createTransaction(account, bankService.getAccount(accNumber.getText()), concept.getText(), new BigDecimal(amount.getText()));
                         this.account.setBalance(this.account.getBalance().subtract(new BigDecimal(amount.getText())));
                         Account receiver = bankService.getAccount(accNumber.getText());
@@ -106,12 +111,17 @@ public class ClientPerformTransactionController {
                         accNumber.clear();
                         amount.clear();
                         concept.clear();
-                } else {
-                    viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyPerformTransactionFields.fxml")));
+                    } else {
+                        viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/emptyPerformTransactionFields.fxml")));
+                        logger.error("No se puede realizar la transacción porque los campos requeridos no están completos.");
+                    }
                 }
-            }
         } catch (RuntimeException e) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/receiverAccountDoesNotExists.fxml")));
+            logger.error("No se puede realizar la transacción porque la cuenta de destino no existe.");
+        } catch (HappyBankException e) {
+                        viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/receiverAccountCanNotBeTheSame.fxml")));
+                        logger.error("No se puede realizar la transacción porque la cuenta de destino no puede ser la misma que la de origen.");
         }
     }
 

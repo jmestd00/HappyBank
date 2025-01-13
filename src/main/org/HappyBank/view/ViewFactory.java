@@ -2,7 +2,6 @@ package org.HappyBank.view;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
@@ -17,17 +16,19 @@ import org.HappyBank.controller.*;
 import org.HappyBank.model.Account;
 import org.HappyBank.model.Administrator;
 import org.HappyBank.model.Client;
-import org.HappyBank.model.HappyBankException;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Clase que se encarga de gestionar las vistas de la aplicación.
  */
 public class ViewFactory {
 
+private static final Logger logger = LogManager.getLogger(ViewFactory.class.getName());
     private static ViewFactory vFactoryInstance;
 
     Image happyBankLogo = new Image(String.valueOf(getClass().getResource("/images/bankLogo.png")));
@@ -55,6 +56,7 @@ public class ViewFactory {
     private ClientTransactionListController transactionList;
     /* Common */
     private TransactionConceptController transactionConcept;
+    private DatabaseBackUpController backUp = new DatabaseBackUpController();
 
 
     /**
@@ -85,6 +87,8 @@ public class ViewFactory {
      */
     public void showLoginView() {
         try {
+            logger.info("Se ha iniciado la aplicación.");
+            logger.info("Se ha cargado la ventana de inicio de sesión.");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/loginView.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setTitle("HappyBank - Inicio de Sesión");
@@ -93,7 +97,8 @@ public class ViewFactory {
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {
+                System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,6 +111,7 @@ public class ViewFactory {
      */
     public void showAdminMainWindow(String username) {
         try {
+            logger.info("Se ha cargado la ventana principal del administrador " + username + ".");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Admin/AdminMainWindow.fxml"));
             Parent root = loader.load();
             adminMainWindow = loader.getController();
@@ -116,7 +122,7 @@ public class ViewFactory {
             primaryStage.centerOnScreen();
             adminMainWindow.setNIF(username);
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,6 +135,7 @@ public class ViewFactory {
      */
     public void showConfirmationWindow(Client client, Administrator admin) {
         try {
+            logger.info("El administrador " + admin.getNIF() + " ha solicitado la ventana de confirmación de eliminación del cliente " + client.getNIF() + ".");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminConfirmationDelete.fxml")));
             Parent root = loader.load();
             confirmationDelete = loader.getController();
@@ -150,6 +157,7 @@ public class ViewFactory {
      */
     public void showClientList(Administrator admin) {
         try {
+            logger.info("El administrador " + admin.getNIF() + " ha solicitado la lista de clientes.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminClientList.fxml")));
             Parent root = loader.load();
             clientList = loader.getController();
@@ -160,7 +168,7 @@ public class ViewFactory {
             clientList.setAdmin(admin);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -172,6 +180,7 @@ public class ViewFactory {
     public void showAdminLegend() {
         try {
             // Cargar el archivo FXML del popup
+            logger.info("Se ha solicitado la leyenda de la parte administrativa.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminLegend.fxml")));
             Parent popupRoot = loader.load();
             legendStage = new Stage();
@@ -193,6 +202,7 @@ public class ViewFactory {
      */
     public void showAdminClientEditView(Client selectedClient, Administrator administrator) {
         try {
+            logger.info("El administrador " + administrator.getNIF() + " ha solicitado la ventana de edición del cliente " + selectedClient.getNIF() + ".");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminModifyClient.fxml")));
             Parent root = loader.load();
             modifyClient = loader.getController();
@@ -203,7 +213,7 @@ public class ViewFactory {
             modifyClient.setData(selectedClient, administrator);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -216,6 +226,7 @@ public class ViewFactory {
      */
     public void showAdminTransactionHistoryView(Client selectedClient, Administrator administrator) {
         try {
+            logger.info("El administrador " + administrator.getNIF() + " ha solicitado el historial de transacciones del cliente " + selectedClient.getNIF() + ".");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminClientTransactionHistory.fxml")));
             Parent root = loader.load();
             transactionHistory = loader.getController();
@@ -226,7 +237,7 @@ public class ViewFactory {
             transactionHistory.setData(selectedClient, administrator);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -238,6 +249,7 @@ public class ViewFactory {
      */
     public void showAddClient(Administrator admin) {
         try {
+            logger.info("El administrador " + admin.getNIF() + " ha solicitado la ventana de añadir un cliente.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Admin/AdminAddPerson.fxml")));
             Parent root = loader.load();
             addPerson = loader.getController();
@@ -248,7 +260,7 @@ public class ViewFactory {
             addPerson.setAdmin(admin);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -260,6 +272,7 @@ public class ViewFactory {
      */
     public void showClientMainWindow(String username) {
         try {
+            logger.info("Se ha cargado la ventana principal del cliente " + username + ".");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientMainWindow.fxml")));
             Parent root = loader.load();
             clientMainWindow = loader.getController();
@@ -270,7 +283,7 @@ public class ViewFactory {
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -283,6 +296,7 @@ public class ViewFactory {
      */
     public void showPerformTransactionWindow(Client client, Account account) {
         try {
+            logger.info("El cliente " + client.getNIF() + " ha solicitado la ventana de realizar transacción.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientPerformTransaction.fxml")));
             Parent root = loader.load();
             performTransaction = loader.getController();
@@ -293,7 +307,7 @@ public class ViewFactory {
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -306,6 +320,7 @@ public class ViewFactory {
      */
     public void showPersonalData(Client client) {
         try {
+            logger.info("El cliente " + client.getNIF() + " ha solicitado la ventana de datos personales.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientPersonalData.fxml")));
             Parent root = loader.load();
             personalData = loader.getController();
@@ -316,7 +331,7 @@ public class ViewFactory {
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -328,6 +343,7 @@ public class ViewFactory {
      */
     public void showTransactionList(Client client) {
         try {
+            logger.info("El cliente " + client.getNIF() + " ha solicitado el historial de transacciones.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientTransactionList.fxml")));
             Parent root = loader.load();
             transactionList = loader.getController();
@@ -338,7 +354,7 @@ public class ViewFactory {
             primaryStage.resizableProperty().setValue(Boolean.FALSE);
             primaryStage.centerOnScreen();
             primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> System.exit(0));
+            primaryStage.setOnCloseRequest(event -> {backUp.doBackUp();System.exit(0);});
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -350,6 +366,7 @@ public class ViewFactory {
     public void showClientLegend() {
         try {
             // Cargar el archivo FXML del popup
+            logger.info("Se ha solicitado la leyenda de la parte de cliente.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/Client/ClientLegend.fxml")));
             Parent popupRoot = loader.load();
             legendStage = new Stage();
@@ -394,6 +411,7 @@ public class ViewFactory {
      */
     public void showConcept(String concept, int index, Point2D coordinates) {
         try {
+            logger.info("Se ha solicitado el concepto de la transacción " + index + ".");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/transactionConcept.fxml")));
             Parent root = loader.load();
             transactionConcept = loader.getController();
@@ -415,6 +433,7 @@ public class ViewFactory {
      */
     public void showCloseSessionConfirmation() {
         try {
+            logger.info("Se ha solicitado la ventana de confirmación de cierre de sesión.");
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/ConfirmCloseSession.fxml")));
             Parent root = loader.load();
             popupStage.setTitle("HappyBank - Confirmar Cierre de Sesión");
@@ -451,5 +470,4 @@ public class ViewFactory {
             e.printStackTrace();
         }
     }
-
 }

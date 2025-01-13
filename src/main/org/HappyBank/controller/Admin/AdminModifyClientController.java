@@ -8,10 +8,14 @@ import org.HappyBank.model.Administrator;
 import org.HappyBank.model.*;
 import org.HappyBank.view.ViewFactory;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Controlador para la vista de modificación de cliente.
  */
 public class AdminModifyClientController {
+private static final Logger logger = LogManager.getLogger(AdminModifyClientController.class.getName());
     private Client client;
     private Administrator admin;
     @FXML
@@ -85,6 +89,7 @@ public class AdminModifyClientController {
     public void goBack() {
         if (checkCritic()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyModifyPersonFields.fxml")));
+            logger.error("Los campos para modificar no están vacíos por lo que no se puede volver a la ventana anterior.");
         } else {
             viewFactory.showClientList(admin);
         }
@@ -96,6 +101,7 @@ public class AdminModifyClientController {
     public void closeSession() {
         if (checkCritic()) {
             viewFactory.showError(new FXMLLoader(getClass().getResource("/fxml/Error/notEmptyModifyPersonFields.fxml")));
+            logger.error("Los campos para modificar no están vacíos por lo que no se puede cerrar sesión.");
         } else {
             viewFactory.showCloseSessionConfirmation();
         }

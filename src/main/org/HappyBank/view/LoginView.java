@@ -4,12 +4,16 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Clase principal para lanzar la aplicación JavaFX para gestionar y mostrar un banco.
  * Inicializa la ventana principal y carga el diseño FXML para la lista de lotes semanales.
  */
 public class LoginView extends Application{
     ViewFactory viewFactory;
+private static final Logger logger = LogManager.getLogger(LoginView.class.getName());
 
 
     /**
@@ -19,6 +23,9 @@ public class LoginView extends Application{
      * @param args (Argumentos de la línea de comandos)
      */
     public static void main(String[] args) {
+        logger.info("==========================================================");
+        logger.info("Starting HappyBank application");
+        logger.info("==========================================================");
         launch(args);
     }
 
