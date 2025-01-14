@@ -32,8 +32,11 @@ el cual permite realizar operaciones como:
 * Log4j2 2.23.1
 
 ## ¿Cómo se ejecuta?
-Se descarga [este](#cómo-se-ejecuta) archivo y se ejecuta en la terminal el comando
+Se descarga el archivo correspondiente al sistema operativo desde la release y se ejecuta en la terminal el comando
 ```java -jar HappyBank.jar```
+
+Alternativamente, a través del código fuente del programa se podrá generar el archivo jar mediante el comando
+```mvn clean package```, para ser ejecutado de la misma forma que el anterior.
 
 ## Desarrolladores
 * Jose Ángel Mestas Díaz
@@ -42,4 +45,4 @@ Se descarga [este](#cómo-se-ejecuta) archivo y se ejecuta en la terminal el com
 * David Fernández Janeiro
 
 ## Estado del proyecto
-El proyecto se encuentra en fase de desarrollo, por lo que se pueden encontrar errores en el código.
+El proyecto se encuentra terminado, por lo que se agradece el reporte de cualquier problema o bug a través de las issues de GitHub.
