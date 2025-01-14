@@ -56,10 +56,14 @@ public class DatabaseBackUpController {
      *
      */
     private void ensureBackupDirectoryExists() {
-        File directory = new File("/backup/");
+        // Ruta relativa al directorio de trabajo actual
+        String relativePath = "." + File.separator + "etc" + File.separator + "backup";
+        File directory = new File(relativePath);
+        
         if (!directory.exists()) {
+            System.out.println("Intentando crear el directorio: " + directory.getAbsolutePath());
             if (!directory.mkdirs()) {
-                throw new RuntimeException("No se pudo crear la carpeta de respaldo en: " + "/etc/backup/");
+                throw new RuntimeException("No se pudo crear la carpeta de respaldo en: " + directory.getAbsolutePath());
             }
         }
     }
